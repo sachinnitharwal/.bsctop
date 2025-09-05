@@ -1,12 +1,11 @@
 .heading{text-align: center;
   
 }
-body {
-    font-size: 15pt;
+body {background-color: burlywood;
 }
-.banner {
+.banner {border-radius: 15px;
   width: 100%;
-  height: 400px; /* Good average */
+  height: 350px; /* Good average */
   background: url("rr.png.jpg") no-repeat center/cover;
 }
 .welcome{
