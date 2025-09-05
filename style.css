@@ -22,3 +22,20 @@ font-size: 40px;
 padding: 10px 15px 10px 15px;
   
 }
+
+.footer {
+  background: #222; 
+  color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.footer p {
+  margin: 10px 0;
+}
+.footer .copyright {
+  margin-top: 15px;
+  font-weight: 500;
+  color: #bbb;
+}
