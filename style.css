@@ -1,3 +1,6 @@
+.heading{text-align: center;
+  
+}
 body {
     font-size: 15pt;
 }
@@ -13,4 +16,9 @@ body {
 .main-subject{
   background: skyblue;
   color: white;
+}
+.notice{background-color:red;
+font-size: 40px;
+padding: 20px 20px 20px 20px;
+  
 }
