@@ -1,0 +1,16 @@
+body {
+    font-size: 15pt;
+}
+.banner {
+  width: 100%;
+  height: 400px; /* Good average */
+  background: url("rr.png.jpg") no-repeat center/cover;
+}
+.welcome{
+  font-size:40px;
+  color: rebeccapurple;
+}
+.main-subject{
+  background: green;
+  color: white;
+}
