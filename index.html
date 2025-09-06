@@ -15,6 +15,35 @@
 </head>
 
 <body>
+    <!-- Navbar -->
+  <div class="navbar" id="myNavbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="#">Services</a>
+    <a href="https://chat.whatsapp.com/C4MTvqPzpGQ4nUO1rKQoQw?mode=ac_t">Contact</a>
+    <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">☰</a>
+  </div>
+
+  <h1 hidden >Responsive Navbar Demo</h1>
+  <p hidden>Resize the screen to see the mobile-friendly effect.</p>
+
+  <script>
+    function toggleMenu() {
+      let x = document.getElementById("myNavbar");
+      let links = x.getElementsByTagName("a");
+
+      for (let i = 0; i < links.length; i++) {
+        if (links[i].className !== "icon") {
+          if (links[i].style.display === "block") {
+            links[i].style.display = "none";
+          } else {
+            links[i].style.display = "block";
+          }
+        }
+      }
+    }
+  </script>
+
 <div>
   <img src="logo.png" alt="logo" class="logo" />
   <h1 class="heading">BSC TOP. </h1></div>
