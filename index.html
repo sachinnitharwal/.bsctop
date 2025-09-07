@@ -6,16 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>BSC TOP</title>
-  
-  <!-- HTML -->
-  
-
-  <!-- Custom Styles -->
   <link rel="stylesheet" href="style.css">
-</head>
 
+  <style>
+    .new-badge {
+      background: yellow;
+      color: red;
+      font-weight: bold;
+      padding: 2px 5px;
+      margin-left: 5px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
 <body>
-    <!-- Navbar -->
+
   <div class="navbar" id="myNavbar">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
@@ -24,68 +29,109 @@
     <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">☰</a>
   </div>
 
-  <h1 hidden >Responsive Navbar Demo</h1>
-  <p hidden>Resize the screen to see the mobile-friendly effect.</p>
+  <div>
+    <img src="logo.png" alt="logo" class="logo" />
+    <h1 class="heading">BSC TOP</h1>
+  </div>
 
+  <img src="rr.png" width="104" height="70" alt="rr college" class="banner" />
+
+  <p class="welcome">Welcome to here...</p>
+  <h4>Hello friend you will get all materials related to RR COLLEGE ALWAR</h4>
+  <hr />
+
+  <h2 class="main-subject">Math</h2>
+  <h3>Notes</h3>
+  <hr />
+
+  <h2 class="main-subject">Physics</h2>
+  <h3 class="sub">Notes</h3>
+
+  <ol>
+    <li>
+      <a href="https://drive.google.com/file/d/1gHTmbg_GQHXAK-igfzg7a1DUqamg_piM/view?usp=drivesdk">
+        दोलन और तरंगे  part 1 By Rishi sir
+      </a>
+    </li>
+    <li data-date="2025-09-01" data-id="phy2">
+      <a href="https://drive.google.com/file/d/1hxzzM0VoOySi8w5bF2k79qVviVF8TxDD/view?usp=drivesdk">
+        दोलन और तरंगे  part 2 By Rishi sir
+      </a>
+    </li> 
+  </ol>
+
+  <h3 class="subsubject">Practical file</h3>
+  <hr />
+
+  <h2 class="main-subject">Chemistry</h2>
+  <h3 class="subsubject">Notes</h3>
+
+  <div class="notice">Notice Board 📣</div>
+  <ul>
+    <li><a href="https://drive.google.com/file/d/1gVZMKG41o5_8bmA5_723WhHdZzhNEUok/view?usp=drivesdk">👉 Holiday calendar 2025</a></li>
+    <li>अन्य विषयों के नोट्स जल्द ही उपलब्ध हो जाएंगे</li>
+    <li><a href="https://chat.whatsapp.com/C4MTvqPzpGQ4nUO1rKQoQw?mode=ac_t">Join group for more information</a></li>
+  </ul>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p><strong>Disclaimer:</strong> The information provided on this website is for general purposes only. While every effort has been made to ensure accuracy, no guarantee is given regarding completeness or reliability of the content. The owner will not be liable for any loss or damage arising from the use of this website. External links, if any, are provided for convenience and do not signify endorsement.</p>
+      <p class="copyright">© 2025 Sachin Nitharwal and all group members. All Rights Reserved.<br>
+      No part of this website may be copied, reproduced, or distributed without prior written permission.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
   <script>
     function toggleMenu() {
       let x = document.getElementById("myNavbar");
       let links = x.getElementsByTagName("a");
-
       for (let i = 0; i < links.length; i++) {
         if (links[i].className !== "icon") {
-          if (links[i].style.display === "block") {
-            links[i].style.display = "none";
-          } else {
-            links[i].style.display = "block";
-          }
+          links[i].style.display = (links[i].style.display === "block") ? "none" : "block";
         }
       }
     }
+
+    // New Badge with localStorage expiry
+    document.addEventListener("DOMContentLoaded", function () {
+      const items = document.querySelectorAll("li[data-date]");
+      const today = new Date();
+
+      items.forEach(item => {
+        let dateStr = item.getAttribute("data-date");
+        let id = item.getAttribute("data-id") || dateStr; // unique key
+        if (dateStr) {
+          let posted = new Date(dateStr);
+          let diff = (today - posted) / (1000 * 60 * 60 * 24);
+
+          // Check expiry in localStorage
+          let savedExpiry = localStorage.getItem("expiry-" + id);
+
+          if (diff <= 7) {
+            let expiryDate = posted.getTime() + (7 * 24 * 60 * 60 * 1000); // 7 days later
+
+            // Save expiry if not saved
+            if (!savedExpiry) {
+              localStorage.setItem("expiry-" + id, expiryDate);
+              savedExpiry = expiryDate;
+            }
+
+            // Show badge only if not expired
+            if (today.getTime() <= savedExpiry) {
+              let badge = document.createElement("span");
+              badge.className = "new-badge";
+              badge.innerText = "New";
+              item.appendChild(badge);
+            }
+          } else {
+            // remove expired entry
+            localStorage.removeItem("expiry-" + id);
+          }
+        }
+      });
+    });
   </script>
-
-<div>
-  <img src="logo.png" alt="logo" class="logo" />
-  <h1 class="heading">BSC TOP. </h1></div>
-  <img  src="rr.png" width"104" alt="rr college"height"70" class="banner" />
-  <p class="welcome">Welcome to here...</p>
-  <script src="main.js"></script>
-  <h4>Hello friend you will get all materials related to RR COLLEGE ALWAR</h4>
-  <hr />
-  <h2 class="main-subject">Math</h2>
-  <h3>Notes</h3>
-  <link rel="relation" href="" title="Relation" type="" />
-  <hr />
-  <h2 class="main-subject">Physics</h2>
-  <h3 class="sub">Notes</h3>
-<li><a href="https://drive.google.com/file/d/1gHTmbg_GQHXAK-igfzg7a1DUqamg_piM/view?usp=drivesdk">दोलन और तरंगे By Rishi sir</a></li>
-<h3 class="subsubject">
-Practical file</h3>
-<hr />
-  <h2 class="main-subject">Chemistry</h2>
-  <h3 class="subsubject">Notes</h3>
-  <br />
-  <div class="notice">
-    Notice Board 📣
-  </div>
-  <br />
-  <li><a href="https://drive.google.com/file/d/1gVZMKG41o5_8bmA5_723WhHdZzhNEUok/view?usp=drivesdk">👉Holiday calendar 2025</a></li>
-  <li>अन्य विषयों के नोट्स जल्द ही उपलब्ध हो जाएंगे</li>
-  <li> <a href="https://chat.whatsapp.com/C4MTvqPzpGQ4nUO1rKQoQw?mode=ac_t">Join group for more information</a></li>
-  
-  <br />
- 
-  <!-- copyright message -->
-<footer class="footer">
-  <div class="footer-content">
-    <p><strong>Disclaimer:</strong> The information provided on this website is for general purposes only. While every effort has been made to ensure accuracy, no guarantee is given regarding completeness or reliability of the content. The owner will not be liable for any loss or damage arising from the use of this website. External links, if any, are provided for convenience and do not signify endorsement.</p>
-    
-    <p class="copyright">© 2025 Sachin Nitharwal and all group members. All Rights Reserved.<br>
-    No part of this website may be copied, reproduced, or distributed without prior written permission.</p>
-  </div>
-</footer>
-
-
 
 </body>
 </html>
