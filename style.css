@@ -1,6 +1,6 @@
     /* Navbar container */
     .navbar {
-      background-color: #333;
+      background-color: #424493;
       overflow: hidden;
     }
 
@@ -8,10 +8,11 @@
     .navbar a {
       float: left;
       display: block;
-      color: white;
+      color: greenyellow;
       text-align: center;
       padding: 14px 20px;
       text-decoration: none;
+      font-weight: bold;
     }
 
     /* Hover effect */
