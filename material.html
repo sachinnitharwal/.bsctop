@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 10px;
+    }
+    .table-container {
+      width: 100%;
+      overflow-x: auto; /* Mobile पर scroll bar */
+      max-height: 80vh; /* Height limit ताकि scroll दिखे */
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px; /* Columns crush न हों */
+    }
+    th, td {
+      border: 1.5px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #f2f2f2;
+      position: sticky;
+      top: 0;          /* Sticky header */
+      z-index: 2;      /* ऊपर fix रखने के लिए */
+    }
+    td:first-child {
+      font-weight: bold;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Study Table</h2>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Sub.</th>
+          <th>Notes / Material</th>
+          <th>Teacher's Name</th>
+          <th>Sender Student</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Math -->
+        <tr><td rowspan="5">Math</td><td>1.</td><td></td><td></td><td></td></tr>
+        <tr><td>2.</td><td></td><td></td><td></td></tr>
+        <tr><td>3.</td><td></td><td></td><td></td></tr>
+        <tr><td>4.</td><td></td><td></td><td></td></tr>
+        <tr><td>5.</td><td></td><td></td><td></td></tr>
+
+        <!-- Physics -->
+        <tr><td rowspan="4">Physics</td><td><a href="https://drive.google.com/file/d/1kTEnVskrmIaaoBA38fgh6-LqJN10BmrI/view?usp=drivesdk">1.निर्देश तंत्र complete</a></td><td>Seema mam</td><td>Sanju Singh</td><td>Thank you Sanju 🙏</td></tr>
+        <tr><td>2.</td><td></td><td></td><td></td></tr>
+        <tr><td>3.</td><td></td><td></td><td></td></tr>
+        <tr><td>4.</td><td></td><td></td><td></td></tr>
+
+        <!-- Chemistry -->
+        <tr><td rowspan="5">Chemistry</td><td>1.</td><td></td><td></td><td></td></tr>
+        <tr><td>2.</td><td></td><td></td><td></td></tr>
+        <tr><td>3.</td><td></td><td></td><td></td></tr>
+        <tr><td>4.</td><td></td><td></td><td></td></tr>
+        <tr><td>5.</td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
