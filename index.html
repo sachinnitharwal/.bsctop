@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  
   <title>BSC TOP</title>
   <link rel="stylesheet" href="style.css">
-
+  
   <style>
     .new-badge {
       background: yellow;
@@ -19,17 +20,19 @@
     }
   </style>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-X2BD6SB0W8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-X2BD6SB0W8');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X2BD6SB0W8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    
+    gtag('config', 'G-X2BD6SB0W8');
+  </script>
 </head>
-<body>
 
+<body>
+  
   <div class="navbar" id="myNavbar">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
@@ -37,18 +40,21 @@
     <a href="https://chat.whatsapp.com/C4MTvqPzpGQ4nUO1rKQoQw?mode=ac_t">Contact</a>
     <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">☰</a>
   </div>
-
+  
   <div>
     <img src="logo.png" alt="logo" class="logo" />
     <h1 class="heading">BSC TOP</h1>
   </div>
-
+  
   <iframe src="rr.png" frameborder="0" class="banner" aria-controls="">rr.png</iframe>
-
-  <p class="welcome">Welcome to here...</p>
+  
+  <p class="welcome">Welcome here...</p>
   <h4>Hello friend you will get all materials related to RR COLLEGE ALWAR</h4>
   <hr />
-
+ <h1>Notes Table</h1>
+ <a href="material.html">👉click here for notes table</a>
+ <h2>Notes in the format of table for your ease of access</h2>
+ <hr />
   <h2 class="main-subject">Math</h2>
   <h3>Notes</h3>
   <ol>
@@ -57,26 +63,26 @@
     </li>
   </ol>
   <hr />
-
+  
   <h2 class="main-subject">Physics</h2>
   <h3 class="sub">Notes</h3>
-
+  
   <ol>
     <li>
       <a href="https://drive.google.com/file/d/1gHTmbg_GQHXAK-igfzg7a1DUqamg_piM/view?usp=drivesdk">
-        दोलन और तरंगे  part 1 By Rishi sir
+        दोलन और तरंगे part 1 By Rishi sir
       </a>
     </li>
     <li data-date="2025-09-01" data-id="phy2">
       <a href="https://drive.google.com/file/d/1hxzzM0VoOySi8w5bF2k79qVviVF8TxDD/view?usp=drivesdk">
-        दोलन और तरंगे  part 2 By Rishi sir
+        दोलन और तरंगे part 2 By Rishi sir
       </a>
-    </li> 
+    </li>
   </ol>
-
+  
   <h3 class="subsubject">Practical file</h3>
   <hr />
-
+  
   <h2 class="main-subject">Chemistry</h2>
   <h3 class="subsubject">Notes</h3>
   <ol>
@@ -84,26 +90,27 @@
       <a href="gaseous state part 1.pdf" target="_blank">गैसीय अवस्था part 1 by chandrakanta verma</a>
     </li>
   </ol>
-
+  <h1 class="econtent">
+    <a href="e-content.html">👉e-content</a>
+  </h1>
+  <hr />
   <div class="notice">Notice Board 📣</div>
   <ul>
     <li><a href="https://drive.google.com/file/d/1gVZMKG41o5_8bmA5_723WhHdZzhNEUok/view?usp=drivesdk">👉 Holiday calendar 2025</a></li>
     <li>अन्य विषयों के नोट्स जल्द ही उपलब्ध हो जाएंगे</li>
     <li><a href="https://chat.whatsapp.com/C4MTvqPzpGQ4nUO1rKQoQw?mode=ac_t">Join group for more information</a></li>
   </ul>
-<h2>
-  <a href="e-content.html">e-content</a>
-</h2>
-<h3>Here you can access YouTube lectures of famous faculties</h3>
+  
+  <h3>Here you can access YouTube lectures of famous faculties</h3>
   <h2>Ask Your Question</h2>
   <input type="text" id="nameBox" placeholder="Your name (optional)">
   <textarea id="commentBox" rows="4" placeholder="Type your question here..."></textarea><br>
   <button onclick="postComment()">Post</button>
   <button onclick="clearComments()">Clear All</button>
-
+  
   <h3>Comments</h3>
   <div id="comments"></div>
-
+  
   <script>
     // Load saved comments on page load
     window.onload = function() {
@@ -112,27 +119,27 @@
         document.getElementById("comments").innerHTML = saved;
       }
     }
-
+    
     function postComment() {
       let name = document.getElementById("nameBox").value || "Student";
       let text = document.getElementById("commentBox").value;
       if (text.trim() === "") return;
-
+      
       let now = new Date();
       let dateStr = now.toLocaleString(); // shows date + time
-
+      
       let comment = document.createElement("div");
       comment.className = "comment";
       comment.innerHTML = "<span class='name'>" + name + ":</span> " + text +
-                          "<div class='date'>Posted on: " + dateStr + "</div>";
-
+        "<div class='date'>Posted on: " + dateStr + "</div>";
+      
       document.getElementById("comments").prepend(comment);
       document.getElementById("commentBox").value = "";
-
+      
       // Save comments to localStorage
       localStorage.setItem("comments", document.getElementById("comments").innerHTML);
     }
-
+    
     function clearComments() {
       if (confirm("Are you sure you want to delete all comments?")) {
         localStorage.removeItem("comments");
@@ -140,84 +147,114 @@
       }
     }
   </script>
-
+  
 </body>
-</html>
-  <footer class="footer">
-    <div class="footer-content">
-      <p><strong>Disclaimer:</strong> The information provided on this website is for general purposes only. While every effort has been made to ensure accuracy, no guarantee is given regarding completeness or reliability of the content. The owner will not be liable for any loss or damage arising from the use of this website. External links, if any, are provided for convenience and do not signify endorsement.</p>
-      <p class="copyright">© 2025 Sachin Nitharwal and all group members. All Rights Reserved.<br>
-      No part of this website may be copied, reproduced, or distributed without prior written permission.</p>
-    </div>
-  </footer>
 
-  <!-- Scripts -->
-  <script>
-    function toggleMenu() {
-      let x = document.getElementById("myNavbar");
-      let links = x.getElementsByTagName("a");
-      for (let i = 0; i < links.length; i++) {
-        if (links[i].className !== "icon") {
-          links[i].style.display = (links[i].style.display === "block") ? "none" : "block";
-        }
+</html>
+<footer class="footer">
+  <div class="footer-content">
+    <p><strong>Disclaimer:</strong> The information provided on this website is for general purposes only. While every effort has been made to ensure accuracy, no guarantee is given regarding completeness or reliability of the content. The owner will not be liable for any loss or damage arising from the use of this website. External links, if any, are provided for convenience and do not signify endorsement.</p>
+    <p class="copyright">© 2025 Sachin Nitharwal and all group members. All Rights Reserved.<br>
+      No part of this website may be copied, reproduced, or distributed without prior written permission.</p>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script>
+  function toggleMenu() {
+    let x = document.getElementById("myNavbar");
+    let links = x.getElementsByTagName("a");
+    for (let i = 0; i < links.length; i++) {
+      if (links[i].className !== "icon") {
+        links[i].style.display = (links[i].style.display === "block") ? "none" : "block";
       }
     }
-
-    // New Badge with localStorage expiry
-    document.addEventListener("DOMContentLoaded", function () {
-      const items = document.querySelectorAll("li[data-date]");
-      const today = new Date();
-
-      items.forEach(item => {
-        let dateStr = item.getAttribute("data-date");
-        let id = item.getAttribute("data-id") || dateStr; // unique key
-        if (dateStr) {
-          let posted = new Date(dateStr);
-          let diff = (today - posted) / (1000 * 60 * 60 * 24);
-
-          // Check expiry in localStorage
-          let savedExpiry = localStorage.getItem("expiry-" + id);
-
-          if (diff <= 7) {
-            let expiryDate = posted.getTime() + (7 * 24 * 60 * 60 * 1000); // 7 days later
-
-            // Save expiry if not saved
-            if (!savedExpiry) {
-              localStorage.setItem("expiry-" + id, expiryDate);
-              savedExpiry = expiryDate;
-            }
-
-            // Show badge only if not expired
-            if (today.getTime() <= savedExpiry) {
-              let badge = document.createElement("span");
-              badge.className = "new-badge";
-              badge.innerText = "New";
-              item.appendChild(badge);
-            }
-          } else {
-            // remove expired entry
-            localStorage.removeItem("expiry-" + id);
+  }
+  
+  // New Badge with localStorage expiry
+  document.addEventListener("DOMContentLoaded", function() {
+    const items = document.querySelectorAll("li[data-date]");
+    const today = new Date();
+    
+    items.forEach(item => {
+      let dateStr = item.getAttribute("data-date");
+      let id = item.getAttribute("data-id") || dateStr; // unique key
+      if (dateStr) {
+        let posted = new Date(dateStr);
+        let diff = (today - posted) / (1000 * 60 * 60 * 24);
+        
+        // Check expiry in localStorage
+        let savedExpiry = localStorage.getItem("expiry-" + id);
+        
+        if (diff <= 7) {
+          let expiryDate = posted.getTime() + (7 * 24 * 60 * 60 * 1000); // 7 days later
+          
+          // Save expiry if not saved
+          if (!savedExpiry) {
+            localStorage.setItem("expiry-" + id, expiryDate);
+            savedExpiry = expiryDate;
           }
+          
+          // Show badge only if not expired
+          if (today.getTime() <= savedExpiry) {
+            let badge = document.createElement("span");
+            badge.className = "new-badge";
+            badge.innerText = "New";
+            item.appendChild(badge);
+          }
+        } else {
+          // remove expired entry
+          localStorage.removeItem("expiry-" + id);
         }
-      });
+      }
     });
-  </script>
+  });
+</script>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Comment Box</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    #commentBox, #nameBox { width: 100%; padding: 8px; margin-bottom: 8px; }
-    button { padding: 8px 12px; }
-    .comment { border: 1px solid #ccc; padding: 8px; margin: 6px 0; border-radius: 5px; }
-    .name { font-weight: bold; }
-    .date { font-size: 0.8em; color: gray; margin-left: 8px; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    
+    #commentBox,
+    #nameBox {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 8px;
+    }
+    
+    button {
+      padding: 8px 12px;
+    }
+    
+    .comment {
+      border: 1px solid #ccc;
+      padding: 8px;
+      margin: 6px 0;
+      border-radius: 5px;
+    }
+    
+    .name {
+      font-weight: bold;
+    }
+    
+    .date {
+      font-size: 0.8em;
+      color: gray;
+      margin-left: 8px;
+    }
   </style>
 </head>
-<body>
 
+<body>
+  
 </body>
+
 </html>

@@ -71,7 +71,9 @@ body{background-color: burlywood;
   color: white;
 }
  
-  
+.econtent{
+  background-color: skyblue
+  }
 
 .notice{background-color:#0D0A22;
 font-size: 40px;
