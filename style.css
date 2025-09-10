@@ -45,10 +45,10 @@
       gap: 10px;              /* space between logo & text */
     }
     .logo-container img {
-      width: 70px;            /* logo size */
+      width: 40px;            /* logo size */
       height: auto;
-      border-radius: 35px;
-      margin: 15px;
+      border-radius: 20px;
+      margin-top: 15px;
     }
     .logo-container span {
       font-size: 40px;#2BA878
@@ -69,11 +69,7 @@ body{background-color: burlywood;
   font-size:40px;
   color: rebeccapurple;
 }
-.main-subject{
-  background: skyblue;
-  color: white;
 
-}
  
 .econtent{
   background-color: skyblue
