@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Notes</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    input, select { margin: 5px; padding: 8px; width: 250px; }
+    button { padding: 8px 15px; cursor: pointer; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>Submit Notes</h2>
+  <form id="submitForm">
+    <label>Subject:</label><br>
+    <select id="subject" required>
+      <option value="">Select</option>
+      <option value="Math">Math</option>
+      <option value="Physics">Physics</option>
+      <option value="Chemistry">Chemistry</option>
+    </select><br>
+    <input type="text" id="chapter" placeholder="Chapter Name" required><br>
+    <input type="text" id="teacher" placeholder="Teacher Name" required><br>
+    <input type="text" id="student" placeholder="Your Name (optional)"><br>
+    <input type="url" id="link" placeholder="Notes Link (Google Drive/GitHub)" required><br>
+    <button type="submit">Submit</button>
+  </form>
+
+<script>
+  document.getElementById("submitForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    let note = {
+      subject: document.getElementById("subject").value,
+      chapter: document.getElementById("chapter").value,
+      teacher: document.getElementById("teacher").value,
+      student: document.getElementById("student").value,
+      link: document.getElementById("link").value
+    };
+    let pending = JSON.parse(localStorage.getItem("pendingNotes")) || [];
+    pending.push(note);
+    localStorage.setItem("pendingNotes", JSON.stringify(pending));
+    alert("Note submitted for admin verification!");
+    this.reset();
+  });
+</script>
+
+</body>
+</html>

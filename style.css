@@ -2,6 +2,7 @@
     .navbar {
       background-color: #424493;
       overflow: hidden;
+    
     }
 
     /* Links */
@@ -38,23 +39,25 @@
       }
     }
 
-.logo{width: 100px;
-height: 100px;
-border-radius: 50%;
-margin: 10px;
+.logo-container {
+      display: flex;          /* side by side layout */
+      align-items: center;    /* vertical center */
+      gap: 10px;              /* space between logo & text */
+    }
+    .logo-container img {
+      width: 70px;            /* logo size */
+      height: auto;
+      border-radius: 35px;
+      margin: 15px;
+    }
+    .logo-container span {
+      font-size: 40px;#2BA878
+      
+      color:  #0F6EE1EB;
+      font-family: Poppins;
+    }
   
-}
-
-.heading{text-align: center;
-color: #2F2CBF;
-width: 239px;
-height: 30px;
-padding: 25px;
-border: 2px double;
-border-radius: 10px;
-text-shadow: 5px 5px 10px rgba(31, 203, 181, 1);
-
- }
+      
 body{background-color: burlywood;
  }
 .banner {border-radius: 15px;
@@ -69,6 +72,7 @@ body{background-color: burlywood;
 .main-subject{
   background: skyblue;
   color: white;
+
 }
  
 .econtent{
