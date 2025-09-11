@@ -77,32 +77,6 @@
     alert("Note verified successfully!");
   }
 </script>
-<!-- Example Notes List -->
-<ul id="notes-list">
-  <li>
-    <span class="note-text">Note 1 contents...</span>
-    <button onclick="deleteNote(this)">Delete</button>
-  </li>
-  <li>
-    <span class="note-text">Note 2 contents...</span>
-    <button onclick="deleteNote(this)">Delete</button>
-  </li>
-  <!-- Add more notes similarly -->
-</ul>
 
-<script>
-const ADMIN_PASSWORD = "055005";
-
-function deleteNote(button) {
-  const enteredPassword = prompt("Enter admin password to delete this note:");
-  if (enteredPassword === ADMIN_PASSWORD) {
-    // Remove the note (the parent <li>)
-    button.parentElement.remove();
-    alert("Note deleted!");
-  } else {
-    alert("Incorrect password! Note not deleted.");
-  }
-}
-</script>
 </body>
 </html>
