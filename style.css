@@ -45,10 +45,11 @@
       gap: 10px;              /* space between logo & text */
     }
     .logo-container img {
-      width: 40px;            /* logo size */
+      width: 60px;            /* logo size */
       height: auto;
-      border-radius: 20px;
+      border-radius: 30px;
       margin-top: 15px;
+      margin: 15px;
     }
     .logo-container span {
       font-size: 40px;#2BA878
