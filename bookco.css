@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f9f9f9;
-  background-image: url("/contactBackground.jpg");
+  background-image: url("contactBackground.jpg");
 }
 
 header {
