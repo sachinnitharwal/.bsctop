@@ -4,36 +4,128 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buy Book Request</title>
-  <link rel="stylesheet" href="bookco.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.5;
+    }
+    h2 {
+      color: darkblue;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 6px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    .hidden {
+      display: none;
+    }
+    .file-upload {
+      margin-top: 10px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: darkblue;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: navy;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="bookcorner.html">Book Corner</a>
-    </nav>
-  </header>
+  <h2>Buy Book Request</h2>
 
-  <div class="container">
-    <h2>Buy Book Request</h2>
-    <form action="https://formspree.io/f/mzzawrdl" method="POST">
-      <!-- Redirect to thankyou page after submit -->
-      <input type="hidden" name="_redirect" value="thankyou.html">
+  <!-- ✅ Formspree integration here -->
+  <form action="https://formspree.io/f/mzzawrdl" method="POST" enctype="multipart/form-data">
+    <!-- Name -->
+    <label for="name">Enter Your Name:</label>
+    <input type="text" id="name" name="name" required>
 
-      <label for="name">Your Name</label>
-      <input type="text" id="name" name="name" required>
+    <!-- Email -->
+    <label for="email">Enter Your Email:</label>
+    <input type="email" id="email" name="email" required>
 
-      <label for="book">Book Title</label>
-      <input type="text" id="book" name="book" required>
+    <!-- Contact detail type -->
+    <label>Select Contact Detail:</label>
+    <select id="contactType" name="contactType" onchange="toggleContact()">
+      <option value="">--Select--</option>
+      <option value="mobile">Mobile No.</option>
+      <option value="whatsapp">WhatsApp</option>
+      <option value="telegram">Telegram</option>
+    </select>
 
-      <label for="author">Author</label>
-      <input type="text" id="author" name="author">
+    <!-- Contact number -->
+    <div id="contactDiv" class="hidden">
+      <label for="contactNo">Enter Your No. (for contact purpose only):</label>
+      <input type="tel" id="contactNo" name="contactNo">
+    </div>
 
-      <label for="details">Additional Details</label>
-      <textarea id="details" name="details" rows="4"></textarea>
+    <!-- Book category -->
+    <label for="category">Select Book Category:</label>
+    <select id="category" name="category" onchange="toggleBscFields()">
+      <option value="">--Select Category--</option>
+      <option value="bsc">B.Sc</option>
+      <option value="competition">Competition</option>
+      <option value="school">School Exams</option>
+    </select>
 
-      <button type="submit">Submit Request</button>
-    </form>
-  </div>
+    <!-- B.Sc specific fields -->
+    <div id="bscFields" class="hidden">
+      <label for="semester">Select Semester:</label>
+      <select id="semester" name="semester">
+        <option value="">--Select Semester--</option>
+        <option value="sem1">1st Semester</option>
+        <option value="sem2">2nd Semester</option>
+        <option value="sem3">3rd Semester</option>
+        <option value="sem4">4th Semester</option>
+        <option value="sem5">5th Semester</option>
+        <option value="sem6">6th Semester</option>
+      </select>
+
+      <label for="bookName">Book Name:</label>
+      <input type="text" id="bookName" name="bookName">
+
+      <label for="details">Additional Details:</label>
+      <textarea id="details" name="details" rows="3"></textarea>
+    </div>
+
+
+    <!-- Submit button -->
+    <button type="submit">Submit Request</button>
+  </form>
+
+  <script>
+    function toggleContact() {
+      let contactType = document.getElementById("contactType").value;
+      let contactDiv = document.getElementById("contactDiv");
+      if (contactType) {
+        contactDiv.classList.remove("hidden");
+      } else {
+        contactDiv.classList.add("hidden");
+      }
+    }
+
+    function toggleBscFields() {
+      let category = document.getElementById("category").value;
+      let bscFields = document.getElementById("bscFields");
+      if (category === "bsc") {
+        bscFields.classList.remove("hidden");
+      } else {
+        bscFields.classList.add("hidden");
+      }
+    }
+  </script>
 </body>
 </html>
