@@ -9,9 +9,11 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      background: #000;   /* 🔥 Black background */
+      color: #fff;        /* Text visible on black */
     }
     header {
-   background: linear-gradient( to right bottom,red, blue,green);
+      background: linear-gradient(to right bottom, red, blue, green);
       color: whitesmoke;
       display: flex;
       justify-content: space-between;
@@ -24,17 +26,15 @@
     }
     header .logo {
       font-weight: bold;
-      
-      
     }
     nav {
-      background: #f2f2f2;
+      background: #111;
       padding: 10px 20px;
     }
     nav a {
       margin-right: 15px;
       text-decoration: none;
-      color: #333;
+      color: #fff;
       font-weight: bold;
     }
 
@@ -71,59 +71,62 @@
       cursor: pointer;
     }
 
-/* Gallery Slider */
-.gallery {
-  text-align: center;
-  padding: 20px;
-  background-color:whitesmoke;
-}
-.slider {
-  position: relative;
-  max-width: 100%;
-  margin: auto;
-  overflow: hidden;
-  border-radius: 10px;
-  border: 1px solid red;
-}
-.slides {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
-.slides img {
-  width: 100%;        /* Each image takes full slider width */
-  height: auto;
-  max-height: 300px;
-  object-fit: cover;
-  flex-shrink: 0;     /* 🚀 Prevent images from shrinking */
-}
-.prev, .next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
-  color: #fff;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 50%;
-}
-.prev { left: 10px; }
-.next { right: 10px; }
-.dots {
-  margin-top: 10px;
-}
-.dot {
-  height: 12px;
-  width: 12px;
-  margin: 5px;
-  display: inline-block;
-  background: #bbb;
-  border-radius: 50%;
-  cursor: pointer;
-}
-.dot.active {
-  background: #333;
-}
+    /* Gallery Slider */
+    .gallery {
+      text-align: center;
+      padding: 20px;
+      background-color: transparent;
+    }
+    .slider {
+      position: relative;
+      max-width: 100%;
+      margin: auto;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 2px solid #0ff;   /* Neon border */
+      box-shadow: 0 0 15px #0ff, 0 0 30px #0ff; /* 🔥 Glow effect */
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .slides img {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+    .dots {
+      margin-top: 10px;
+    }
+    .dot {
+      height: 12px;
+      width: 12px;
+      margin: 5px;
+      display: inline-block;
+      background: #bbb;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .dot.active {
+      background: #0ff;
+      box-shadow: 0 0 8px #0ff;
+    }
+
     /* Sections */
     .sections {
       padding: 20px;
@@ -139,8 +142,8 @@
 
     /* Footer */
     footer {
-    background: linear-gradient( to right bottom,red, blue, green);
-  color: #ddd;
+      background: linear-gradient(to right bottom, red, blue, green);
+      color: #ddd;
       padding: 20px;
       text-align: center;
     }
@@ -155,8 +158,8 @@
       color: red;
       font-weight: bold;
     }
-    i{
-     margin-right: 0px;
+    i {
+      margin-right: 0px;
     }
 
     /* Responsive */
@@ -251,7 +254,6 @@
     <a href="notice.html">Notice Section</a>
     <a href="submit.html">sumbit notes</a>
     <a href="bookcorner.html">Book Corner</a>
-    
   </section>
 
   <!-- Footer -->
@@ -262,14 +264,12 @@
       <a href="work.html">Work With Us</a>
       <a href="group.html">Join Group</a>
       <a href="submit.html">Submit notes</a>
-      
-      <a href="Admin login.html" class="admin" ><i class="fas fa-id-card-alt">Admin login</i></a>
+      <a href="Admin login.html" class="admin"><i class="fas fa-id-card-alt">Admin login</i></a>
     </div>
   </footer>
 
   <!-- Scripts -->
   <script>
-    // Side Menu
     function openMenu() {
       document.getElementById("sideMenu").style.width = "250px";
     }
@@ -277,14 +277,12 @@
       document.getElementById("sideMenu").style.width = "0";
     }
 
-    // Slider
     let slideIndex = 0;
     const slides = document.querySelector('.slides');
     const images = document.querySelectorAll('.slides img');
     const totalSlides = images.length;
     const dotsContainer = document.querySelector('.dots');
 
-    // Create dots
     for (let i = 0; i < totalSlides; i++) {
       const dot = document.createElement('span');
       dot.classList.add('dot');
@@ -314,8 +312,7 @@
     document.querySelector('.next').addEventListener('click', nextSlide);
     document.querySelector('.prev').addEventListener('click', prevSlide);
 
-    // Auto Slide
     setInterval(nextSlide, 3000);
   </script>
 </body>
-</html>
+</html
