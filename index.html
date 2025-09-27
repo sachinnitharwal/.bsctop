@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Website</title>
+  <title>BSC TOP</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #000;   /* 🔥 Black background */
-      color: #fff;        /* Text visible on black */
+      background: #000;
+      /* 🔥 Black background */
+      color: #fff;
+      /* Text visible on black */
     }
+    
     header {
       background: linear-gradient(to right bottom, red, blue, green);
       color: whitesmoke;
@@ -19,25 +23,29 @@
       justify-content: space-between;
       align-items: center;
       padding: 10px 20px;
-    } 
+    }
+    
     header .menu {
       cursor: pointer;
       font-size: 22px;
     }
+    
     header .logo {
       font-weight: bold;
     }
+    
     nav {
       background: #111;
       padding: 10px 20px;
     }
+    
     nav a {
       margin-right: 15px;
       text-decoration: none;
       color: #fff;
       font-weight: bold;
     }
-
+    
     /* Side Menu */
     .side-menu {
       height: 100%;
@@ -51,6 +59,7 @@
       padding-top: 60px;
       z-index: 1000;
     }
+    
     .side-menu a {
       padding: 10px 20px;
       text-decoration: none;
@@ -59,9 +68,11 @@
       display: block;
       transition: 0.2s;
     }
+    
     .side-menu a:hover {
       background: #575757;
     }
+    
     .side-menu .closebtn {
       position: absolute;
       top: 15px;
@@ -70,49 +81,64 @@
       color: royalblue;
       cursor: pointer;
     }
-
+    
     /* Gallery Slider */
     .gallery {
       text-align: center;
       padding: 20px;
       background-color: transparent;
     }
+    
     .slider {
       position: relative;
       max-width: 100%;
       margin: auto;
       overflow: hidden;
       border-radius: 10px;
-      border: 2px solid #0ff;   /* Neon border */
-      box-shadow:  0 0 15px #0ff, 0 0 30px #0ff; /* 🔥 Glow effect */
+      border: 2px solid #0ff;
+      /* Neon border */
+      box-shadow: 0 0 15px #0ff, 0 0 30px #0ff;
+      /* 🔥 Glow effect */
     }
+    
     .slides {
       display: flex;
       transition: transform 1.2s ease-in-out;
     }
+    
     .slides img {
       width: 100%;
       height: auto;
       max-height: 300px;
-      object-fit: cover;
+      object-fit: contain;
       flex-shrink: 0;
     }
-    .prev, .next {
+    
+    .prev,
+    .next {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       color: #fff;
       border: none;
       padding: 10px;
       cursor: pointer;
       border-radius: 50%;
     }
-    .prev { left: 10px; }
-    .next { right: 10px; }
+    
+    .prev {
+      left: 10px;
+    }
+    
+    .next {
+      right: 10px;
+    }
+    
     .dots {
       margin-top: 10px;
     }
+    
     .dot {
       height: 12px;
       width: 12px;
@@ -122,16 +148,18 @@
       border-radius: 50%;
       cursor: pointer;
     }
+    
     .dot.active {
       background: #0ff;
       box-shadow: 0 0 8px #0ff;
     }
-
+    
     /* Sections */
     .sections {
       padding: 20px;
       background-color: #05060CC2;
     }
+    
     .sections a {
       display: block;
       margin: 8px 0;
@@ -139,7 +167,7 @@
       text-decoration: none;
       font-weight: 500;
     }
-
+    
     /* Footer */
     footer {
       background: linear-gradient(to right bottom, red, blue, green);
@@ -147,6 +175,7 @@
       padding: 20px;
       text-align: center;
     }
+    
     footer a {
       color: #ddd;
       margin: 0 8px;
@@ -154,77 +183,195 @@
       display: inline-block;
       margin-top: 5px;
     }
+    
     footer a.admin {
       color: red;
       font-weight: bold;
     }
+    
     i {
       margin-right: 0px;
     }
-
+    
     /* Responsive */
     @media (max-width: 768px) {
       nav {
         text-align: center;
       }
+      
       nav a {
         display: inline-block;
         margin: 5px 10px;
       }
+      
       .slides img {
         max-height: 200px;
+        object-fit: cover;
       }
+      
       footer {
         font-size: 14px;
       }
+      
       footer a {
         margin: 5px;
       }
     }
-
+    
     @media (max-width: 480px) {
       header .menu {
         font-size: 20px;
       }
+      
       header .logo {
         font-size: 16px;
       }
+      
       nav a {
         display: block;
         margin: 8px 0;
       }
+      
       .slides img {
         max-height: 180px;
       }
-      .prev, .next {
+      
+      .prev,
+      .next {
         padding: 6px;
       }
     }
-    .bottom{
+    
+    .bottom {
       font-weight: bolder;
     }
+    
+    .ourteam {
+      color: greenyellow;
+      text-align: center;
+      position: relative;
+      
+      
+      
+    }
+    
+    h1.ourteam::after {
+      content: '';
+      background: linear-gradient(to right, red, blue, green);
+      width: 155px;
+      height: 5px;
+      position: absolute;
+      bottom: 0;
+      left: 28%;
+      
+    }
+    
+    .name {
+      color: yellow;
+      display: inline-block;
+      text-align: start;
+      font-size: 18px;
+      position: relative;
+      
+      
+    }
+    
+    .name::before {
+      content: '';
+      background: linear-gradient(to right, red, blue, green);
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      bottom: 0.8px;
+      left: 0;
+    }
+    
+    .bio {
+      color: whitesmoke;
+      
+    }
+    
+    .teamcard {
+      margin-bottom: 80px;
+      background-image: url("/business-people-teamwork.jpg");
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    
+    .container {
+      background-color: #06070763;
+      box-shadow: 5px 5px 20px rgba(19, 213, 162, 1);
+      /* An outer shadow with 5px horizontal/vertical offset, 10px blur, and semi-transparent black color */
+      height: 180px;
+      border-radius: 25px;
+      display: flex;
+      text-align: center;
+      margin-bottom: 30px;
+      
+    }
+    
+    .id {
+      
+      height: 150px;
+      width: 150px;
+      padding: ;
+      margin: 4px 4px 4px 4px;
+      
+      border: 4px solid lawngreen;
+      
+      border-radius: 25px;
+      animation: borderColor 1.5s infinite alternate;
+      
+    }
+    
+    @keyframes borderColor {
+      0% {
+        border-color: red;
+      }
+      
+      50% {
+        border-color: blue;
+      }
+      
+      100% {
+        border-color: greenyellow;
+      }
+    }
+    
+    .socialcontainer {
+      background-image: url();
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-position: center;
+      
+    }
   </style>
- 
-
+  
+  
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y3BQMVZ3FJ"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
+    
     gtag('config', 'G-Y3BQMVZ3FJ');
   </script>
-
+  
 </head>
-<body>
 
+<body>
+  
   <!-- Header -->
   <header>
     <div class="menu" onclick="openMenu()">☰ MENU</div>
     <div class="logo">BSC TOP</div>
   </header>
-
+  
   <!-- Side Menu -->
   <div id="sideMenu" class="side-menu">
     <span class="closebtn" onclick="closeMenu()">&times;</span>
@@ -236,16 +383,16 @@
     <a href="about.html">About Us</a>
     <a href="work.html">Work With Us</a>
     <a href="group.html">Join Group</a>
-    <a href="submit.html">Submit Notes</a>
+   
     <a href="Admin login.html" class="admin">Admin Login</a>
     <a href="bookcorner.html">Book Corner</a>
   </div>
-
+  
   <!-- Nav -->
   <nav>
     <a href="#">Gallery Section</a>
   </nav>
-
+  
   <!-- Gallery with Slider -->
   <section class="gallery">
     <h2 class="photo">PHOTO</h2>
@@ -260,44 +407,109 @@
     </div>
     <div class="dots"></div>
   </section>
-
+  
   <!-- Sections -->
   <section class="sections">
     <a href="material.html">Notes Section</a>
     <a href="pyp.html">PYP Section</a>
     <a href="comments.html">Comment & Doubt Section</a>
     <a href="notice.html">Notice Section</a>
-    <a href="submit.html">sumbit notes</a>
+   
     <a href="bookcorner.html">Book Corner</a>
   </section>
-
+  
+  <!-- Team card -->
+  <h1 class="ourteam">OUR TEAM</h1>
+  <div class="teamcard">
+    <div class="container">
+      <img src="IMG_20250924_195239.jpg" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name">SACHIN NITHARWAL</h3>
+        <h4 class="bio">Front-end and Back-end Developer</h4>
+      </div>
+    </div>
+    <div class="container">
+      <img src="young-man-avatar-cartoon-character-profile-picture-vector-25739612.jpg" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name">SANJAY SAINI</h3>
+        <h4 class="bio">Website Manager</h4>
+      </div>
+    </div>
+    
+    <div class="container">
+      <img src="IMG_20250926_070150-removebg-preview.jpg" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name"> Shailendra Jangid</h3>
+        <h4 class="bio">Material Manager</h4>
+      </div>
+    </div>
+  </div>
+  
+  
+  <h1 style="font-size: 20px;
+    margin: 5px; padding: 5px;">OUR SOCIAL PLATFORMS</h1>
+  
+  <div class="socialcontainer">
+    <div class="container">
+      <img src="qrcode.png" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name">Scan me</h3>
+        <h4 class="bio"> Website</h4>
+      </div>
+    </div>
+    <!--
+    <div class="container">
+      <img src="qrcode.png" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name">Scan me</h3>
+        <h4 class="bio"> Website</h4>
+      </div>
+    </div>
+    
+    <div class="container">
+      <img src="qrcode.png" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name">Scan me</h3>
+        <h4 class="bio"> Website</h4>
+      </div>
+    </div>
+  </div> -->
+  
+  
   <!-- Footer -->
   <footer>
     <p>© 2025 Sachin Nitharwal and Sanjay Saini | All Rights Reserved |An Independent Educational Resource Platform with no official university affiliation.</p>
     <div class="bottom">
       <a href="about.html">About Us</a>
-      <a href="work.html">Work With Us</a>
-      <a href="group.html">Join Group</a>
-      <a href="submit.html">Submit notes</a>
+      <a href="terms.html">terms & conditions</a>
+      <a href="disclaimer.html">disclaimer</a>
+      <a href="privacy.html">Privacy Policy</a>
       <a href="Admin login.html" class="admin"><i class="fas fa-id-card-alt">Admin login</i></a>
     </div>
   </footer>
-
+  
   <!-- Scripts -->
   <script>
     function openMenu() {
       document.getElementById("sideMenu").style.width = "250px";
     }
+    
     function closeMenu() {
       document.getElementById("sideMenu").style.width = "0";
     }
-
+    
     let slideIndex = 0;
     const slides = document.querySelector('.slides');
     const images = document.querySelectorAll('.slides img');
     const totalSlides = images.length;
     const dotsContainer = document.querySelector('.dots');
-
+    
     for (let i = 0; i < totalSlides; i++) {
       const dot = document.createElement('span');
       dot.classList.add('dot');
@@ -306,28 +518,29 @@
       dotsContainer.appendChild(dot);
     }
     const dots = document.querySelectorAll('.dot');
-
+    
     function showSlide(n) {
       slideIndex = n;
       slides.style.transform = `translateX(${-100 * n}%)`;
       dots.forEach(dot => dot.classList.remove('active'));
       dots[n].classList.add('active');
     }
-
+    
     function nextSlide() {
       slideIndex = (slideIndex + 1) % totalSlides;
       showSlide(slideIndex);
     }
-
+    
     function prevSlide() {
       slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
       showSlide(slideIndex);
     }
-
+    
     document.querySelector('.next').addEventListener('click', nextSlide);
     document.querySelector('.prev').addEventListener('click', prevSlide);
-
+    
     setInterval(nextSlide, 3000);
   </script>
 </body>
+
 </html
