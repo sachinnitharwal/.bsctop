@@ -81,18 +81,22 @@
       color: royalblue;
       cursor: pointer;
     }
-        /* Popup background */
+    
+    /* Popup background */
     .popup {
-      display: none; /* hidden by default */
+      display: none;
+      /* hidden by default */
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
       justify-content: center;
       align-items: center;
       z-index: 9999;
     }
-
+    
     /* Popup box */
     .popup-content {
       background: blue;
@@ -101,23 +105,31 @@
       width: 300px;
       text-align: center;
       position: relative;
-      box-shadow: 0px 5px 15px rgba(0,0,0,0.4);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
       animation: fadeIn 0.5s ease;
     }
-
+    
     /* Close button */
     .close {
       position: absolute;
-      top: 10px; right: 15px;
+      top: 10px;
+      right: 15px;
       font-size: 30px;
       cursor: pointer;
       color: #E00F0F;
     }
-
+    
     /* Animation */
     @keyframes fadeIn {
-      from {opacity: 0; transform: scale(0.8);}
-      to {opacity: 1; transform: scale(1);}
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
     
     
@@ -468,25 +480,67 @@
     
     <a href="bookcorner.html">Book Corner</a>
   </section>
+  <!-- Affiliate Disclosure with Click-to-View -->
+  <div style="background-color:#fff3cd;border-left:5px solid #ffc107;padding:10px 15px;margin-bottom:15px;border-radius:5px;font-family:sans-serif;color:#856404;cursor:pointer;" id="affiliateDisclaimerTop">
+    <strong>Disclaimer:</strong> This section contains Amazon affiliate links. Click here for more info.
+  </div>
   
   <!-- Amazon Affiliate Product Grid -->
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;padding:10px;font-family:sans-serif;">
     
     <!-- Product Card 1 -->
     <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-      <a href="https://www.amazon.in/GETSABLE-Waterproof-Silicone-Compatible-Samsung/dp/B0FMYPDHKS?pd_rd_w=Xi9yn&content-id=amzn1.sym.2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_p=2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_r=8E0CTAFTC3YCZAKYDGE6&pd_rd_wg=2APhy&pd_rd_r=600b2b8b-18ad-4365-bfb0-848c8a2089d5&pd_rd_i=B0FMYPDHKS&th=1&linkCode=ll1&tag=sachin0550-21&linkId=2b8ad6e8349d7847cb5ff5882fc4b43e&language=en_IN&ref_=as_li_ss_tl" target="_blank" rel="nofollow">
+      <a href="https://www.amazon.in/GETSABLE-Waterproof-Silicone-Compatible-Samsung/dp/B0FMYPDHKS?tag=sachin0550-21" target="_blank" rel="nofollow">
         <img src="IMG_20250930_134832_178.jpg" alt="Smartwatch" style="width:100%;height:auto;display:block;">
       </a>
       <div style="padding:15px;text-align:center;">
         <h3 style="font-size:16px;margin:0 0 10px;">Latest Smartwatch</h3>
         <p style="color:green;font-weight:bold;margin:0 0 10px;">₹629</p>
-        <a href="https://www.amazon.in/GETSABLE-Waterproof-Silicone-Compatible-Samsung/dp/B0FMYPDHKS?pd_rd_w=Xi9yn&content-id=amzn1.sym.2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_p=2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_r=8E0CTAFTC3YCZAKYDGE6&pd_rd_wg=2APhy&pd_rd_r=600b2b8b-18ad-4365-bfb0-848c8a2089d5&pd_rd_i=B0FMYPDHKS&th=1&linkCode=ll1&tag=sachin0550-21&linkId=2b8ad6e8349d7847cb5ff5882fc4b43e&language=en_IN&ref_=as_li_ss_tl" target="_blank" rel="nofollow" style="display:inline-block;padding:10px 15px;background:#ff9900;color:white;text-decoration:none;border-radius:5px;font-weight:bold;">
+        <a href="https://www.amazon.in/GETSABLE-Waterproof-Silicone-Compatible-Samsung/dp/B0FMYPDHKS?tag=sachin0550-21" target="_blank" rel="nofollow" style="display:inline-block;padding:10px 15px;background:#ff9900;color:white;text-decoration:none;border-radius:5px;font-weight:bold;">
           Buy on Amazon
         </a>
       </div>
     </div>
     
+  </div>
+  
+
+  <!-- Modal / Pop-up for Disclosure Info -->
+  <div id="affiliateModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:999;">
+    <div style="background: blue;padding:20px;max-width:400px;margin:0 20px;border-radius:10px;position:relative;text-align:left;">
+      <span id="closeModal" style="position:absolute;top:10px;right:15px;font-weight:bold;font-size:18px;cursor:pointer;">&times;</span>
+      <h3>Affiliate Disclosure</h3>
+      <p>
+        This section contains Amazon affiliate links. If you buy through these links, I may earn a small commission at no extra cost to you.
+        Amazon Affiliate Program requires affiliates to clearly disclose this to maintain transparency.
+        Thank you for supporting the site!
+      </p>
+    </div>
+  </div>
+  
+  <!-- JavaScript to handle pop-up -->
+  <script>
+    const disclaimer = document.getElementById('affiliateDisclaimerTop');
+    const modal = document.getElementById('affiliateModal');
+    const closeModal = document.getElementById('closeModal');
     
+    disclaimer.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+    
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+    
+    // Close modal if clicked outside
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
+  
+  
   </div>
   
   <!-- Team card -->
@@ -564,6 +618,10 @@
         <a href="Admin login.html" class="admin"><i class="fas fa-id-card-alt">Admin login</i></a>
       </div>
     </footer>
+    <!-- Footer with Global Disclosure -->
+    <footer style="text-align:center;font-size:0.9em;color: white;margin-top:30px;padding:10px 0;border-top:1px solid #ddd;font-family:sans-serif;">
+      As an Amazon Associate, I earn from qualifying purchases.
+    </footer>
     
     <!-- Scripts -->
     <script>
@@ -612,29 +670,29 @@
       
       setInterval(nextSlide, 3000);
     </script>
-      <script>
-    const popup = document.getElementById("popup");
-    const closeBtn = document.getElementById("closePopup");
-
-    // Show popup automatically after 3 seconds
-    window.onload = function() {
-      setTimeout(() => {
-        popup.style.display = "flex";
-      }, 1500);
-    }
-
-    // Close popup when ❌ clicked
-    closeBtn.onclick = function() {
-      popup.style.display = "none";
-    }
-
-    // Close popup when clicking outside content
-    window.onclick = function(event) {
-      if (event.target === popup) {
+    <script>
+      const popup = document.getElementById("popup");
+      const closeBtn = document.getElementById("closePopup");
+      
+      // Show popup automatically after 3 seconds
+      window.onload = function() {
+        setTimeout(() => {
+          popup.style.display = "flex";
+        }, 1500);
+      }
+      
+      // Close popup when ❌ clicked
+      closeBtn.onclick = function() {
         popup.style.display = "none";
       }
-    }
-  </script>
+      
+      // Close popup when clicking outside content
+      window.onclick = function(event) {
+        if (event.target === popup) {
+          popup.style.display = "none";
+        }
+      }
+    </script>
 </body>
 
 </html
