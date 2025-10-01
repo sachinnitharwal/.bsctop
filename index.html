@@ -81,6 +81,45 @@
       color: royalblue;
       cursor: pointer;
     }
+        /* Popup background */
+    .popup {
+      display: none; /* hidden by default */
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    /* Popup box */
+    .popup-content {
+      background: blue;
+      padding: 20px;
+      border-radius: 12px;
+      width: 300px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.4);
+      animation: fadeIn 0.5s ease;
+    }
+
+    /* Close button */
+    .close {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 30px;
+      cursor: pointer;
+      color: #E00F0F;
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.8);}
+      to {opacity: 1; transform: scale(1);}
+    }
+    
     
     /* Gallery Slider */
     .gallery {
@@ -383,7 +422,7 @@
     <a href="about.html">About Us</a>
     <a href="work.html">Work With Us</a>
     <a href="group.html">Join Group</a>
-   
+    
     <a href="Admin login.html" class="admin">Admin Login</a>
     <a href="bookcorner.html">Book Corner</a>
   </div>
@@ -392,6 +431,18 @@
   <nav>
     <a href="#">Gallery Section</a>
   </nav>
+  <!-- Popup Box -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <span id="closePopup" class="close">&times;</span>
+      <h2>Special Offer!</h2>
+      <a href="https://www.amazon.in/GETSABLE-Waterproof-Silicone-Compatible-Samsung/dp/B0FMYPDHKS?pd_rd_w=Xi9yn&content-id=amzn1.sym.2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_p=2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_r=8E0CTAFTC3YCZAKYDGE6&pd_rd_wg=2APhy&pd_rd_r=600b2b8b-18ad-4365-bfb0-848c8a2089d5&pd_rd_i=B0FMYPDHKS&th=1&linkCode=ll1&tag=sachin0550-21&linkId=2b8ad6e8349d7847cb5ff5882fc4b43e&language=en_IN&ref_=as_li_ss_tl" target="_blank">
+        <img src="IMG_20250930_134832_178.jpg" alt="Amazon Product" width="250">
+      </a>
+      <p>Click the image to buy this product on Amazon</p>
+    </div>
+  </div>
+  
   
   <!-- Gallery with Slider -->
   <section class="gallery">
@@ -414,30 +465,29 @@
     <a href="pyp.html">PYP Section</a>
     <a href="comments.html">Comment & Doubt Section</a>
     <a href="notice.html">Notice Section</a>
-   
+    
     <a href="bookcorner.html">Book Corner</a>
   </section>
   
   <!-- Amazon Affiliate Product Grid -->
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;padding:10px;font-family:sans-serif;">
-
-  <!-- Product Card 1 -->
-  <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-    <a href="https://www.amazon.in/GETSABLE-Waterproof-Silicone-Compatible-Samsung/dp/B0FMYPDHKS?pd_rd_w=Xi9yn&content-id=amzn1.sym.2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_p=2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_r=8E0CTAFTC3YCZAKYDGE6&pd_rd_wg=2APhy&pd_rd_r=600b2b8b-18ad-4365-bfb0-848c8a2089d5&pd_rd_i=B0FMYPDHKS&th=1&linkCode=ll1&tag=sachin0550-21&linkId=2b8ad6e8349d7847cb5ff5882fc4b43e&language=en_IN&ref_=as_li_ss_tl" target="_blank" rel="nofollow">
-      <img src="IMG_20250930_134832_178.jpg" alt="Smartwatch" style="width:100%;height:auto;display:block;">
-    </a>
-    <div style="padding:15px;text-align:center;">
-      <h3 style="font-size:16px;margin:0 0 10px;">Latest Smartwatch</h3>
-      <p style="color:green;font-weight:bold;margin:0 0 10px;">₹629</p>
-      <a href="https://www.amazon.in/GETSABLE-Waterproof-Silicone-Compatible-Samsung/dp/B0FMYPDHKS?pd_rd_w=Xi9yn&content-id=amzn1.sym.2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_p=2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_r=8E0CTAFTC3YCZAKYDGE6&pd_rd_wg=2APhy&pd_rd_r=600b2b8b-18ad-4365-bfb0-848c8a2089d5&pd_rd_i=B0FMYPDHKS&th=1&linkCode=ll1&tag=sachin0550-21&linkId=2b8ad6e8349d7847cb5ff5882fc4b43e&language=en_IN&ref_=as_li_ss_tl" target="_blank" rel="nofollow"
-         style="display:inline-block;padding:10px 15px;background:#ff9900;color:white;text-decoration:none;border-radius:5px;font-weight:bold;">
-        Buy on Amazon
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;padding:10px;font-family:sans-serif;">
+    
+    <!-- Product Card 1 -->
+    <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+      <a href="https://www.amazon.in/GETSABLE-Waterproof-Silicone-Compatible-Samsung/dp/B0FMYPDHKS?pd_rd_w=Xi9yn&content-id=amzn1.sym.2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_p=2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_r=8E0CTAFTC3YCZAKYDGE6&pd_rd_wg=2APhy&pd_rd_r=600b2b8b-18ad-4365-bfb0-848c8a2089d5&pd_rd_i=B0FMYPDHKS&th=1&linkCode=ll1&tag=sachin0550-21&linkId=2b8ad6e8349d7847cb5ff5882fc4b43e&language=en_IN&ref_=as_li_ss_tl" target="_blank" rel="nofollow">
+        <img src="IMG_20250930_134832_178.jpg" alt="Smartwatch" style="width:100%;height:auto;display:block;">
       </a>
+      <div style="padding:15px;text-align:center;">
+        <h3 style="font-size:16px;margin:0 0 10px;">Latest Smartwatch</h3>
+        <p style="color:green;font-weight:bold;margin:0 0 10px;">₹629</p>
+        <a href="https://www.amazon.in/GETSABLE-Waterproof-Silicone-Compatible-Samsung/dp/B0FMYPDHKS?pd_rd_w=Xi9yn&content-id=amzn1.sym.2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_p=2fa5ef78-d215-4b54-bdb7-fa3d3620b822&pf_rd_r=8E0CTAFTC3YCZAKYDGE6&pd_rd_wg=2APhy&pd_rd_r=600b2b8b-18ad-4365-bfb0-848c8a2089d5&pd_rd_i=B0FMYPDHKS&th=1&linkCode=ll1&tag=sachin0550-21&linkId=2b8ad6e8349d7847cb5ff5882fc4b43e&language=en_IN&ref_=as_li_ss_tl" target="_blank" rel="nofollow" style="display:inline-block;padding:10px 15px;background:#ff9900;color:white;text-decoration:none;border-radius:5px;font-weight:bold;">
+          Buy on Amazon
+        </a>
+      </div>
     </div>
+    
+    
   </div>
-
-  
-</div>
   
   <!-- Team card -->
   <h1 class="ourteam">OUR TEAM</h1>
@@ -501,66 +551,89 @@
       </div>
     </div>
   </div> -->
-  
-  
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 Sachin Nitharwal and Sanjay Saini | All Rights Reserved |An Independent Educational Resource Platform with no official university affiliation.</p>
-    <div class="bottom">
-      <a href="about.html">About Us</a>
-      <a href="terms.html">terms & conditions</a>
-      <a href="disclaimer.html">disclaimer</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="Admin login.html" class="admin"><i class="fas fa-id-card-alt">Admin login</i></a>
-    </div>
-  </footer>
-  
-  <!-- Scripts -->
-  <script>
-    function openMenu() {
-      document.getElementById("sideMenu").style.width = "250px";
+    
+    
+    <!-- Footer -->
+    <footer>
+      <p>© 2025 Sachin Nitharwal and Sanjay Saini | All Rights Reserved |An Independent Educational Resource Platform with no official university affiliation.</p>
+      <div class="bottom">
+        <a href="about.html">About Us</a>
+        <a href="terms.html">terms & conditions</a>
+        <a href="disclaimer.html">disclaimer</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="Admin login.html" class="admin"><i class="fas fa-id-card-alt">Admin login</i></a>
+      </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script>
+      function openMenu() {
+        document.getElementById("sideMenu").style.width = "250px";
+      }
+      
+      function closeMenu() {
+        document.getElementById("sideMenu").style.width = "0";
+      }
+      
+      let slideIndex = 0;
+      const slides = document.querySelector('.slides');
+      const images = document.querySelectorAll('.slides img');
+      const totalSlides = images.length;
+      const dotsContainer = document.querySelector('.dots');
+      
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => showSlide(i));
+        dotsContainer.appendChild(dot);
+      }
+      const dots = document.querySelectorAll('.dot');
+      
+      function showSlide(n) {
+        slideIndex = n;
+        slides.style.transform = `translateX(${-100 * n}%)`;
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[n].classList.add('active');
+      }
+      
+      function nextSlide() {
+        slideIndex = (slideIndex + 1) % totalSlides;
+        showSlide(slideIndex);
+      }
+      
+      function prevSlide() {
+        slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+        showSlide(slideIndex);
+      }
+      
+      document.querySelector('.next').addEventListener('click', nextSlide);
+      document.querySelector('.prev').addEventListener('click', prevSlide);
+      
+      setInterval(nextSlide, 3000);
+    </script>
+      <script>
+    const popup = document.getElementById("popup");
+    const closeBtn = document.getElementById("closePopup");
+
+    // Show popup automatically after 3 seconds
+    window.onload = function() {
+      setTimeout(() => {
+        popup.style.display = "flex";
+      }, 1500);
     }
-    
-    function closeMenu() {
-      document.getElementById("sideMenu").style.width = "0";
+
+    // Close popup when ❌ clicked
+    closeBtn.onclick = function() {
+      popup.style.display = "none";
     }
-    
-    let slideIndex = 0;
-    const slides = document.querySelector('.slides');
-    const images = document.querySelectorAll('.slides img');
-    const totalSlides = images.length;
-    const dotsContainer = document.querySelector('.dots');
-    
-    for (let i = 0; i < totalSlides; i++) {
-      const dot = document.createElement('span');
-      dot.classList.add('dot');
-      if (i === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => showSlide(i));
-      dotsContainer.appendChild(dot);
+
+    // Close popup when clicking outside content
+    window.onclick = function(event) {
+      if (event.target === popup) {
+        popup.style.display = "none";
+      }
     }
-    const dots = document.querySelectorAll('.dot');
-    
-    function showSlide(n) {
-      slideIndex = n;
-      slides.style.transform = `translateX(${-100 * n}%)`;
-      dots.forEach(dot => dot.classList.remove('active'));
-      dots[n].classList.add('active');
-    }
-    
-    function nextSlide() {
-      slideIndex = (slideIndex + 1) % totalSlides;
-      showSlide(slideIndex);
-    }
-    
-    function prevSlide() {
-      slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
-      showSlide(slideIndex);
-    }
-    
-    document.querySelector('.next').addEventListener('click', nextSlide);
-    document.querySelector('.prev').addEventListener('click', prevSlide);
-    
-    setInterval(nextSlide, 3000);
   </script>
 </body>
 
