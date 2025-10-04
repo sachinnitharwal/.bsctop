@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Section</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid black; padding: 6px; text-align: center; }
+    th { background: #f2f2f2; }
+    button { padding: 5px 10px; }
+    #adminArea { display: none; }
+  </style>
+</head>
+<body>
+
+  <h2>Admin Login</h2>
+  <input type="password" id="adminPass" placeholder="Enter Password">
+  <button onclick="checkPass()">Login</button>
+
+  <div id="adminArea">
+    <h3>Pending Notes (Verify Here)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Chapter</th>
+          <th>Teacher</th>
+          <th>Student</th>
+          <th>Link</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="pendingNotes"></tbody>
+    </table>
+  </div>
+
+<script>
+  let pending = JSON.parse(localStorage.getItem("pendingNotes")) || [];
+  let verified = JSON.parse(localStorage.getItem("verifiedNotes")) || [];
+
+  function checkPass(){
+    let pass = document.getElementById("adminPass").value;
+    if(pass === "055005"){
+      document.getElementById("adminArea").style.display = "block";
+      loadPending();
+    } else {
+      alert("Wrong Password!");
+    }
+  }
+
+  function loadPending(){
+    let tbody = document.getElementById("pendingNotes");
+    tbody.innerHTML = "";
+    pending.forEach((note, index)=>{
+      let tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${note.subject}</td>
+        <td>${note.chapter}</td>
+        <td>${note.teacher}</td>
+        <td>${note.student}</td>
+        <td><a href="${note.link}" target="_blank">View</a></td>
+        <td><button onclick="verify(${index})">Verify</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function verify(i){
+    let note = pending[i];
+    verified.push(note);
+    localStorage.setItem("verifiedNotes", JSON.stringify(verified));
+    pending.splice(i,1);
+    localStorage.setItem("pendingNotes", JSON.stringify(pending));
+    loadPending();
+    alert("Note verified successfully!");
+  }
+</script>
+
+</body>
+</html>

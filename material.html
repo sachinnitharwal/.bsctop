@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Table</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 10px; }
+    .table-container { width: 100%; overflow-x: auto; max-height: 80vh; }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    th, td { border: 1.5px solid black; padding: 8px; text-align: center; }
+    th { background: #f2f2f2; position: sticky; top: 0; }
+    td:first-child { font-weight: bold; text-align: left; }
+    .math { background-color: #d0e4ff; }
+    .physics { background-color: #d4fcd4; }
+    .chemistry { background-color: #ffe0b2; }
+  </style>
+</head>
+<body>
+
+  <h2>Study Table</h2>
+  <div class="table-container">
+    <table id="notesTable">
+      <thead>
+        <tr>
+          <th>Sub.</th>
+          <th>Chapter Name</th>
+          <th>Teacher's Name</th>
+          <th>Sender Student</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody id="notesBody">
+        <!-- Default notes already in table -->
+        <tr>
+          <td class="math">Math</td>
+          <td><a href="graph theory part 1.pdf" target="_blank">1. Graph Theory Part 1</a></td>
+          <td>SK Sir</td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td class="physics">Physics</td>
+          <td><a href="https://drive.google.com/file/d/1kTEnVskrmIaaoBA38fgh6-LqJN10BmrI/view?usp=drivesdk">1. निर्देश तंत्र complete</a></td>
+          <td>Seema Mam</td>
+          <td>Sanju Singh</td>
+          <td>Thank you Sanju 🙏</td>
+        </tr>
+        <tr class="physics">
+          <td></td>
+          <td><a href="https://drive.google.com/file/d/1gHTmbg_GQHXAK-igfzg7a1DUqamg_piM/view?usp=drivesdk" target="_blank">2. दोलन और तरंगे Part 1</a></td>
+          <td>Rishi Sir</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr class="physics">
+          <td></td>
+          <td><a href="https://drive.google.com/file/d/1hxzzM0VoOySi8w5bF2k79qVviVF8TxDD/view?usp=drivesdk" target="_blank">3. दोलन और तरंगे Part 2</a></td>
+          <td>Rishi Sir</td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td class="chemistry">Chemistry</td>
+          <td><a href="gaseous state part 1.pdf" target="_blank">1. गैसीय अवस्था Part 1</a></td>
+          <td>Chandrakanta Verma</td>
+          <td></td>
+          <td></td>
+          
+        </tr>
+        <tr>
+          <td>Physics</td>
+          <td><a href="https://drive.google.com/file/d/1n2U-wUWvX8Tm7AxiggMIKBKZ_sFZ0Cje/view?usp=drivesdk">आभासी बल एवं घूर्णी निर्देश तंत्र part 1</a></td>
+          <td>Seema madam</td>
+          <td>Admin</td>
+          <td>upload date (15/09/2025)</td>
+          
+        </tr>
+        <tr>
+          <td>Math</td>
+          <td><a href="https://drive.google.com/file/d/1nYSbGGMCiCk5kv9HCjuVXYgotJT_F-xD/view?usp=drivesdk">Graph theory part 2</a></td>
+          <td>SK sir</td>
+          <td>Admin</td>
+          <td>upload date (15/09/2025)</td>
+          
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h2>Practical Files</h2>
+  <div class="table-container">
+    <table id="notesTable">
+      <thead>
+        <tr>
+          <th>Sub.</th>
+          <th>Practical's name</th>
+          <th>Sender Student</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+            <tbody id="notesBody">
+       
+        <tr>
+          <td class="physics">Physics</td>
+          <td><a href="https://drive.google.com/file/d/1sH3aWtB94FSuUUwotOA_30D9_Uxm74GZ/view?usp=drivesdk">Searle experiment </a></td>
+          <td>Sachin Nitharwal</td>
+          <td>Upload date (24/09/2025)</td>
+          
+        </tr>
+         <tr>
+          <td class="physics">Physics</td>
+          <td><a href="https://drive.google.com/file/d/1t39fHTZLiIi-FdGtGwFxH_o5RCoIgcFf/view?usp=drivesdk">Compound pendulum</a></td>
+          <td>Sachin Nitharwal</td>
+          <td>Upload date (24/09/2025)</td>
+          
+        </tr>
+  </div>
+
+<script>
+  let verified = JSON.parse(localStorage.getItem("verifiedNotes")) || [];
+
+  function loadNotes(){
+    let tbody = document.getElementById("notesBody");
+
+    // subject-wise counter
+    let count = {Math:1, Physics:1, Chemistry:1};
+
+    verified.forEach(note=>{
+      let tr = document.createElement("tr");
+      tr.className = note.subject.toLowerCase();
+      tr.innerHTML = `
+        <td class="${note.subject.toLowerCase()}">${note.subject}</td>
+        <td><a href="${note.link}" target="_blank">${count[note.subject]}. ${note.chapter}</a></td>
+        <td>${note.teacher}</td>
+        <td>${note.student || ""}</td>
+        <td>Verified ✅</td>
+      `;
+      tbody.appendChild(tr);
+      count[note.subject]++; 
+    });
+  }
+  loadNotes();
+</script>
+
+</body>
+</html>
