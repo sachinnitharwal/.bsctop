@@ -1,0 +1,102 @@
+    /* Navbar container */
+    .navbar {
+      background-color: #424493;
+      overflow: hidden;
+    
+    }
+
+    /* Links */
+    .navbar a {
+      float: left;
+      display: block;
+      color: greenyellow;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Hover effect */
+    .navbar a:hover {
+      background-color: #575757;
+    }
+
+    /* Hamburger menu (hidden by default) */
+    .icon {
+      display: none;
+      float: right;
+      font-size: 20px;
+      padding: 14px 20px;
+      cursor: pointer;
+      color: white;
+    }
+
+    /* Responsive: screen width <= 600px */
+    @media screen and (max-width: 600px) {
+      .navbar a {display: none;}   /* hide links */
+      .navbar a.icon {
+        display: block;           /* show icon */
+      }
+    }
+
+.logo-container {
+      display: flex;          /* side by side layout */
+      align-items: center;    /* vertical center */
+      gap: 10px;              /* space between logo & text */
+    }
+    .logo-container img {
+      width: 60px;            /* logo size */
+      height: auto;
+      border-radius: 30px;
+      margin-top: 15px;
+      margin: 15px;
+    }
+    .logo-container span {
+      font-size: 40px;
+      
+      color:  #0F6EE1EB;
+      font-family: Poppins;
+    }
+  
+      
+body{background-color: burlywood;
+max-width: 349px;
+ }
+.banner {border-radius: 15px;
+  width: 100%;
+  height: 350px; /* Good average */
+  background: url("rr.png.jpg") no-repeat center/cover;
+}
+.welcome{
+  font-size:40px;
+  color: rebeccapurple;
+}
+
+ 
+.econtent{
+  background-color: skyblue
+  }
+
+.notice{background-color:#0D0A22;
+font-size: 40px;
+padding: 10px 15px 10px 15px;
+color: #ADB0B1;
+  
+}
+
+.footer {
+  background: #222; 
+  color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.footer p {
+  margin: 10px 0;
+}
+.footer .copyright {
+  margin-top: 15px;
+  font-weight: 500;
+  color: #bbb;
+}
