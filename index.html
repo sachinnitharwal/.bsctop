@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BSC TOP</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L5T047QX77');
+</script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      /* 🔥 Black background */
+      color: #fff;
+      /* Text visible on black */
+    }
+    
+    header {
+      background: linear-gradient(to right bottom, red, blue, green);
+      color: whitesmoke;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+    
+    header .menu {
+      cursor: pointer;
+      font-size: 22px;
+    }
+    
+    header .logo {
+      font-weight: bold;
+    }
+    
+    nav {
+      background: #111;
+      padding: 10px 20px;
+    }
+    
+    nav a {
+      margin-right: 15px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+    
+    /* Side Menu */
+    .side-menu {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #111;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 1000;
+    }
+    
+    .side-menu a {
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      color: yellowgreen;
+      display: block;
+      transition: 0.2s;
+    }
+    
+    .side-menu a:hover {
+      background: #575757;
+    }
+    
+    .side-menu .closebtn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      color: royalblue;
+      cursor: pointer;
+    }
+    
+    /* Popup background */
+    .popup {
+      display: none;
+      /* hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    /* Popup box */
+    .popup-content {
+      background: blue;
+      padding: 20px;
+      border-radius: 12px;
+      width: 300px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 0.5s ease;
+    }
+    
+    /* Close button */
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 30px;
+      cursor: pointer;
+      color: #E00F0F;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    
+    /* Gallery Slider */
+    .gallery {
+      text-align: center;
+      padding: 20px;
+      background-color: transparent;
+    }
+    
+    .slider {
+      position: relative;
+      max-width: 100%;
+      margin: auto;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 2px solid #0ff;
+      /* Neon border */
+      box-shadow: 0 0 15px #0ff, 0 0 30px #0ff;
+      /* 🔥 Glow effect */
+    }
+    
+    .slides {
+      display: flex;
+      transition: transform 1.2s ease-in-out;
+    }
+    
+    .slides img {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    
+    .prev,
+    .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    
+    .prev {
+      left: 10px;
+    }
+    
+    .next {
+      right: 10px;
+    }
+    
+    .dots {
+      margin-top: 10px;
+    }
+    
+    .dot {
+      height: 12px;
+      width: 12px;
+      margin: 5px;
+      display: inline-block;
+      background: #bbb;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    
+    .dot.active {
+      background: #0ff;
+      box-shadow: 0 0 8px #0ff;
+    }
+    
+    /* Sections */
+    .sections {
+      padding: 20px;
+      background-color: #05060CC2;
+    }
+    
+    .sections a {
+      display: block;
+      margin: 8px 0;
+      color: yellowgreen;
+      text-decoration: none;
+      font-weight: 500;
+      background-color: #FFFFFF;
+      border-radius: 10px;
+      padding: 10px;
+      font-weight: bolder;
+      border-left: 5px solid red;
+      font-size: 22px;
+      
+      
+    }
+    
+    /* Footer */
+    footer {
+      background: linear-gradient(to right bottom, red, blue, green);
+      color: #ddd;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    footer a {
+      color: #ddd;
+      margin: 0 8px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 5px;
+    }
+    
+    footer a.admin {
+      color: red;
+      font-weight: bold;
+    }
+    
+    i {
+      margin-right: 0px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        text-align: center;
+      }
+      
+      nav a {
+        display: inline-block;
+        margin: 5px 10px;
+      }
+      
+      .slides img {
+        max-height: 200px;
+        object-fit: cover;
+      }
+      
+      footer {
+        font-size: 14px;
+      }
+      
+      footer a {
+        margin: 5px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      header .menu {
+        font-size: 20px;
+      }
+      
+      header .logo {
+        font-size: 16px;
+      }
+      
+      nav a {
+        display: block;
+        margin: 8px 0;
+      }
+      
+      .slides img {
+        max-height: 180px;
+      }
+      
+      .prev,
+      .next {
+        padding: 6px;
+      }
+    }
+    
+    .bottom {
+      font-weight: bolder;
+    }
+    
+    .ourteam {
+      color: greenyellow;
+      text-align: center;
+      position: relative;
+      
+      
+      
+    }
+    
+    h1.ourteam::after {
+      content: '';
+      background: linear-gradient(to right, red, blue, green);
+      width: 155px;
+      height: 5px;
+      position: absolute;
+      bottom: 0;
+      left: 28%;
+      
+    }
+    
+    .name {
+      color: yellow;
+      display: inline-block;
+      text-align: start;
+      font-size: 18px;
+      position: relative;
+      
+      
+    }
+    
+    .name::before {
+      content: '';
+      background: linear-gradient(to right, red, blue, green);
+      position: absolute;
+      height: 2px;
+      width: 100%;
+      bottom: 0.8px;
+      left: 0;
+    }
+    
+    .bio {
+      color: whitesmoke;
+      
+    }
+    
+    .teamcard {
+      margin-bottom: 80px;
+      background-image: url("/business-people-teamwork.jpg");
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    
+    
+    .container {
+      background-color: #06070763;
+      box-shadow: 5px 5px 20px rgba(19, 213, 162, 1);
+      /* An outer shadow with 5px horizontal/vertical offset, 10px blur, and semi-transparent black color */
+      height: 180px;
+      border-radius: 25px;
+      display: flex;
+      text-align: center;
+      margin-bottom: 30px;
+      
+    }
+    
+    .id {
+      
+      height: 150px;
+      width: 150px;
+      padding: ;
+      margin: 4px 4px 4px 4px;
+      
+      border: 4px solid lawngreen;
+      
+      border-radius: 25px;
+      animation: borderColor 1.5s infinite alternate;
+      
+      filter: brightness(110%) contrast(120%) saturate(115%);
+      
+    }
+    
+    @keyframes borderColor {
+      0% {
+        border-color: red;
+      }
+      
+      50% {
+        border-color: blue;
+      }
+      
+      100% {
+        border-color: greenyellow;
+      }
+    }
+    
+    .socialcontainer {
+      background-image: url();
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-position: center;
+      
+    }
+  </style>
+  
+  
+  
+  
+</head>
+
+<body>
+  
+  <!-- Header -->
+  <header>
+    <div class="menu" onclick="openMenu()">☰ MENU</div>
+    <div class="logo">BSC TOP</div>
+  </header>
+  
+  <!-- Side Menu -->
+  <div id="sideMenu" class="side-menu">
+    <span class="closebtn" onclick="closeMenu()">&times;</span>
+    <a href="index.html">Home</a>
+    <a href="material.html">Notes Section</a>
+    <a href="pyp.html">PYP Section</a>
+    <a href="comments.html">Comment & Doubt Section</a>
+    <a href="notice.html">Notice Section</a>
+    <a href="about.html">About Us</a>
+    <a href="work.html">Work With Us</a>
+    <a href="group.html">Join Group</a>
+    
+    <a href="Admin login.html" class="admin">Admin Login</a>
+    <a href="bookcorner.html">Book Corner</a>
+  </div>
+  
+  <!-- Nav -->
+  <nav>
+    <a href="#">Gallery Section</a>
+  </nav>
+  <!-- Popup Box -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <span id="closePopup" class="close">&times;</span>
+      <h2>Special Offer!</h2>
+      <a href="https://amzn.to/4o96Lhu" target="_blank">
+        <img src="https://m.media-amazon.com/images/I/51dctBN77rL._SL1500_.jpg" alt="Amazon Product" width="250">
+      </a>
+      <p style="color:red;font-weight:bold;margin:0 0 10px; font-size: 30px;">₹
+        101</p>
+      <p>Click the image to buy this product on Amazon</p>
+    </div>
+  </div>
+  
+  
+  <!-- Gallery with Slider -->
+  <section class="gallery">
+    <h2 class="photo">PHOTO</h2>
+    <div class="slider">
+      <div class="slides">
+        <img src="rr.png" alt="Slide 1">
+        <img src="rr2.png" alt="Slide 2">
+        <img src="logo.png" alt="Slide 3">
+      </div>
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
+    </div>
+    <div class="dots"></div>
+  </section>
+  
+  <!-- Sections -->
+  <section class="sections">
+    <a href="material.html">Notes Section</a>
+    <a href="pyp.html">Previous year papers</a>
+    <a href="comments.html">Comment & Doubt Section</a>
+    <a href="notice.html">Notice Section</a>
+    
+    <a href="bookcorner.html">Book Corner</a>
+  </section>
+  <!-- Affiliate Disclosure with Click-to-View -->
+  <div style="background-color:#fff3cd;border-left:5px solid #ffc107;padding:10px 15px;margin-bottom:15px;border-radius:5px;font-family:sans-serif;color:#856404;cursor:pointer;" id="affiliateDisclaimerTop">
+    <strong>Disclaimer:</strong> This section contains Amazon affiliate links. Click here for more info.
+  </div>
+  
+  <!-- Amazon Affiliate Product Grid -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;padding:10px;font-family:sans-serif;">
+    
+    <!-- Product Card 1 -->
+    <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+      <a href="https://amzn.to/4o96Lhu" target="_blank" rel="nofollow">
+        <img src="https://m.media-amazon.com/images/I/51dctBN77rL._SL1500_.jpg" alt="Smartwatch" style="width:100%;height:auto;display:block;">
+      </a>
+      <div style="padding:15px;text-align:center;">
+        <h3 style="font-size:16px;margin:0 0 10px;">Earbuds</h3>
+        <p style="color:green;font-weight:bold;margin:0 0 10px;">₹
+          101</p>
+        <a href="https://amzn.to/4o96Lhu" target="_blank" rel="nofollow" style="display:inline-block;padding:10px 15px;background:#ff9900;color:white;text-decoration:none;border-radius:5px;font-weight:bold;">
+          Buy on Amazon
+        </a>
+      </div>
+    </div>
+    
+    <!--product card 2-->
+    
+    <div style="border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+      <a href="https://www.amazon.in/GETSABLE-Waterproof-Silicone-Compatible-Samsung/dp/B0FMYPDHKS?tag=sachin0550-21" target="_blank" rel="nofollow">
+        <img src="IMG_20250930_134832_178.jpg" alt="Smartwatch" style="width:100%;height:auto;display:block;">
+      </a>
+      <div style="padding:15px;text-align:center;">
+        <h3 style="font-size:16px;margin:0 0 10px;">Latest Smartwatch</h3>
+        <p style="color:green;font-weight:bold;margin:0 0 10px;">₹629</p>
+        <a href="https://www.amazon.in/GETSABLE-Waterproof-Silicone-Compatible-Samsung/dp/B0FMYPDHKS?tag=sachin0550-21" target="_blank" rel="nofollow" style="display:inline-block;padding:10px 15px;background:#ff9900;color:white;text-decoration:none;border-radius:5px;font-weight:bold;">
+          Buy on Amazon
+        </a>
+      </div>
+    </div>
+    
+    
+    
+    
+  </div>
+  
+  
+  <!-- Modal / Pop-up for Disclosure Info -->
+  <div id="affiliateModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:999;">
+    <div style="background: blue;padding:20px;max-width:400px;margin:0 20px;border-radius:10px;position:relative;text-align:left;">
+      <span id="closeModal" style="position:absolute;top:10px;right:15px;font-weight:bold;font-size:18px;cursor:pointer;">&times;</span>
+      <h3>Affiliate Disclosure</h3>
+      <p>
+        This section contains Amazon affiliate links. If you buy through these links, I may earn a small commission at no extra cost to you.
+        Amazon Affiliate Program requires affiliates to clearly disclose this to maintain transparency.
+        Thank you for supporting the site!
+      </p>
+    </div>
+  </div>
+  
+  <!-- JavaScript to handle pop-up -->
+  <script>
+    const disclaimer = document.getElementById('affiliateDisclaimerTop');
+    const modal = document.getElementById('affiliateModal');
+    const closeModal = document.getElementById('closeModal');
+    
+    disclaimer.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+    
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+    
+    // Close modal if clicked outside
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
+  
+  
+  </div>
+  
+  <!-- Team card -->
+  <h1 class="ourteam">OUR TEAM</h1>
+  <div class="teamcard">
+    <div class="container">
+      <img src="IMG_20250924_195239.jpg" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name">SACHIN NITHARWAL</h3>
+        <h4 class="bio">Front-end and Back-end Developer</h4>
+      </div>
+    </div>
+    <div class="container">
+      <img src="sanjay saini.jpg" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name">SANJAY SAINI</h3>
+        <h4 class="bio">Website Manager</h4>
+      </div>
+    </div>
+    
+    <div class="container">
+      <img src="IMG_20250926_070150-removebg-preview.jpg" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name"> Shailendra Jangid</h3>
+        <h4 class="bio">Material Manager</h4>
+      </div>
+    </div>
+    
+    <div class="container">
+      <img src="sanju singh.jpg" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name">Sanju Singh</h3>
+        <h4 class="bio">Material Manager</h4>
+      </div>
+    </div>
+  </div>
+  
+  
+  <h1 style="font-size: 20px;
+    margin: 5px; padding: 5px;">OUR SOCIAL PLATFORMS</h1>
+  
+  <div class="socialcontainer">
+    <div class="container">
+      <img src="wqr.png" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name">Scan me</h3>
+        <h4 class="bio"> WhatsApp Group</h4>
+      </div>
+    </div>
+    
+    <div class="container">
+      <img src="BSC TOP .png" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name">Scan me</h3>
+        <h4 class="bio"> Website</h4>
+      </div>
+    </div>
+    <!--
+    <div class="container">
+      <img src="qrcode.png" class="id" alt="profile photo">
+      </img>
+      <div>
+        <h3 class="name">Scan me</h3>
+        <h4 class="bio"> Website</h4>
+      </div>
+    </div>
+  </div> -->
+    
+    
+    <!-- Footer -->
+    <footer>
+      <p>© 2025 Sachin Nitharwal | All Rights Reserved |An Independent Educational Resource Platform with no official university affiliation|
+      <h2>Contact Us</h2>
+      <p>Email: <a href="mailto:bsctop.group@gmail.com">dream100wala@gmail.com</a><br>
+        Address: RR College, Alwar, Rajasthan, India</p>
+      </p>
+      <div class="bottom">
+        <a href="about.html">About Us</a>
+        <a href="terms.html">terms & conditions</a>
+        <a href="disclaimer.html">disclaimer</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="Admin login.html" class="admin"><i class="fas fa-id-card-alt">Admin login</i></a>
+      </div>
+    </footer>
+    <!-- Footer with Global Disclosure -->
+    <footer style="text-align:center;font-size:0.9em;color: white;margin-top:30px;padding:10px 0;border-top:1px solid #ddd;font-family:sans-serif;">
+      As an Amazon Associate, I earn from qualifying purchases.
+    </footer>
+    
+    <!-- Scripts -->
+    <script>
+      function openMenu() {
+        document.getElementById("sideMenu").style.width = "250px";
+      }
+      
+      function closeMenu() {
+        document.getElementById("sideMenu").style.width = "0";
+      }
+      
+      let slideIndex = 0;
+      const slides = document.querySelector('.slides');
+      const images = document.querySelectorAll('.slides img');
+      const totalSlides = images.length;
+      const dotsContainer = document.querySelector('.dots');
+      
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => showSlide(i));
+        dotsContainer.appendChild(dot);
+      }
+      const dots = document.querySelectorAll('.dot');
+      
+      function showSlide(n) {
+        slideIndex = n;
+        slides.style.transform = `translateX(${-100 * n}%)`;
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[n].classList.add('active');
+      }
+      
+      function nextSlide() {
+        slideIndex = (slideIndex + 1) % totalSlides;
+        showSlide(slideIndex);
+      }
+      
+      function prevSlide() {
+        slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+        showSlide(slideIndex);
+      }
+      
+      document.querySelector('.next').addEventListener('click', nextSlide);
+      document.querySelector('.prev').addEventListener('click', prevSlide);
+      
+      setInterval(nextSlide, 3000);
+    </script>
+    <script>
+      const popup = document.getElementById("popup");
+      const closeBtn = document.getElementById("closePopup");
+      
+      // Show popup automatically after 3 seconds
+      window.onload = function() {
+        setTimeout(() => {
+          popup.style.display = "flex";
+        }, 1500);
+      }
+      
+      // Close popup when ❌ clicked
+      closeBtn.onclick = function() {
+        popup.style.display = "none";
+      }
+      
+      // Close popup when clicking outside content
+      window.onclick = function(event) {
+        if (event.target === popup) {
+          popup.style.display = "none";
+        }
+      }
+    </script>
+    
+    <!-- Info affiliate marketing-->
+    
+    <script type="text/javascript">
+      var infolinks_pid = 3440557;
+      var infolinks_wsid = 0;
+    </script>
+    <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
+</body>
+
+</html
