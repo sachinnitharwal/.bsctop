@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home Assignments</title>
+  
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+    
+    body {
+      background-color: #262739;
+    }
+    
+    .heading {
+      background-image: linear-gradient(to top, black, #53545C, black);
+      width: 100%;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 5px solid deeppink;
+      animation-name: border;
+      animation-duration: 2s;
+      animation-timing-function: ease;
+      animation-iteration-count: infinite;
+    }
+    
+    @keyframes border {
+      0% {
+        border-bottom: 5px solid deeppink;
+        
+      }
+      
+      50% {
+        border-bottom: 5px solid deepskyblue;
+        
+      }
+      
+      100% {
+        border-bottom: 5px solid green;
+        
+      }
+      
+    }
+    
+    .heading h2 {
+      color: white;
+      text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em yellow;
+      animation: text 3s ease-in-out infinite;
+    }
+    
+    @keyframes text {
+      0% {
+        text-shadow: 1px 1px 2px deepskyblue, 0 0 1em red, 0 0 0.2em yellow;
+      }
+      
+      50% {
+        text-shadow: 1px 1px 2px deeppink, 0 0 4em #0C94E9, 0 0 0.2em yellow;
+      }
+      
+      100% {
+        text-shadow: 1px 1px 2px red, 0 0 5em blue, 0 0 0.2em greenyellow;
+      }
+    }
+    
+    .container {
+      width: calc(100%-40px);
+      height: 400px;
+      padding: 0px;
+      margin: 30px;
+      background-color: #5E5F69;
+      position: relative;
+      border-radius: 10px;
+    }
+    
+    .container::after {
+      content: '';
+      width: calc(100% + 8px);
+      height: calc(100% + 8px);
+      background: linear-gradient(45deg, deeppink, red, blue, skyblue, green, lawngreen);
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      background-size: 400%;
+      z-index: -1;
+      animation: steam 15s linear  infinite;
+      filter: blur(10px);
+    }
+    
+    @keyframes steam {
+      0% {
+        background-position: 0 0;
+        
+      }
+      
+      50% {
+        
+        background-position: 150% 0;
+      }
+      
+      100% {
+        
+        background-position: 0 0;
+      }
+      
+    }
+    
+    
+    .container h2 {
+      background-color: #D06A10;
+      margin: 0px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      border-radius: 10px;
+      
+    }
+    
+    .container a {
+      margin: 20px;
+      font-size: 20px;
+      color: #EBE913;
+      font-weight: bold;
+      animation: color 3s linear infinite;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    @keyframes color {
+      0% {
+        color: #EBE913;
+        
+      }
+      
+      50% {
+        color: #40E908;
+        
+      }
+      
+      100% {
+        color: #07B4F1;
+        
+      }
+      
+    }
+  </style>
+</head>
+
+<body>
+  <div class="heading">
+    <h2>Home Assignments</h2>
+  </div>
+  <div class="container">
+    <h2>Hindi Medium</h2>
+    <a href="https://drive.google.com/file/d/16LpLmninfqeyckpua3iOTrPruSCo52op/view?usp=drivesdk">👉Click here for Physics assignment</a>
+    <a href="https://drive.google.com/file/d/16HnaNzC2vLNHPMtuPMXjI37KzOUHmI_-/view?usp=drivesdk">👉Click here for Math assignment</a>
+    <a href="https://drive.google.com/file/d/16JLunlqIMEfKNUCjoKrBpuy5EmZ0jeRg/view?usp=drivesdk">👉Click here for Hindi assignment</a>
+    <a href="https://drive.google.com/file/d/16JnAlgtcJjRgElv_VfhHY1EuXi0d53pB/view?usp=drivesdk">👉Click here for Chemistry assignment</a>
+    
+  </div>
+</body>
+
+</html>
