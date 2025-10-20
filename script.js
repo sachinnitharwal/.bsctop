@@ -10,12 +10,25 @@ if (time < 12) {
 else if (time < 14) {
   greeting = "Good afternoon, Friends"
 }
-else if (time < 2 && time > 23 ) {
-  greeting = "I am Ghost,what are you doing this time "
+else if (time >= 22 ) {
+  greeting = "I am Ghost,what are you doing this time, Click here to talk to ghost"
   
-}
+   
+  }
+  
 else  {
   greeting = "Good evening, Friends"
 }
 
 document.getElementById("demo").innerHTML = greeting
+
+console.log(time)
+
+function ghost() {
+const paragraph = document.getElementById("demo")
+paragraph.style.color = "red"
+paragraph.style.fontSize = "26px"
+paragraph.innerHTML = " ghost : hello, डरो मत मैं तुम्हें कुछ नहीं करूंगा" 
+}
+const paragraph = document.getElementById("demo")
+paragraph.onclick = ghost 
