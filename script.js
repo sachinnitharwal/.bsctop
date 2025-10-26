@@ -32,3 +32,10 @@ paragraph.innerHTML = " ghost : hello, डरो मत मैं तुम्�
 }
 const paragraph = document.getElementById("demo")
 paragraph.onclick = ghost 
+
+const students = [ "aman","naman","chaman","mohan","sohan"]
+
+for (let i = 0; i < students.length; i++) {
+  let list = document.getElementById('list')
+  
+}
