@@ -17,8 +17,7 @@
     
     gtag('config', 'G-L5T047QX77');
   </script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9282641508923214"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9282641508923214" crossorigin="anonymous"></script>
   
   <style>
     body {
@@ -30,18 +29,33 @@
       /* Text visible on black */
     }
     
-     :root {
-   --color: red;
-   --seccolor: green;
-   --navcolor: linear-gradient(to right,#0A47CC,#5C0ACC,#581FCD);
-   --greetingtextcolor: #DCDDDE;
-   --sectiontextcolor: #F0EDF3;
-   --sectionbg: linear-gradient(45deg,#0F40CA,#2B0FCA,#650FCA);
-   --borderleft: #0FA9CA;
-   --ourttext: #DCDDDE;
-   --webbgcolor: #040202;
-   --slideneonborder: #1138D8;
- }
+    :root {
+      --sidemenubg: #010104;
+      --sidemenutext: #1D11C4;
+      --navcolor: linear-gradient(to right, #0A47CC, #5C0ACC, #581FCD);
+      --greetingtextcolor: #DCDDDE;
+      --sectiontextcolor: #F0EDF3;
+      --sectionbg: linear-gradient(45deg, #0F40CA, #2B0FCA, #650FCA);
+      --borderleft: #0FA9CA;
+      --ourttext: #DCDDDE;
+      --webbgcolor: #040202;
+      --slideneonborder: #1138D8;
+    }
+    
+    /* Light mode */
+    .lightmode {
+      --sidemenubg: #E9E9FF;
+      --sidemenutext: #070438;
+      --navcolor: linear-gradient(to right, #5A8DFF, #A77BFF, #B08AFF);
+      --greetingtextcolor: #4A1A9A;
+      --sectiontextcolor: #21085A;
+      --sectionbg: linear-gradient(45deg, #A5C1FF, #B8A6FF, #D7A5FF);
+      --borderleft: #0886A1;
+      --ourttext: #0A0A16;
+      --webbgcolor: #F9F9FF;
+      --slideneonborder: #385AF5;
+    }
+    
     
     header {
       background: var(--navcolor);
@@ -73,6 +87,52 @@
       font-weight: bold;
     }
     
+    /* Lamp Hanging Rope */
+    .rope {
+      width: 2px;
+      height: 120px;
+      background: #DADADA;
+      margin: 0 auto;
+    }
+    
+    /* Lamp body */
+    .lamp {
+      width: 80px;
+      height: 80px;
+      background: #444;
+      margin: 0 auto;
+      border-radius: 50% 50% 30% 30%;
+      position: relative;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 0px yellow;
+    }
+    
+    /* Light glow when lamp ON */
+    .lamp.on {
+      background: #f7d774;
+      box-shadow: 0 0 25px #ffeb8a;
+    }
+    
+    /* Light falling cone */
+    .light {
+      width: 160px;
+      height: 180px;
+      margin: 0 auto;
+      background: rgba(255, 233, 150, 0.5);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      position: relative;
+      top: -10px;
+      display: none;
+    }
+    
+    /* Light visible only when lamp ON */
+    .light.on {
+      display: block;
+    }
+    
+    
+    
     /* Side Menu */
     .side-menu {
       height: 100%;
@@ -80,7 +140,7 @@
       position: fixed;
       top: 0;
       left: 0;
-      background-color: #111;
+      background-color: var(--sidemenubg);
       overflow-x: hidden;
       transition: 0.3s;
       padding-top: 60px;
@@ -90,8 +150,8 @@
     .side-menu a {
       padding: 10px 20px;
       text-decoration: none;
-      font-size: 18px;
-      color: yellowgreen;
+      font-size: 22px;
+      color: var(--sidemenutext);
       display: block;
       transition: 0.2s;
     }
@@ -166,9 +226,11 @@
       padding: 20px;
       background-color: transparent;
     }
+    
     .photo {
-      color:#0720C7;
+      color: #0720C7;
     }
+    
     .slider {
       position: relative;
       max-width: 100%;
@@ -239,7 +301,8 @@
       padding: 20px;
       background-color: #0B0D14;
     }
-    .sections a:hover{
+    
+    .sections a:hover {
       scale: 108%;
       background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
       color: black;
@@ -247,17 +310,26 @@
     }
     
     @keyframes borderAnim {
-      0%{border-bottom: 3px solid hotpink;
+      0% {
+        border-bottom: 3px solid hotpink;
       }
-      25%{border-left: 3px solid hotpink;
+      
+      25% {
+        border-left: 3px solid hotpink;
       }
-      50%{border-top: 3px solid hotpink;
+      
+      50% {
+        border-top: 3px solid hotpink;
         
       }
-      75%{border-right: 3px solid hotpink;
+      
+      75% {
+        border-right: 3px solid hotpink;
         
       }
-      100%{border: 3px solid deeppink;
+      
+      100% {
+        border: 3px solid deeppink;
         
       }
       
@@ -360,7 +432,7 @@
       font-weight: bolder;
     }
     
-    #demo{
+    #demo {
       margin-left: 60px;
       color: var(--greetingtextcolor);
       font-size: 25px;
@@ -486,6 +558,50 @@
     <div class="menu" onclick="openMenu()">☰ MENU</div>
     <div class="logo">BSC TOP</div>
   </header>
+<!-- Hanging Lamp -->
+<div onclick="toggleTheme()" class="lamp" id="hangingLamp"></div>
+
+<!-- Instruction for users -->
+<p id="lampText" style="text-align:center; font-size:18px; margin-top:10px;" onclick="toggleTheme()">
+  Click here to turn ON the lamp
+</p>
+  
+  <script>
+    const body = document.body;
+    let isLight = false; // default = dark mode
+    
+    function lampOn() {
+  const lamp = document.getElementById("hangingLamp");
+  
+  // Check if lamp is already ON
+  const isOn = lamp.style.backgroundColor === 'gold';
+  
+  if (!isOn) {
+    // Turn ON
+    lamp.style.backgroundColor = 'gold';
+    lamp.style.boxShadow = '5px 50px 50px gold';
+  } else {
+    // Turn OFF
+    lamp.style.backgroundColor = '';
+    lamp.style.boxShadow = '';
+  }
+}
+    
+    function toggleTheme() {
+      lampOn()
+      isLight = !isLight;
+      
+      if (isLight) {
+        body.classList.remove("darkmode");
+        body.classList.add("lightmode");
+        
+      } else {
+        body.classList.remove("lightmode");
+        body.classList.add("darkmode");
+      }
+    }
+  </script>
+  
   
   <!-- Side Menu -->
   <div id="sideMenu" class="side-menu">
@@ -507,7 +623,7 @@
   <nav>
     <a href="#">Gallery Section</a>
   </nav>
-
+  
   
   
   <!-- Gallery with Slider -->
@@ -527,22 +643,22 @@
   
   <!-- greeting message-->
   <p id="demo"></p>
-<script src="script.js" type="text/javascript" charset="utf-8"></script>
-
-<p id="list"></p>
-
-
-
-
-
-
+  <script src="script.js" type="text/javascript" charset="utf-8"></script>
+  
+  <p id="list"></p>
+  
+  
+  
+  
+  
+  
   <!-- Sections -->
   <section class="sections">
     <a href="material.html">Notes Section</a>
     <a href="assignment.html">Home Assignment</a>
-  
+    
     <a href="pyp.html">Previous year papers</a>
-
+    
     <a href="/Sections/notice.html">Notice Section</a>
     
     <a href="bookcorner.html">Book Corner</a>
@@ -718,7 +834,7 @@
       </div>
     </footer>
     <!-- Footer with Global Disclosure -->
-
+    
     
     <!-- Scripts -->
     <script>
@@ -767,7 +883,7 @@
       
       setInterval(nextSlide, 3000);
     </script>
-   
+    
     
     <!-- Info affiliate marketing-->
     
@@ -777,11 +893,11 @@
     </script>
     <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
     <script type="text/javascript">
-  var infolinks_pid = 3440557;
-  var infolinks_wsid = 0;
-</script>
-<script type="text/javascript" src="http://resources.infolinks.com/js/infolinks_main.js"></script>
-
+      var infolinks_pid = 3440557;
+      var infolinks_wsid = 0;
+    </script>
+    <script type="text/javascript" src="http://resources.infolinks.com/js/infolinks_main.js"></script>
+    
 </body>
 
 </html
