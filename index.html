@@ -33,15 +33,18 @@
      :root {
    --color: red;
    --seccolor: green;
-   --navcolor: lawngreen;
-   --tetcolor: grey;
-   --textcolor: #EBEBEB;
-   --cardbgcolor: black;
+   --navcolor: linear-gradient(to right,#0A47CC,#5C0ACC,#581FCD);
+   --greetingtextcolor: #DCDDDE;
+   --sectiontextcolor: #F0EDF3;
+   --sectionbg: linear-gradient(45deg,#0F40CA,#2B0FCA,#650FCA);
+   --borderleft: #0FA9CA;
+   --ourttext: #DCDDDE;
    --webbgcolor: #040202;
+   --slideneonborder: #1138D8;
  }
     
     header {
-      background: linear-gradient(to right,#0A47CC,#5C0ACC,#581FCD);
+      background: var(--navcolor);
       color: whitesmoke;
       display: flex;
       justify-content: space-between;
@@ -172,9 +175,9 @@
       margin: auto;
       overflow: hidden;
       border-radius: 10px;
-      border: 2px solid #0ff;
+      border: 2px solid var(--slideneonborder);
       /* Neon border */
-      box-shadow: 0 0 15px #0ff, 0 0 30px #0ff;
+      box-shadow: 0 0 15px var(--slideneonborder), 0 0 30px var(--slideneonborder);
       /* 🔥 Glow effect */
     }
     
@@ -234,7 +237,7 @@
     /* Sections */
     .sections {
       padding: 20px;
-      background-color: #05060CC2;
+      background-color: #0B0D14;
     }
     .sections a:hover{
       scale: 108%;
@@ -266,14 +269,14 @@
     .sections a {
       display: block;
       margin: 8px 0;
-      color: yellowgreen;
+      color: var(--sectiontextcolor);
       text-decoration: none;
       font-weight: 500;
-      background-color: #FFFFFF;
+      background: var(--sectionbg);
       border-radius: 10px;
       padding: 10px;
       font-weight: bolder;
-      border-left: 5px solid red;
+      border-left: 5px solid var(--borderleft);
       font-size: 22px;
       
       
@@ -281,7 +284,7 @@
     
     /* Footer */
     footer {
-      background: linear-gradient(to right bottom, red, blue, green);
+      background: var(--navcolor);
       color: #ddd;
       padding: 20px;
       text-align: center;
@@ -359,13 +362,13 @@
     
     #demo{
       margin-left: 60px;
-      color: greenyellow;
-      font-size: 20px;
+      color: var(--greetingtextcolor);
+      font-size: 25px;
       
     }
     
     .ourteam {
-      color: greenyellow;
+      color: var(--ourttext);
       text-align: center;
       position: relative;
       
@@ -715,9 +718,7 @@
       </div>
     </footer>
     <!-- Footer with Global Disclosure -->
-    <footer style="text-align:center;font-size:0.9em;color: white;margin-top:30px;padding:10px 0;border-top:1px solid #ddd;font-family:sans-serif;">
-      As an Amazon Associate, I earn from qualifying purchases.
-    </footer>
+
     
     <!-- Scripts -->
     <script>
