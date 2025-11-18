@@ -24,14 +24,24 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #0B1891;
+      background-color: var(--webbgcolor);
       /* 🔥 Black background */
       color: #fff;
       /* Text visible on black */
     }
     
+     :root {
+   --color: red;
+   --seccolor: green;
+   --navcolor: lawngreen;
+   --tetcolor: grey;
+   --textcolor: #EBEBEB;
+   --cardbgcolor: black;
+   --webbgcolor: #040202;
+ }
+    
     header {
-      background: linear-gradient(to right bottom, red, blue, green);
+      background: linear-gradient(to right,#0A47CC,#5C0ACC,#581FCD);
       color: whitesmoke;
       display: flex;
       justify-content: space-between;
@@ -153,7 +163,9 @@
       padding: 20px;
       background-color: transparent;
     }
-    
+    .photo {
+      color:#0720C7;
+    }
     .slider {
       position: relative;
       max-width: 100%;
@@ -528,7 +540,7 @@
   
     <a href="pyp.html">Previous year papers</a>
 
-    <a href="notice.html">Notice Section</a>
+    <a href="/Sections/notice.html">Notice Section</a>
     
     <a href="bookcorner.html">Book Corner</a>
   </section>

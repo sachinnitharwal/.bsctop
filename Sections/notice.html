@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice Section</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .notice {
+            padding: 15px;
+            background: #e9f3ff;
+            border-left: 5px solid #007bff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .notice-date {
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .notice a{
+            margin: 0;
+            color: #222;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>📢 Latest Notices</h2>
+
+        <!-- Notice 1 -->
+        <div class="notice">
+            <div class="notice-date">Updated: 18 Nov 2025</div>
+            <a href="https://drive.google.com/file/d/1JmTwG3foMEQX6BG8bDpR0cRYRzn9iDDl/view?usp=drivesdk">👉Semester 1 exam pattern.</a>
+        </div>
+
+        <!-- Notice 2 -->
+        <div class="notice">
+            <div class="notice-date">Updated: 15 Nov 2025</div>
+            <p>New study materials for BSc 1st year uploaded in Notes section.</p>
+        </div>
+
+        <!-- Notice 3 -->
+        <div class="notice">
+            <div class="notice-date">Updated: 12 Nov 2025</div>
+            <p>Website maintenance scheduled on 20 Nov from 1 AM to 3 AM.</p>
+        </div>
+
+    </div>
+</body>
+</html>
