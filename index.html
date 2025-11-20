@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BSC TOP</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
   
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
@@ -31,8 +32,8 @@
     
     :root {
       --sidemenubg: #010104;
-      --sidemenutext: #1D11C4;
-      --navcolor: linear-gradient(to right, #0A47CC, #5C0ACC, #581FCD);
+      --sidemenutext: #5196E4;
+      --navcolor: linear-gradient(to right, #0B0BBA, #5C0ACC);
       --greetingtextcolor: #DCDDDE;
       --sectiontextcolor: #F0EDF3;
       --sectionbg: linear-gradient(45deg, #0F40CA, #2B0FCA, #650FCA);
@@ -75,6 +76,11 @@
       font-weight: bold;
     }
     
+    .logo img {
+  height: 30px;
+  width: auto;
+  display: block;
+}
     nav {
       background: #111;
       padding: 10px 20px;
@@ -336,8 +342,7 @@
     }
     
     
-    
-    
+
     .sections a {
       display: block;
       margin: 8px 0;
@@ -556,7 +561,7 @@
   <!-- Header -->
   <header>
     <div class="menu" onclick="openMenu()">☰ MENU</div>
-    <div class="logo">BSC TOP</div>
+    <div class="logo"><img src="logo.svg" alt="logo" /></div>
   </header>
 <!-- Hanging Lamp -->
 <div onclick="toggleTheme()" class="lamp" id="hangingLamp"></div>
@@ -615,7 +620,7 @@
     <a href="work.html">Work With Us</a>
     <a href="group.html">Join Group</a>
     
-    <a href="Admin login.html" class="admin">Admin Login</a>
+    <a href="login.html" class="admin">Admin Login</a>
     <a href="bookcorner.html">Book Corner</a>
   </div>
   

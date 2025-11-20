@@ -1,0 +1,23 @@
+<svg width="250" height="100" viewBox="0 0 250 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bscGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E0FF" />
+      <stop offset="100%" stop-color="#8A2BE2" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <text x="10" y="70"
+        font-size="60"
+        font-family="Pacifico, cursive"
+        fill="url(#bscGradient)"
+        filter="url(#glow)">
+    BSC TOP
+  </text>
+</svg>

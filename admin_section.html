@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <div class="container">
+        <h2>🔑 Admin Dashboard</h2>
+        <p id="welcome-user">Loading user data...</p>
+        
+        <div id="admin-content" style="display: none;">
+            <p>Welcome to the protected admin area!</p>
+            <button onclick="signOut()">Log Out</button>
+        </div>
+        
+        <div id="loading" style="text-align: center;">
+            <p>Checking authentication...</p>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the necessary functions from your external app.js file
+        import { checkAuthAndRedirect, signOut, supabase } from './app.js'; 
+
+        // Make signOut available globally so the button can call it
+        window.signOut = signOut;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const welcomeUser = document.getElementById('welcome-user');
+            const adminContent = document.getElementById('admin-content');
+            const loading = document.getElementById('loading');
+            
+            // CRITICAL: Check authentication. If not logged in, redirects to login.html.
+            // (Setting requireAuth to true)
+            const session = await checkAuthAndRedirect(true, 'login.html'); 
+            
+            // If checkAuthAndRedirect didn't redirect, we have a valid session
+            if (session) {
+                welcomeUser.textContent = `Hello, ${session.user.email}!`;
+                adminContent.style.display = 'block';
+            }
+            loading.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
