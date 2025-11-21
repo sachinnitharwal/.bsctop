@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="style.css"> 
+    <style>
+        /* Styles remain similar to the previous answer for form clarity */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #message { margin-top: 20px; padding: 10px; border-radius: 4px; display: none; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
 </head>
 <body>
 
@@ -12,33 +35,141 @@
         <h2>🔑 Admin Dashboard</h2>
         <p id="welcome-user">Loading user data...</p>
         
-        <div id="admin-content" style="display: none;">
-            <p>Welcome to the protected admin area!</p>
-            <button onclick="signOut()">Log Out</button>
-        </div>
-        
         <div id="loading" style="text-align: center;">
             <p>Checking authentication...</p>
         </div>
+        
+        <div id="admin-content" style="display: none;">
+            <button onclick="signOut()">Log Out</button>
+
+            <hr>
+
+            <h3>➕ Add New Material</h3>
+            <div id="message"></div>
+            
+            <form id="material-form">
+                
+                <div class="form-group">
+                    <label for="materialType">Material Type</label>
+                    <select id="materialType" name="materialType" required>
+                        <option value="Note">Study Note (Appears in main table)</option>
+                        <option value="Practical">Practical File (You'll need to update the main page to show these)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <select id="subject" name="subject" required>
+                        <option value="Math">Math</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="chapterName">Chapter / Practical Name</label>
+                    <input type="text" id="chapterName" name="chapterName" placeholder="e.g., 1. Graph Theory Part 1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="teacherName">Teacher's Name (Leave empty for Practical Files)</label>
+                    <input type="text" id="teacherName" name="teacherName" placeholder="e.g., SK Sir">
+                </div>
+                
+                <div class="form-group">
+                    <label for="senderStudent">Sender Student</label>
+                    <input type="text" id="senderStudent" name="senderStudent" placeholder="e.g., Shailendra Jangid">
+                </div>
+
+                <div class="form-group">
+                    <label for="remarks">Remarks</label>
+                    <textarea id="remarks" name="remarks" placeholder="e.g., Upload date (11/21/2025)"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="googleDriveLink">Google Drive Link (must be shared!)</label>
+                    <input type="url" id="googleDriveLink" name="googleDriveLink" required placeholder="https://drive.google.com/file/d/...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="isNew">Display "NEW" Badge?</label>
+                    <input type="checkbox" id="isNew" name="isNew">
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Material</button>
+            </form>
+        </div>
+        
     </div>
 
     <script type="module">
-        // Import the necessary functions from your external app.js file
         import { checkAuthAndRedirect, signOut, supabase } from './app.js'; 
 
-        // Make signOut available globally so the button can call it
         window.signOut = signOut;
+        
+        const NOTES_TABLE_NAME = 'materials';
+
+        async function submitMaterial(event) {
+            event.preventDefault();
+            const form = document.getElementById('material-form');
+            
+            const materialData = {
+                material_type: form.materialType.value, // New field
+                subject: form.subject.value,
+                chapter_name: form.chapterName.value,
+                teacher_name: form.teacherName.value,
+                sender_student: form.senderStudent.value,
+                remarks: form.remarks.value,
+                google_drive_link: form.googleDriveLink.value,
+                is_new: form.isNew.checked,
+            };
+
+            if (!materialData.subject || !materialData.chapter_name || !materialData.google_drive_link) {
+                displayMessage('Please fill out all required fields.', 'error');
+                return;
+            }
+
+            try {
+                const { error } = await supabase
+                    .from(NOTES_TABLE_NAME)
+                    .insert([materialData]);
+
+                if (error) {
+                    throw error;
+                }
+
+                displayMessage(`Material (${materialData.material_type}) added successfully!`, 'success');
+                form.reset(); 
+                
+            } catch (error) {
+                console.error("Submission Error:", error);
+                displayMessage(`Error adding material: ${error.message}.`, 'error');
+            }
+        }
+        
+        function displayMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = ''; 
+            messageDiv.classList.add(type);
+            messageDiv.style.display = 'block';
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
 
         document.addEventListener('DOMContentLoaded', async () => {
             const welcomeUser = document.getElementById('welcome-user');
             const adminContent = document.getElementById('admin-content');
             const loading = document.getElementById('loading');
+            const materialForm = document.getElementById('material-form');
             
-            // CRITICAL: Check authentication. If not logged in, redirects to login.html.
-            // (Setting requireAuth to true)
+            materialForm.addEventListener('submit', submitMaterial);
+            
             const session = await checkAuthAndRedirect(true, 'login.html'); 
             
-            // If checkAuthAndRedirect didn't redirect, we have a valid session
             if (session) {
                 welcomeUser.textContent = `Hello, ${session.user.email}!`;
                 adminContent.style.display = 'block';
