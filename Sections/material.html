@@ -149,7 +149,7 @@
 
     <script type="module">
         // IMPORTANT: Ensure your app.js exports the Supabase client correctly.
-        import { supabase } from './app.js';
+        import { supabase } from '/app.js';
 
         const NOTES_TABLE_NAME = 'materials';
 
@@ -196,9 +196,11 @@
                 `;
                 notesBody.appendChild(tr);
             });
+            
         }
 
         document.addEventListener('DOMContentLoaded', loadNotes);
+        
     </script>
 
     <script type="text/javascript">
