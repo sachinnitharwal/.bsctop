@@ -552,6 +552,78 @@
       background-position: center;
       
     }
+    .contact-card {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    max-width: 520px;
+    background: linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
+    border: 1px solid rgba(15,23,42,0.06);
+    box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+    padding: 18px;
+    border-radius: 14px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+
+  .cc-icon {
+    flex: 0 0 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(180deg, #e6f3ff 0%, #ffffff 100%);
+    color: #0f172a;
+    box-shadow: inset 0 -6px 18px rgba(2,6,23,0.02);
+  }
+
+  .cc-title {
+    margin: 0;
+    font-size: 18px;
+    color: #07132a;
+    line-height: 1.1;
+  }
+
+  .cc-text {
+    margin: 6px 0 10px 0;
+    font-size: 13px;
+    color: #334155;
+  }
+
+  .cc-email {
+    display: inline-block;
+    font-weight: 600;
+    text-decoration: none;
+    color: #0b63d6;
+    word-break: break-all;
+    margin-bottom: 10px;
+  }
+
+  .cc-actions {
+    margin-top: 6px;
+  }
+
+  .cc-btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: linear-gradient(90deg,#0b63d6,#0a58c6);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 6px 14px rgba(11,99,214,0.18);
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+
+  .cc-btn:active { transform: translateY(1px); }
+  .cc-btn:hover { box-shadow: 0 10px 22px rgba(11,99,214,0.22); }
+
+  /* Responsive */
+  @media (max-width: 520px) {
+    .contact-card { flex-direction: row; gap: 12px; padding: 14px; border-radius: 12px; }
+    .cc-body { min-width: 0; }
+    .cc-title { font-size: 16px; }
+  }
   </style>
   
   
@@ -658,7 +730,24 @@
   
   
   
-  
+  <div class="contact-card">
+  <div class="cc-icon" aria-hidden="true">
+    <!-- simple envelope SVG -->
+    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+      <path d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M22 6.5l-10 7.5L2 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div class="cc-body">
+    <h3 class="cc-title">Want a website?</h3>
+    <p class="cc-text">Contact me for website work — I'll build one for you.</p>
+    <a class="cc-email" href="mailto:dream100wala@gmail.com">dream100wala@gmail.com</a>
+    <div class="cc-actions">
+      <a class="cc-btn" href="mailto:dream100wala@gmail.com">Send Email</a>
+    </div>
+  </div>
+</div>
   
   <!-- Sections -->
   <section class="sections">
@@ -671,6 +760,7 @@
     
     <a href="/Sections/bookcorner.html">Book Corner</a>
   </section>
+  <br />
 
   
   <!-- Team card -->
@@ -680,8 +770,9 @@
       <img src="IMG_20250924_195239.jpg" class="id" alt="profile photo">
       </img>
       <div>
-        <h3 class="name">SACHIN Chaudhary</h3>
+        <h3 class="name">Sachin Chaudhary</h3>
         <h4 class="bio">Front-end and Back-end Developer</h4>
+        
       </div>
     </div>
     <div class="container">
