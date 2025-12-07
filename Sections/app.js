@@ -1,13 +1,13 @@
 // app.js
 
-// Using the ES module version of the Supabase library
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
 // --- Supabase Configuration (Your Keys) ---
+// Note: We no longer import createClient here. We assume it is loaded globally.
+
 const SUPABASE_URL = 'https://yumjyvrirwszukjvibld.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1bWp5dnJpcndzenVranZpYmxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2MjUwMzIsImV4cCI6MjA3OTIwMTAzMn0.doBlPo74Oh_o-PSQvIKI4ChiOPhIdgvY6SLk47dzXOU';
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// 🚨 CHANGE HERE: We use window.supabase, which must be loaded via a <script> tag in HTML
+export const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /**
  * Handles user sign-in with email and password.

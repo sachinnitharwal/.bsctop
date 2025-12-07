@@ -45,6 +45,7 @@
             background-color: #fff3cd; /* Light yellow background for new items */
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
 </head>
 <body>
 
@@ -131,7 +132,7 @@
     </div>
 
     <script type="module">
-        import { checkAuthAndRedirect, signOut, supabase } from './app.js'; 
+        import { checkAuthAndRedirect, signOut, supabase } from '/app.js'; 
 
         window.signOut = signOut;
         
