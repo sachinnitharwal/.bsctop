@@ -2,10 +2,13 @@
 <html lang="en">
 
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Table</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9282641508923214"
         crossorigin="anonymous"></script>
@@ -85,7 +88,7 @@
             color: gray;
         }
     </style>
-     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+
 </head>
 
 <body>
@@ -149,8 +152,9 @@
     </div>
 
     <script type="module">
-        // IMPORTANT: Ensure your app.js exports the Supabase client correctly.
-        import { supabase } from '/app.js';
+        // Assuming app.js is in the same folder now, or you've set the correct relative path.
+        // If app.js is in the same folder (Sections/), use './app.js'
+        import { supabase } from './app.js'; 
 
         const NOTES_TABLE_NAME = 'materials';
 
@@ -161,12 +165,26 @@
             const notesBody = document.getElementById("notesBody");
             notesBody.innerHTML = ''; // Clear the body
 
+            // 🚨 DEBUG STEP 1: Check if Supabase client is available 🚨
+            if (!supabase || !supabase.from) {
+                console.error("CRITICAL ERROR: Supabase client is not defined. Check HTML HEAD (CDN) and app.js.");
+                notesBody.innerHTML = `<td colspan="5" class="loading-row" style="color:red;">CRITICAL ERROR: Client failed to initialize.</td>`;
+                return;
+            }
+            console.log("Supabase Client Status: Ready. Attempting fetch...");
+
             const { data: notes, error } = await supabase
                 .from(NOTES_TABLE_NAME)
                 .select('*')
                 .eq('material_type', 'Note') // Filter only for 'Note' materials
                 .order('created_at', { ascending: false }); // Newest first
 
+            // 🚨 DEBUG STEP 2: Log fetch results 🚨
+            console.log("--- Supabase Fetch Results ---");
+            console.log("Fetch Error (Should be null):", error);
+            console.log("Data Array Received (Check Length):", notes);
+            console.log("--- End Fetch Results ---");
+            
             if (error) {
                 console.error("Error fetching notes:", error);
                 notesBody.innerHTML = `<td colspan="5" class="loading-row" style="color:red;">Error loading notes: ${error.message}</td>`;
@@ -174,10 +192,12 @@
             }
 
             if (!notes || notes.length === 0) {
-                 notesBody.innerHTML = `<td colspan="5" class="loading-row">No new study notes have been uploaded yet.</td>`;
+                 // This is the message you get if the filter is wrong or RLS is blocking.
+                 notesBody.innerHTML = `<td colspan="5" class="loading-row">No study notes were returned from the server (Filter or RLS issue).</td>`;
                  return;
             }
 
+            // --- RENDER NOTES (Only runs if data is present) ---
             notes.forEach(note => {
                 const subjectClass = note.subject.toLowerCase();
                 const isNew = note.is_new ? '<p class="newbadge">NEW</p>' : '';
