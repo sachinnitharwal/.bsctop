@@ -26,7 +26,7 @@ export async function signIn(email, password) {
     }
 
     // Success: Redirect to the admin page
-    window.location.href = 'admin_section.html'; 
+    window.location.href = './admin_section.html'; 
     return { success: true };
 }
 
@@ -36,7 +36,7 @@ export async function signIn(email, password) {
 export async function signOut() {
     await supabase.auth.signOut();
     // Redirect to the login page after signing out
-    window.location.href = 'login.html';
+    window.location.href = './login.html';
 }
 
 
@@ -60,7 +60,7 @@ export async function checkAuthAndRedirect(requireAuth, redirectPath) {
         window.location.href = redirectPath;
     } else if (!requireAuth && isLoggedIn) {
         // Logged in, but accessing the login page (redirect to admin)
-        window.location.href = 'admin_section.html'; 
+        window.location.href = './admin_section.html'; 
     }
     
     // Return the session data for the admin page to use
