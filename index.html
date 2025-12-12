@@ -4,62 +4,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BSC TOP</title>
+  <title>BSC TOP | Educational Resource Platform</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
   
-  
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
   
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-    
     gtag('config', 'G-L5T047QX77');
   </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9282641508923214" crossorigin="anonymous"></script>
   
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: var(--webbgcolor);
-      /* 🔥 Black background */
-      color: #fff;
-      /* Text visible on black */
-    }
+    /* -------------------------------------- */
+    /* --- PROFESSIONAL THEME VARIABLES --- */
+    /* -------------------------------------- */
     
     :root {
-      --sidemenubg: #010104;
-      --sidemenutext: #5196E4;
-      --navcolor: linear-gradient(to right, #0B0BBA, #5C0ACC);
-      --greetingtextcolor: #DCDDDE;
-      --sectiontextcolor: #F0EDF3;
-      --sectionbg: linear-gradient(45deg, #0F40CA, #2B0FCA, #650FCA);
-      --borderleft: #0FA9CA;
-      --ourttext: #DCDDDE;
-      --webbgcolor: #040202;
-      --slideneonborder: #1138D8;
+      /* Base Colors (Dark Theme) */
+      --webbgcolor: #121212; 
+      --text-color: #E0E0E0; 
+      --accent-color: #4A90E2; 
+      
+      /* Navigation and Header */
+      --navcolor: linear-gradient(to right, #1E3C72, #2A5298); 
+      
+      /* Side Menu */
+      --sidemenubg: #1D1D1D;
+      --sidemenutext: var(--accent-color); 
+      
+      /* Section Boxes (Notes, PYP, etc.) */
+      --sectionbg: #282828; 
+      --sectiontextcolor: var(--text-color);
+      --borderleft: var(--accent-color);
+      
+      /* Team/Other Text */
+      --ourttext: #B0B0B0;
+      
+      /* Theme Toggle Icon Color */
+      --toggle-color-default: white;
+      --toggle-color-on: #FFD700; 
+      
+      /* Blog Card specific colors */
+      --blog-card-bg: #1D1D1D;
+      --blog-card-shadow: rgba(0, 0, 0, 0.4);
     }
     
     /* Light mode */
     .lightmode {
-      --sidemenubg: #E9E9FF;
-      --sidemenutext: #070438;
-      --navcolor: linear-gradient(to right, #5A8DFF, #A77BFF, #B08AFF);
-      --greetingtextcolor: #4A1A9A;
-      --sectiontextcolor: #21085A;
-      --sectionbg: linear-gradient(45deg, #A5C1FF, #B8A6FF, #D7A5FF);
-      --borderleft: #0886A1;
-      --ourttext: #0A0A16;
-      --webbgcolor: #F9F9FF;
-      --slideneonborder: #385AF5;
+      --webbgcolor: #F5F5F5;
+      --text-color: #333333;
+      --accent-color: #1A73E8;
+      
+      --navcolor: linear-gradient(to right, #6D94C0, #B0C4DE);
+      
+      --sidemenubg: #FFFFFF;
+      --sidemenutext: var(--accent-color);
+      
+      --sectionbg: #FFFFFF;
+      --sectiontextcolor: var(--text-color);
+      --borderleft: var(--accent-color);
+      
+      --ourttext: #555555;
+      
+      --toggle-color-default: #333;
+      
+      --blog-card-bg: #FFFFFF;
+      --blog-card-shadow: rgba(0, 0, 0, 0.2);
     }
     
+    /* -------------------------------------- */
+    /* --- BASE STYLES --- */
+    /* -------------------------------------- */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--webbgcolor);
+      color: var(--text-color);
+    }
     
     header {
       background: var(--navcolor);
@@ -75,74 +102,27 @@
       font-size: 22px;
     }
     
-    header .logo {
-      font-weight: bold;
-    }
-    
     .logo img {
-  height: 30px;
-  width: auto;
-  display: block;
-}
-    nav {
-      background: #111;
-      padding: 10px 20px;
-    }
-    
-    nav a {
-      margin-right: 15px;
-      text-decoration: none;
-      color: #fff;
-      font-weight: bold;
-    }
-    
-    /* Lamp Hanging Rope */
-    .rope {
-      width: 2px;
-      height: 120px;
-      background: #DADADA;
-      margin: 0 auto;
-    }
-    
-    /* Lamp body */
-    .lamp {
-      width: 80px;
-      height: 80px;
-      background: #444;
-      margin: 0 auto;
-      border-radius: 50% 50% 30% 30%;
-      position: relative;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 0 0px yellow;
-    }
-    
-    /* Light glow when lamp ON */
-    .lamp.on {
-      background: #f7d774;
-      box-shadow: 0 0 25px #ffeb8a;
-    }
-    
-    /* Light falling cone */
-    .light {
-      width: 160px;
-      height: 180px;
-      margin: 0 auto;
-      background: rgba(255, 233, 150, 0.5);
-      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-      position: relative;
-      top: -10px;
-      display: none;
-    }
-    
-    /* Light visible only when lamp ON */
-    .light.on {
+      height: 30px;
+      width: auto;
       display: block;
     }
     
+    /* --- THEME TOGGLE BUTTON IN HEADER --- */
+    #theme-toggle-btn {
+        margin-right: 15px; 
+        font-size: 20px;
+        color: var(--toggle-color-default);
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
     
+    /* Style when light mode is active */
+    .lightmode #theme-toggle-btn {
+        color: var(--toggle-color-on);
+    }
     
-    /* Side Menu */
+    /* --- SIDE MENU --- */
     .side-menu {
       height: 100%;
       width: 0;
@@ -159,14 +139,15 @@
     .side-menu a {
       padding: 10px 20px;
       text-decoration: none;
-      font-size: 22px;
+      font-size: 18px;
       color: var(--sidemenutext);
       display: block;
       transition: 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
     
     .side-menu a:hover {
-      background: #575757;
+      background: rgba(255, 255, 255, 0.1);
     }
     
     .side-menu .closebtn {
@@ -174,195 +155,212 @@
       top: 15px;
       right: 20px;
       font-size: 28px;
-      color: royalblue;
+      color: var(--accent-color);
       cursor: pointer;
     }
     
-    /* Popup background */
-    .popup {
-      display: none;
-      /* hidden by default */
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
+    /* --- WELCOME / BANNER SECTION --- */
+    #welcome-banner {
+        padding: 40px 20px; 
+        background-color: var(--webbgcolor);
+        background-image: url('your_background_image.jpg'); 
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+        color: white;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        margin-bottom: 20px;
+    }
+
+    #demo {
+        margin: 0 0 15px 0;
+        color: white; 
+        font-size: 24px;
+        font-weight: bold;
     }
     
-    /* Popup box */
-    .popup-content {
-      background: blue;
-      padding: 20px;
-      border-radius: 12px;
-      width: 300px;
+    #dynamic-content {
+        color: #FFC107; 
+        font-weight: 800;
+        transition: color 0.5s ease;
+    }
+    
+    /* --- MAIN SECTIONS/LINKS --- */
+    .sections-container {
+      padding: 10px 20px 20px 20px;
+      background-color: var(--webbgcolor);
+    }
+    
+    /* Changed title to 'Our Offerings' */
+    .offerings-section-title {
+        color: var(--text-color);
+        text-align: center;
+        font-size: 24px;
+        margin: 30px 0 15px 0;
+        padding: 0 20px;
+        position: relative;
+    }
+    
+    .offerings-section-title::after {
+      content: '';
+      background: var(--accent-color);
+      width: 80px;
+      height: 3px;
+      position: absolute;
+      bottom: -10px;
+      left: 50%; 
+      transform: translateX(-50%);
+    }
+
+    .section-link {
+      display: block;
+      margin: 15px 0;
+      color: var(--sectiontextcolor);
+      text-decoration: none;
+      font-weight: bold;
+      background: var(--sectionbg);
+      border-radius: 8px;
+      padding: 18px 15px; 
+      border-left: 6px solid var(--borderleft);
+      font-size: 18px;
+      text-align: left;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .section-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      background: #333;
+    }
+    
+    /* --- BLOG POST CARDS --- */
+    .blog-section-title {
+        color: var(--text-color);
+        text-align: center;
+        font-size: 24px;
+        margin: 40px 0 20px 0; 
+        padding: 0 20px;
+        position: relative;
+    }
+    
+    .blog-section-title::after {
+      content: '';
+      background: var(--accent-color);
+      width: 80px;
+      height: 3px;
+      position: absolute;
+      bottom: -10px;
+      left: 50%; 
+      transform: translateX(-50%);
+    }
+
+    .blog-posts-container {
+        padding: 0 20px;
+    }
+
+    .blog-post-card {
+        display: block;
+        text-decoration: none;
+        color: var(--text-color);
+        background: var(--blog-card-bg);
+        border-radius: 10px;
+        margin: 15px 0; /* Adjusted margin for consistency */
+        overflow: hidden;
+        box-shadow: 0 4px 10px var(--blog-card-shadow);
+        transition: transform 0.3s;
+    }
+
+    .blog-post-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px var(--blog-card-shadow);
+    }
+    
+    .blog-post-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+    
+    .blog-content {
+        padding: 15px;
+    }
+
+    .blog-content h3 {
+        margin: 0 0 5px 0;
+        color: var(--accent-color);
+        font-size: 18px;
+    }
+
+    .blog-content p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--ourttext);
+    }
+    
+    /* --- TEAM / SOCIAL --- */
+    .ourteam {
+      color: var(--text-color);
       text-align: center;
       position: relative;
-      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
-      animation: fadeIn 0.5s ease;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      font-size: 24px;
     }
     
-    /* Close button */
-    .close {
+    h1.ourteam::after {
+      content: '';
+      background: var(--accent-color);
+      width: 80px;
+      height: 3px;
       position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 30px;
-      cursor: pointer;
-      color: #E00F0F;
+      bottom: -10px;
+      left: 50%; 
+      transform: translateX(-50%);
     }
-    
-    /* Animation */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.8);
-      }
-      
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-    
-    
-    /* Gallery Slider */
-    .gallery {
-      text-align: center;
-      padding: 20px;
+
+    .teamcard {
+      margin-bottom: 40px;
       background-color: transparent;
     }
     
-    .photo {
-      color: #0720C7;
-    }
-    
-    .slider {
-      position: relative;
-      max-width: 100%;
-      margin: auto;
-      overflow: hidden;
+    .container {
+      background-color: #282828; 
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      height: auto; 
+      padding: 15px;
       border-radius: 10px;
-      border: 2px solid var(--slideneonborder);
-      /* Neon border */
-      box-shadow: 0 0 15px var(--slideneonborder), 0 0 30px var(--slideneonborder);
-      /* 🔥 Glow effect */
-    }
-    
-    .slides {
       display: flex;
-      transition: transform 1.2s ease-in-out;
+      text-align: left;
+      margin: 15px 20px;
+      align-items: center;
     }
     
-    .slides img {
-      width: 100%;
-      height: auto;
-      max-height: 300px;
-      object-fit: contain;
-      flex-shrink: 0;
+    .id {
+      height: 80px;
+      width: 80px;
+      border: 3px solid var(--accent-color);
+      border-radius: 50%; 
+      margin-right: 15px;
+      object-fit: cover;
     }
     
-    .prev,
-    .next {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.5);
-      color: #fff;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 50%;
+    .name {
+      color: var(--accent-color);
+      font-size: 16px;
+      margin-bottom: 0;
     }
     
-    .prev {
-      left: 10px;
+    .bio {
+      color: #A0A0A0;
+      font-size: 14px;
+      margin-top: 5px;
     }
-    
-    .next {
-      right: 10px;
-    }
-    
-    .dots {
-      margin-top: 10px;
-    }
-    
-    .dot {
-      height: 12px;
-      width: 12px;
-      margin: 5px;
-      display: inline-block;
-      background: #bbb;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    
-    .dot.active {
-      background: #0ff;
-      box-shadow: 0 0 8px #0ff;
-    }
-    
-    /* Sections */
-    .sections {
-      padding: 20px;
-      background-color: #0B0D14;
-    }
-    
-    .sections a:hover {
-      scale: 108%;
-      background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
-      color: black;
-      animation: borderAnim 2s 2 0s linear;
-    }
-    
-    @keyframes borderAnim {
-      0% {
-        border-bottom: 3px solid hotpink;
-      }
-      
-      25% {
-        border-left: 3px solid hotpink;
-      }
-      
-      50% {
-        border-top: 3px solid hotpink;
-        
-      }
-      
-      75% {
-        border-right: 3px solid hotpink;
-        
-      }
-      
-      100% {
-        border: 3px solid deeppink;
-        
-      }
-      
-    }
-    
-    
 
-    .sections a {
-      display: block;
-      margin: 8px 0;
-      color: var(--sectiontextcolor);
-      text-decoration: none;
-      font-weight: 500;
-      background: var(--sectionbg);
-      border-radius: 10px;
-      padding: 10px;
-      font-weight: bolder;
-      border-left: 5px solid var(--borderleft);
-      font-size: 22px;
-      
-      
+    .socialcontainer .container .id {
+        border-radius: 10px; 
     }
     
-    /* Footer */
+    /* --- FOOTER --- */
     footer {
       background: var(--navcolor);
       color: #ddd;
@@ -371,7 +369,7 @@
     }
     
     footer a {
-      color: #ddd;
+      color: #B0C4DE; 
       margin: 0 8px;
       text-decoration: none;
       display: inline-block;
@@ -379,391 +377,127 @@
     }
     
     footer a.admin {
-      color: red;
+      color: #FF6B6B; 
       font-weight: bold;
     }
     
-    i {
-      margin-right: 0px;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav {
-        text-align: center;
-      }
-      
-      nav a {
-        display: inline-block;
-        margin: 5px 10px;
-      }
-      
-      .slides img {
-        max-height: 200px;
-        object-fit: cover;
-      }
-      
-      footer {
+    .admin-login-link {
         font-size: 14px;
-      }
-      
-      footer a {
-        margin: 5px;
-      }
+        color: white;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid white;
+        border-radius: 5px;
+        transition: background 0.2s, color 0.3s;
     }
-    
-    @media (max-width: 480px) {
-      header .menu {
-        font-size: 20px;
-      }
-      
-      header .logo {
-        font-size: 16px;
-      }
-      
-      nav a {
-        display: block;
-        margin: 8px 0;
-      }
-      
-      .slides img {
-        max-height: 180px;
-      }
-      
-      .prev,
-      .next {
-        padding: 6px;
-      }
+    .admin-login-link:hover {
+        background: rgba(255, 255, 255, 0.2);
     }
-    
-    .bottom {
-      font-weight: bolder;
-    }
-    
-    #demo {
-      margin-left: 60px;
-      color: var(--greetingtextcolor);
-      font-size: 25px;
-      
-    }
-    
-    .ourteam {
-      color: var(--ourttext);
-      text-align: center;
-      position: relative;
-      
-      
-      
-    }
-    
-    h1.ourteam::after {
-      content: '';
-      background: linear-gradient(to right, red, blue, green);
-      width: 155px;
-      height: 5px;
-      position: absolute;
-      bottom: 0;
-      left: 28%;
-      
-    }
-    
-    .name {
-      color: yellow;
-      display: inline-block;
-      text-align: start;
-      font-size: 18px;
-      position: relative;
-      
-      
-    }
-    
-    .name::before {
-      content: '';
-      background: linear-gradient(to right, red, blue, green);
-      position: absolute;
-      height: 2px;
-      width: 100%;
-      bottom: 0.8px;
-      left: 0;
-    }
-    
-    .bio {
-      color: whitesmoke;
-      
-    }
-    
-    .teamcard {
-      margin-bottom: 80px;
-      background-image: url("/business-people-teamwork.jpg");
-      background-size: cover;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-    
-    
-    .container {
-      background-color: #06070763;
-      box-shadow: 5px 5px 20px rgba(19, 213, 162, 1);
-      /* An outer shadow with 5px horizontal/vertical offset, 10px blur, and semi-transparent black color */
-      height: 180px;
-      border-radius: 25px;
-      display: flex;
-      text-align: center;
-      margin-bottom: 30px;
-      
-    }
-    
-    .id {
-      
-      height: 150px;
-      width: 150px;
-      padding: ;
-      margin: 4px 4px 4px 4px;
-      
-      border: 4px solid lawngreen;
-      
-      border-radius: 25px;
-      animation: borderColor 1.5s infinite alternate;
-      
-      filter: brightness(110%) contrast(120%) saturate(115%);
-      
-    }
-    
-    @keyframes borderColor {
-      0% {
-        border-color: red;
-      }
-      
-      50% {
-        border-color: blue;
-      }
-      
-      100% {
-        border-color: greenyellow;
-      }
-    }
-    
-    .socialcontainer {
-      background-image: url();
-      background-size: cover;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      background-position: center;
-      
-    }
-    .contact-card {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    max-width: 520px;
-    background: linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
-    border: 1px solid rgba(15,23,42,0.06);
-    box-shadow: 0 6px 18px rgba(2,6,23,0.06);
-    padding: 18px;
-    border-radius: 14px;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  }
-
-  .cc-icon {
-    flex: 0 0 56px;
-    height: 56px;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    background: linear-gradient(180deg, #e6f3ff 0%, #ffffff 100%);
-    color: #0f172a;
-    box-shadow: inset 0 -6px 18px rgba(2,6,23,0.02);
-  }
-
-  .cc-title {
-    margin: 0;
-    font-size: 18px;
-    color: #07132a;
-    line-height: 1.1;
-  }
-
-  .cc-text {
-    margin: 6px 0 10px 0;
-    font-size: 13px;
-    color: #334155;
-  }
-
-  .cc-email {
-    display: inline-block;
-    font-weight: 600;
-    text-decoration: none;
-    color: #0b63d6;
-    word-break: break-all;
-    margin-bottom: 10px;
-  }
-
-  .cc-actions {
-    margin-top: 6px;
-  }
-
-  .cc-btn {
-    display: inline-block;
-    padding: 8px 14px;
-    border-radius: 10px;
-    background: linear-gradient(90deg,#0b63d6,#0a58c6);
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
-    box-shadow: 0 6px 14px rgba(11,99,214,0.18);
-    transition: transform .12s ease, box-shadow .12s ease;
-  }
-
-  .cc-btn:active { transform: translateY(1px); }
-  .cc-btn:hover { box-shadow: 0 10px 22px rgba(11,99,214,0.22); }
-
-  /* Responsive */
-  @media (max-width: 520px) {
-    .contact-card { flex-direction: row; gap: 12px; padding: 14px; border-radius: 12px; }
-    .cc-body { min-width: 0; }
-    .cc-title { font-size: 16px; }
-  }
   </style>
-  
-  
-  
   
 </head>
 
 <body>
   
-  <!-- Header -->
   <header>
     <div class="menu" onclick="openMenu()">☰ MENU</div>
     <div class="logo"><img src="logo.svg" alt="logo" /></div>
+    
+    <a id="theme-toggle-btn" onclick="toggleTheme()">
+        <i class="fas fa-lightbulb"></i>
+    </a>
+    
+    <a href="/Sections/login.html" class="admin-login-link">Admin Login</a>
   </header>
-<!-- Hanging Lamp -->
-<div onclick="toggleTheme()" class="lamp" id="hangingLamp"></div>
-
-<!-- Instruction for users -->
-<p id="lampText" style="text-align:center; font-size:18px; margin-top:10px;" onclick="toggleTheme()">
-  Click here to turn ON the lamp
-</p>
-  
-  <script>
-    const body = document.body;
-    let isLight = false; // default = dark mode
-    
-    function lampOn() {
-  const lamp = document.getElementById("hangingLamp");
-  
-  // Check if lamp is already ON
-  const isOn = lamp.style.backgroundColor === 'gold';
-  
-  if (!isOn) {
-    // Turn ON
-    lamp.style.backgroundColor = 'gold';
-    lamp.style.boxShadow = '5px 50px 50px gold';
-  } else {
-    // Turn OFF
-    lamp.style.backgroundColor = '';
-    lamp.style.boxShadow = '';
-  }
-}
-    
-    function toggleTheme() {
-      lampOn()
-      isLight = !isLight;
-      
-      if (isLight) {
-        body.classList.remove("darkmode");
-        body.classList.add("lightmode");
-        
-      } else {
-        body.classList.remove("lightmode");
-        body.classList.add("darkmode");
-      }
-    }
-  </script>
   
   
-  <!-- Side Menu -->
   <div id="sideMenu" class="side-menu">
     <span class="closebtn" onclick="closeMenu()">&times;</span>
     <a href="index.html">Home</a>
     <a href="/Sections/material.html">Notes Section</a>
     <a href="/Sections/pyp.html">PYP Section</a>
-
     <a href="/Sections/notice.html">Notice Section</a>
     <a href="about.html">About Us</a>
     <a href="">Work With Us</a>
     <a href="">Join Group</a>
-    
     <a href="/Sections/login.html" class="admin">Admin Login</a>
     <a href="/Sections/bookcorner.html">Book Corner</a>
   </div>
   
-  <!-- Nav -->
-  <nav>
-    <a href="#">Gallery Section</a>
-  </nav>
   
-  
-  
-  <!-- Gallery with Slider -->
-  <section class="gallery">
-    <h2 class="photo">PHOTO</h2>
-    <div class="slider">
-      <div class="slides">
-        <img src="rr.png" alt="Slide 1">
-        <img src="rr2.png" alt="Slide 2">
-        <img src="logo.png" alt="Slide 3">
+  <section id="welcome-banner">
+    <p id="demo">Welcome students, here you will find <span id="dynamic-content">material</span>.</p>
+    
+    <div class="contact-card" style="margin: 30px auto 0 auto;">
+      <div class="cc-icon" aria-hidden="true">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+          <path d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 6.5l-10 7.5L2 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
-      <button class="prev">&#10094;</button>
-      <button class="next">&#10095;</button>
+
+      <div class="cc-body">
+        <h3 class="cc-title">Want a website?</h3>
+        <p class="cc-text">Contact me for website work — I'll build one for you.</p>
+        <a class="cc-email" href="mailto:dream100wala@gmail.com">dream100wala@gmail.com</a>
+        <div class="cc-actions">
+          <a class="cc-btn" href="mailto:dream100wala@gmail.com">Send Email</a>
+        </div>
+      </div>
     </div>
-    <div class="dots"></div>
   </section>
   
-  <!-- greeting message-->
-  <p id="demo"></p>
-  <script src="script.js" type="text/javascript" charset="utf-8"></script>
   
-  <p id="list"></p>
-  
-  
-  
-  
-  <div class="contact-card">
-  <div class="cc-icon" aria-hidden="true">
-    <!-- simple envelope SVG -->
-    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-      <path d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M22 6.5l-10 7.5L2 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </div>
-
-  <div class="cc-body">
-    <h3 class="cc-title">Want a website?</h3>
-    <p class="cc-text">Contact me for website work — I'll build one for you.</p>
-    <a class="cc-email" href="mailto:dream100wala@gmail.com">dream100wala@gmail.com</a>
-    <div class="cc-actions">
-      <a class="cc-btn" href="mailto:dream100wala@gmail.com">Send Email</a>
-    </div>
-  </div>
-</div>
-  
-  <!-- Sections -->
-  <section class="sections">
-    <a href="/Sections/material.html">Notes Section</a>
-    <a href="/Sections/assignment.html">Home Assignment</a>
+  <section class="sections-container">
     
-    <a href="/Sections/pyp.html">Previous year papers</a>
+    <h2 class="offerings-section-title">Our Offerings</h2>
     
-    <a href="/Sections/notice.html">Notice Section</a>
+    <a href="/Sections/material.html" class="section-link">Notes / Materials</a>
     
-    <a href="/Sections/bookcorner.html">Book Corner</a>
+    <a href="/Sections/pyp.html" class="section-link">Previous Year Papers</a>
+    
+    <a href="/Sections/assignment.html" class="section-link">Home Assignments / Important</a>
+    
+    <a href="/Sections/notice.html" class="section-link">Notice Section</a>
+    
+    <a href="/Sections/bookcorner.html" class="section-link">Book Corner</a>
+  </section>
+  <br />
+  
+  
+ <h2 class="blog-section-title">Latest Posts & Blogs</h2>
+  
+  <section class="blog-posts-container">
+    <a href="blog-detail.html?id=3" class="blog-post-card">
+        <img src="exam-pattern-80-marks.jpg" alt="Exam Pattern 80 Marks Image">
+        <div class="blog-content">
+            <h3>Chem/Phy Exam Pattern (80 Marks - Sem 1)</h3>
+            <p>सेमेस्टर 1 परीक्षा (80 Marks) के दोनों भागों (A, B) को विस्तार से समझें।</p>
+        </div>
+    </a>
+    <a href="blog-detail.html?id=1" class="blog-post-card">
+        <img src="placeholder-blog-image1.jpg" alt="Blog Image 1">
+        <div class="blog-content">
+            <h3>How to make an effective study time table</h3>
+            <p>समय सारणी बनाने के 5 आसान चरण जो आपको अधिकतम अंक दिलाएँगे...</p>
+        </div>
+    </a>
+    
+    <a href="blog-detail.html?id=2" class="blog-post-card">
+        <img src="placeholder-blog-image2.jpg" alt="Blog Image 2">
+        <div class="blog-content">
+            <h3>Physics Syllabus Explained (RR College, Alwar)</h3>
+            <p>RR कॉलेज, अलवर के प्रथम वर्ष भौतिकी पाठ्यक्रम (UG6102) की विस्तृत जानकारी।</p>
+        </div>
+    </a>
+    
   </section>
   <br />
 
+
+  <br />
+
   
-  <!-- Team card -->
   <h1 class="ourteam">OUR TEAM</h1>
   <div class="teamcard">
     <div class="container">
@@ -772,7 +506,6 @@
       <div>
         <h3 class="name">Sachin Chaudhary</h3>
         <h4 class="bio">Front-end and Back-end Developer</h4>
-        
       </div>
     </div>
     <div class="container">
@@ -804,8 +537,7 @@
   </div>
   
   
-  <h1 style="font-size: 20px;
-    margin: 5px; padding: 5px;">OUR SOCIAL PLATFORMS</h1>
+  <h1 style="font-size: 20px; margin: 5px 20px; padding: 5px; color: var(--text-color);">OUR SOCIAL PLATFORMS</h1>
   
   <div class="socialcontainer">
     <div class="container">
@@ -825,98 +557,71 @@
         <h4 class="bio"> Website</h4>
       </div>
     </div>
-    <!--
-    <div class="container">
-      <img src="qrcode.png" class="id" alt="profile photo">
-      </img>
-      <div>
-        <h3 class="name">Scan me</h3>
-        <h4 class="bio"> Website</h4>
-      </div>
+  </div> 
+  
+  
+  <footer>
+    <p>© 2025 Sachin Nitharwal | All Rights Reserved |An Independent Educational Resource Platform with no official university affiliation|
+    <h2>Contact Us</h2>
+    <p>Email: <a href="mailto:dream100wala@gmail.com">dream100wala@gmail.com</a><br>
+      Address: RR College, Alwar, Rajasthan, India</p>
+    </p>
+    <div class="bottom">
+      <a href="about.html">About Us</a>
+      <a href="terms.html">terms & conditions</a>
+      <a href="disclaimer.html">disclaimer</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="/Sections/login.html" class="admin"><i class="fas fa-id-card-alt">Admin login</i></a>
     </div>
-  </div> -->
+  </footer>
+  
+  
+  <script>
+    // 🚨 FIXED: Side Menu Functions 🚨
+    function openMenu() {
+      document.getElementById("sideMenu").style.width = "250px";
+    }
     
+    function closeMenu() {
+      document.getElementById("sideMenu").style.width = "0";
+    }
     
-    <!-- Footer -->
-    <footer>
-      <p>© 2025 Sachin Nitharwal | All Rights Reserved |An Independent Educational Resource Platform with no official university affiliation|
-      <h2>Contact Us</h2>
-      <p>Email: <a href="mailto:dream100wala@gmail.com">dream100wala@gmail.com</a><br>
-        Address: RR College, Alwar, Rajasthan, India</p>
-      </p>
-      <div class="bottom">
-        <a href="about.html">About Us</a>
-        <a href="terms.html">terms & conditions</a>
-        <a href="disclaimer.html">disclaimer</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="/Sections/login.html" class="admin"><i class="fas fa-id-card-alt">Admin login</i></a>
-      </div>
-    </footer>
-    <!-- Footer with Global Disclosure -->
+    // Theme Toggle Script (Unchanged)
+    const body = document.body;
+    let isLight = false; 
     
-    
-    <!-- Scripts -->
-    <script>
-      function openMenu() {
-        document.getElementById("sideMenu").style.width = "250px";
+    function toggleTheme() {
+      const toggleBtn = document.getElementById("theme-toggle-btn");
+      isLight = !isLight;
+      
+      if (isLight) {
+        body.classList.add("lightmode");
+        toggleBtn.classList.add("on"); 
+      } else {
+        body.classList.remove("lightmode");
+        toggleBtn.classList.remove("on");
       }
-      
-      function closeMenu() {
-        document.getElementById("sideMenu").style.width = "0";
-      }
-      
-      let slideIndex = 0;
-      const slides = document.querySelector('.slides');
-      const images = document.querySelectorAll('.slides img');
-      const totalSlides = images.length;
-      const dotsContainer = document.querySelector('.dots');
-      
-      for (let i = 0; i < totalSlides; i++) {
-        const dot = document.createElement('span');
-        dot.classList.add('dot');
-        if (i === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => showSlide(i));
-        dotsContainer.appendChild(dot);
-      }
-      const dots = document.querySelectorAll('.dot');
-      
-      function showSlide(n) {
-        slideIndex = n;
-        slides.style.transform = `translateX(${-100 * n}%)`;
-        dots.forEach(dot => dot.classList.remove('active'));
-        dots[n].classList.add('active');
-      }
-      
-      function nextSlide() {
-        slideIndex = (slideIndex + 1) % totalSlides;
-        showSlide(slideIndex);
-      }
-      
-      function prevSlide() {
-        slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
-        showSlide(slideIndex);
-      }
-      
-      document.querySelector('.next').addEventListener('click', nextSlide);
-      document.querySelector('.prev').addEventListener('click', prevSlide);
-      
-      setInterval(nextSlide, 3000);
-    </script>
+    }
     
-    
-    <!-- Info affiliate marketing-->
-    
-    <script type="text/javascript">
-      var infolinks_pid = 3440557;
-      var infolinks_wsid = 0;
-    </script>
-    <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
-    <script type="text/javascript">
-      var infolinks_pid = 3440557;
-      var infolinks_wsid = 0;
-    </script>
-    <script type="text/javascript" src="http://resources.infolinks.com/js/infolinks_main.js"></script>
-    
+    // Dynamic Text Rotator Function (Unchanged)
+    document.addEventListener('DOMContentLoaded', () => {
+        const rotatingContent = document.getElementById('dynamic-content');
+        const items = ['Material', 'Books', 'PYQ (Previous Year Questions)', 'Home Assignments'];
+        let index = 0;
+
+        function updateContent() {
+            rotatingContent.textContent = items[index];
+            index = (index + 1) % items.length; // Loop through the array
+        }
+
+        setInterval(updateContent, 2000);
+        updateContent(); 
+    });
+
+  </script>
+  
+  <script src="script.js" type="text/javascript" charset="utf-8"></script>
+  
 </body>
 
-</html
+</html>

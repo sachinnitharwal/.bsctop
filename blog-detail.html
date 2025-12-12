@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Post | BSC TOP</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    /* -------------------------------------- */
+    /* --- THEME VARIABLES (For consistency) --- */
+    /* -------------------------------------- */
+    :root {
+      --webbgcolor: #121212; 
+      --text-color: #E0E0E0; 
+      --accent-color: #4A90E2; 
+      --navcolor: linear-gradient(to right, #1E3C72, #2A5298);
+      --toggle-color-default: white;
+      --toggle-color-on: #FFD700;
+      --article-bg: #1D1D1D;
+    }
+    
+    .lightmode {
+      --webbgcolor: #F5F5F5;
+      --text-color: #333333;
+      --accent-color: #1A73E8;
+      --navcolor: linear-gradient(to right, #6D94C0, #B0C4DE);
+      --toggle-color-default: #333;
+      --article-bg: #FFFFFF;
+    }
+    
+    /* -------------------------------------- */
+    /* --- BASE STYLES --- */
+    /* -------------------------------------- */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--webbgcolor);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--navcolor);
+      color: whitesmoke;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+    
+    .logo img {
+      height: 30px;
+      width: auto;
+      display: block;
+    }
+
+    .back-btn {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    /* --- THEME TOGGLE (Copied from index.html) --- */
+    #theme-toggle-btn {
+        margin-right: 15px; 
+        font-size: 20px;
+        color: var(--toggle-color-default);
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+    .lightmode #theme-toggle-btn {
+        color: var(--toggle-color-on);
+    }
+    
+    /* --- ARTICLE LAYOUT --- */
+    .article-container {
+      padding: 20px;
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: var(--article-bg);
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      flex-grow: 1; 
+    }
+
+    .article-container img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .article-container h1 {
+        color: var(--accent-color);
+        font-size: 28px;
+        margin-top: 0;
+    }
+
+    .article-container h2 {
+        color: var(--text-color);
+        font-size: 20px;
+        border-bottom: 2px solid var(--accent-color);
+        padding-bottom: 5px;
+        margin-top: 30px;
+    }
+
+    .article-container p {
+        line-height: 1.6;
+        color: var(--text-color);
+        opacity: 0.9;
+    }
+
+    .article-container ul, .article-container ol {
+        color: var(--text-color);
+        margin-left: 20px;
+    }
+
+    /* --- FOOTER (Simplified) --- */
+    footer {
+        margin-top: auto; 
+        background: var(--navcolor);
+        color: #ddd;
+        padding: 15px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+  
+  <header>
+    <a href="index.html" class="back-btn"><i class="fas fa-chevron-left"></i> Back to Home</a>
+    <div class="logo"><img src="logo.svg" alt="logo" /></div>
+    
+    <a id="theme-toggle-btn" onclick="toggleTheme()">
+        <i class="fas fa-lightbulb"></i>
+    </a>
+  </header>
+  
+  <div class="article-container">
+    <div id="blog-content">
+      <p style="text-align: center;">Loading blog content...</p>
+    </div>
+  </div>
+  
+  <footer>
+    <p>© 2025 Sachin Nitharwal | Educational Resource Platform</p>
+  </footer>
+  
+  
+  <script>
+    // Theme Toggle Script
+    const body = document.body;
+    let isLight = false; 
+    
+    // Check local storage for theme preference on load
+    document.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('theme') === 'light') {
+            isLight = true;
+            body.classList.add("lightmode");
+            document.getElementById("theme-toggle-btn").classList.add("on"); 
+        }
+    });
+
+    function toggleTheme() {
+      const toggleBtn = document.getElementById("theme-toggle-btn");
+      isLight = !isLight;
+      
+      if (isLight) {
+        body.classList.add("lightmode");
+        toggleBtn.classList.add("on"); 
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove("lightmode");
+        toggleBtn.classList.remove("on");
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+    
+    // Blog Content Loading Script
+    document.addEventListener('DOMContentLoaded', () => {
+      const contentDiv = document.getElementById('blog-content');
+      const params = new URLSearchParams(window.location.search);
+      const blogId = params.get('id');
+
+      // Define your blog posts data here
+      const blogPosts = {
+        '1': {
+          title: "How to make an effective study time table",
+          image: "placeholder-blog-image1.jpg", 
+          author: "Admin",
+          date: "Dec 12, 2025",
+          body: `
+            <p>एक प्रभावी समय सारणी आपको तनाव कम करने और अधिकतम अंक प्राप्त करने में मदद करती है। यहाँ 5 सरल चरण दिए गए हैं:</p>
+            
+            <h2>1. अपनी प्राथमिकताएँ जानें (Prioritize)</h2>
+            <p>सबसे पहले, उन विषयों को पहचानें जिनमें आपको अधिक समय देने की आवश्यकता है (जैसे Physics, Math के कठिन टॉपिक्स) और उन्हें अपने दिन के ऊर्जावान समय (जैसे सुबह) में रखें।</p>
+            
+            <h2>2. छोटे, लक्षित सत्र रखें (Short Sessions)</h2>
+            <p>लंबे 3-4 घंटे के सत्र से बचें। 45-50 मिनट के गहन अध्ययन सत्र और उसके बाद 10 मिनट का ब्रेक लें।</p>
+            
+            <h2>3. सभी विषयों को शामिल करें (Mix Subjects)</h2>
+            <p>एक दिन में केवल एक विषय न पढ़ें। विषयों को बदलें—जैसे Physics के बाद Chemistry, और फिर Botany। यह आपके दिमाग को ताज़ा रखता है और बोरियत कम करता है।</p>
+            
+            <h2>4. PYP और Revision को प्राथमिकता दें</h2>
+            <p>हर सप्ताह के अंत में, पिछले पूरे सप्ताह की पढ़ाई का रिवीजन करें और पिछले वर्ष के प्रश्न पत्रों (PYPs) को हल करने के लिए कम से कम 2 घंटे आवंटित करें।</p>
+            
+            <h2>5. लचीला रहें (Be Flexible)</h2>
+            <p>याद रखें, टाइम टेबल केवल एक मार्गदर्शिका है, नियम नहीं। यदि किसी दिन आप इसे फॉलो नहीं कर पाए, तो निराश न हों। अगले दिन फिर से शुरू करें।</p>
+          `
+        },
+        '2': {
+          title: "Physics Syllabus Explained (RR College, Alwar)",
+          image: "placeholder-blog-image2.jpg",
+          author: "Sachin Nitharwal",
+          date: "Dec 12, 2025",
+          body: `
+            <p>RR कॉलेज, अलवर के प्रथम वर्ष भौतिकी पाठ्यक्रम (कोड: UG6102/PHY-51T-101) में 'यांत्रिकी और दोलन' (Mechanics & Oscillations) शामिल है। इसे 4 इकाइयों (Units) में विभाजित किया गया है, जिसमें से प्रत्येक इकाई से प्रश्न पूछे जाते हैं।</p>
+            
+            <h2>Unit-I: Physical Law and Frame of Reference</h2>
+            <ul>
+              <li>**मुख्य विषय:** जड़त्वीय (Inertial) और गैर-जड़त्वीय (Non-inertial) फ्रेम।</li>
+              <li>**महत्वपूर्ण:** गैलीलियन रूपांतरण (Galilean transformation) और न्यूटन के नियम।</li>
+              <li>**टिप्पणी:** कोरियोलिस बल (Coriolis Force) की अवधारणा को समझना आवश्यक है।</li>
+            </ul>
+            
+            <h2>Unit-II: Centre of Mass</h2>
+            <ul>
+              <li>**मुख्य विषय:** द्रव्यमान केंद्र (Centre of Mass) की अवधारणा, वेग (Velocity) और संवेग (Momentum) का संरक्षण (Conservation)।</li>
+              <li>**महत्वपूर्ण:** रॉकेट गति (Rocket motion), प्रक्षेप्य गति (Projectile motion), और घूर्णन ऊर्जा (Rotational energy)।</li>
+            </ul>
+            
+            <h2>Unit-III: Motion under Central Forces</h2>
+            <ul>
+              <li>**मुख्य विषय:** केंद्रीय बल के तहत गति, रदरफोर्ड स्कैटरिंग (Rutherford scattering), और दहनशील गति (Elastic collision)।</li>
+              <li>**महत्वपूर्ण:** दोलन (Oscillations) - सरल आवर्त गति (Simple Harmonic Motion), ऊर्जा का क्षय (Damped Harmonic Oscillator)।</li>
+            </ul>
+            
+            <h2>Unit-IV: Driven Harmonic Oscillations and Waves</h2>
+            <ul>
+              <li>**मुख्य विषय:** प्रेरित दोलक (Driven oscillator), गुंजन (Resonance), R-L-C सर्किट।</li>
+              <li>**महत्वपूर्ण:** विभिन्न माध्यमों में तरंगों का वेग और समूह वेग (Group velocity) की अवधारणा।</li>
+            </ul>
+            
+            <p><strong>सलाह:</strong> Suggester Books जैसे *D.S. Mathur, S. Chand* और *B.K. Garg* से सिद्धांतों और समस्याओं का अभ्यास करें।</p>
+          `
+        },
+        // 🚨 ID 3: New 80 Marks Exam Pattern 🚨
+        '3': { 
+          title: "Chemistry/Physics Exam Pattern (Total 80 Marks - Sem 1, RR College)", 
+          image: "exam-pattern-80-marks.jpg", // अपनी इमेज का नाम बदलें
+          author: "Academic Team",
+          date: "Dec 13, 2025",
+          body: `
+            <p>RR कॉलेज, अलवर में सेमेस्टर 1 (2025) की केमिस्ट्री और फिजिक्स की परीक्षा (Total Marks: 80) का विस्तृत परीक्षा पैटर्न समझें। यह 3 घंटे की परीक्षा 4 इकाइयों (Units) को कवर करते हुए 2 भागों (Parts) में होगी।</p>
+            
+            <h2>Part-A (अनिवार्य/Compulsory - 20 Marks)</h2>
+            <p>यह भाग सबसे महत्वपूर्ण है क्योंकि यह अनिवार्य (Compulsory) है।</p>
+            <ul>
+              <li>**प्रश्न 1 (Compulsory):** इसमें 10 उप-प्रश्न (Sub-questions) होंगे।</li>
+              <li>**मार्क्स:** प्रत्येक उप-प्रश्न 2 अंक का होगा। **कुल: $2 \times 10 = 20$ Marks**</li>
+              <li>**तैयारी टिप:** यह भाग पूरे सिलेबस से छोटे, सीधे सवाल पूछेगा। आपको हर यूनिट के मूलभूत कॉन्सेप्ट्स (Fundamental concepts) और परिभाषाओं (definitions) को अच्छे से याद करना होगा।</li>
+            </ul>
+            
+            <h2>Part-B (लघु उत्तरीय/Short Answer - 60 Marks)</h2>
+            <p>यह भाग यूनिट-आधारित विकल्प प्रदान करता है।</p>
+            <ul>
+              <li>**प्रश्न:** 4 प्रश्न (Question 2 से Question 5 तक)।</li>
+              <li>**मार्क्स:** प्रत्येक प्रश्न 15 अंक का होगा। **कुल: $15 \times 4 = 60$ Marks**</li>
+              <li>**विकल्प:** प्रत्येक प्रश्न में यूनिट I, II, III और IV में से क्रमशः **एक विकल्प (Alternative)** दिया जाएगा। यानी आपको यूनिट I से दो में से एक, यूनिट II से दो में से एक... आदि हल करना होगा।</li>
+              <li>**तैयारी टिप:** इस भाग का भार (Weightage) सबसे अधिक है, इसलिए हर यूनिट के महत्वपूर्ण डेरिवेशन और सिद्धांतों पर ध्यान केंद्रित करें।</li>
+            </ul>
+
+            <p><strong>सारांश:</strong> सफलता के लिए, Part-A के लिए पूरे सिलेबस को कवर करें और Part-B के लिए सभी चारों यूनिट्स को 15-अंकों के प्रश्नों के अनुसार गहराई से तैयार करें।</p>
+          `
+        },
+      };
+
+      if (blogId && blogPosts[blogId]) {
+        const post = blogPosts[blogId];
+        document.title = post.title + " | BSC TOP";
+        
+        contentDiv.innerHTML = `
+          <img src="${post.image}" alt="${post.title}">
+          <h1>${post.title}</h1>
+          <p style="font-size: 14px; color: #888;">By ${post.author} on ${post.date}</p>
+          <div class="article-body">${post.body}</div>
+        `;
+      } else {
+        contentDiv.innerHTML = `
+          <h1>404 - Blog Post Not Found</h1>
+          <p>The requested blog post could not be found. Please check the link or return to the <a href="index.html" style="color: var(--accent-color);">homepage</a>.</p>
+        `;
+      }
+    });
+  </script>
+  
+</body>
+
+</html>
