@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Blogs | BSC TOP</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 20px auto; }
+        .card { background: #1e1e1e; border-radius: 12px; overflow: hidden; padding-bottom: 15px; border: 1px solid #333; }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 15px; }
+        .read-more { color: #4A90E2; text-decoration: none; font-weight: bold; }
+        .back-btn { color: #4A90E2; text-decoration: none; display: inline-block; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">← Back to Home</a>
+    <h1 style="text-align: center; color: #4A90E2;">All Articles & Updates</h1>
+
+    <div id="all-blogs-list" class="grid">
+        <p style="text-align: center;">Loading all blogs...</p>
+    </div>
+
+    <script type="module">
+        import { supabase } from '/Sections/app.js'; // पाथ चेक कर लें
+
+        async function fetchAll() {
+            const listDiv = document.getElementById('all-blogs-list');
+            
+            const { data: blogs, error } = await supabase
+                .from('blogs')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                listDiv.innerHTML = "<p>Error loading blogs.</p>";
+                return;
+            }
+
+            listDiv.innerHTML = blogs.map(blog => `
+                <div class="card">
+                    <img src="${blog.image_url || 'https://via.placeholder.com/400x200'}" alt="">
+                    <div class="card-content">
+                        <h3>${blog.title}</h3>
+                        <p style="color: #888; font-size: 0.8rem;">${new Date(blog.created_at).toLocaleDateString()}</p>
+                        <a href="blog-detail.html?id=${blog.id}" class="read-more">Read Full Article →</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        fetchAll();
+    </script>
+</body>
+</html>

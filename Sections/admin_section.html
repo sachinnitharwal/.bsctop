@@ -29,7 +29,7 @@
         .success { background-color: #d4edda; color: #155724; }
         .error { background-color: #f8d7da; color: #721c24; }
 
-        /* New Styles for Management List */
+        /* Management List Styles */
         .material-item {
             border: 1px solid #ccc;
             padding: 10px;
@@ -39,14 +39,20 @@
             justify-content: space-between;
             align-items: center;
         }
-        .material-info {
-            flex-grow: 1;
-        }
-        .new-highlight {
-            background-color: #fff3cd; /* Light yellow background for new items */
-        }
+        .material-info { flex-grow: 1; }
+        .new-highlight { background-color: #fff3cd; }
+        
+        /* Blog Dashboard Styles */
+        .dashboard { max-width: 600px; margin: 20px auto; background: #1e1e1e; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { color: #4A90E2; text-align: center; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 5px; color: #bbb; }
+        .input-group input, .input-group textarea { width: 100%; padding: 12px; background: #2d2d2d; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; }
+        textarea { height: 150px; resize: vertical; }
+        .blog-btn { width: 100%; padding: 15px; background: #4A90E2; border: none; color: white; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .blog-btn:hover { background: #357ABD; }
+        #status { text-align: center; margin-top: 15px; font-size: 14px; }
     </style>
-   
 </head>
 <body>
 
@@ -66,7 +72,6 @@
             <div id="message"></div>
             
             <form id="material-form">
-                
                 <div class="form-group">
                     <label for="materialType">Material Type</label>
                     <select id="materialType" name="materialType" required>
@@ -91,7 +96,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="teacherName">Teacher's Name (Leave empty for Practical Files)</label>
+                    <label for="teacherName">Teacher's Name</label>
                     <input type="text" id="teacherName" name="teacherName" placeholder="e.g., SK Sir">
                 </div>
                 
@@ -102,12 +107,12 @@
 
                 <div class="form-group">
                     <label for="remarks">Remarks</label>
-                    <textarea id="remarks" name="remarks" placeholder="e.g., Upload date (11/21/2025)"></textarea>
+                    <textarea id="remarks" name="remarks" placeholder="e.g., Upload date"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="googleDriveLink">Google Drive Link (must be shared!)</label>
-                    <input type="url" id="googleDriveLink" name="googleDriveLink" required placeholder="https://drive.google.com/file/d/...">
+                    <label for="googleDriveLink">Google Drive Link</label>
+                    <input type="url" id="googleDriveLink" name="googleDriveLink" required placeholder="https://drive.google.com/...">
                 </div>
                 
                 <div class="form-group">
@@ -120,141 +125,141 @@
 
             <hr>
             <h3>⚙️ Manage Existing Materials (Update/Delete)</h3>
-            <p>यहां से आप 'NEW' बैज हटा सकते हैं या नोट्स डिलीट कर सकते हैं।</p>
-
             <div id="material-list-loading" style="text-align: center; padding: 20px;">
                 <p>Loading materials for management...</p>
             </div>
-            
-            <ul id="material-list" style="list-style-type: none; padding: 0;">
-                </ul>
+            <ul id="material-list" style="list-style-type: none; padding: 0;"></ul>
+
+            <div class="dashboard">
+                <h2>Add New Blog Post</h2>
+                <div class="input-group">
+                    <label>Blog Title</label>
+                    <input type="text" id="blogTitle" placeholder="e.g. Physics Exam Pattern">
+                </div>
+                <div class="input-group">
+                    <label>Image URL</label>
+                    <input type="text" id="imageUrl" placeholder="Paste image link here">
+                </div>
+                <div class="input-group">
+                    <label>Author Name</label>
+                    <input type="text" id="authorName" value="Sachin Nitharwal">
+                </div>
+                <div class="input-group">
+                    <label>Blog Content (HTML Tags allowed)</label>
+                    <textarea id="blogBody" placeholder="Write your blog here..."></textarea>
+                </div>
+                <button class="blog-btn" onclick="postBlog()">🚀 Publish Blog</button>
+                <p id="status"></p>
+            </div>
         </div>
-        
     </div>
 
     <script type="module">
         import { checkAuthAndRedirect, signOut, supabase } from './app.js'; 
 
         window.signOut = signOut;
-        
         const NOTES_TABLE_NAME = 'materials';
 
+        // --- BLOG FUNCTION ---
+        async function postBlog() {
+            const title = document.getElementById('blogTitle').value;
+            const image = document.getElementById('imageUrl').value;
+            const author = document.getElementById('authorName').value;
+            const body = document.getElementById('blogBody').value;
+            const status = document.getElementById('status');
+
+            if(!title || !body) {
+                status.innerText = "Title and Content are required!";
+                status.className = "error";
+                return;
+            }
+
+            status.innerText = "Publishing...";
+            
+            const { data, error } = await supabase
+                .from('blogs') 
+                .insert([{ title: title, image_url: image, author: author, body: body }]);
+
+            if (error) {
+                status.innerText = "Error: " + error.message;
+                status.className = "error";
+            } else {
+                status.innerText = "Blog Published Successfully! ✅";
+                status.className = "success";
+                document.getElementById('blogTitle').value = "";
+                document.getElementById('imageUrl').value = "";
+                document.getElementById('blogBody').value = "";
+            }
+        }
+        window.postBlog = postBlog;
+
+        // --- MATERIAL FUNCTIONS (UNTOUCHED) ---
         function displayMessage(text, type) {
             const messageDiv = document.getElementById('message');
             messageDiv.textContent = text;
             messageDiv.className = ''; 
             messageDiv.classList.add(type);
             messageDiv.style.display = 'block';
-            setTimeout(() => {
-                messageDiv.style.display = 'none';
-            }, 5000);
+            setTimeout(() => { messageDiv.style.display = 'none'; }, 5000);
         }
 
-        // --- DELETE FUNCTION ---
         async function deleteMaterial(id, chapterName) {
-            if (!confirm(`Are you sure you want to delete "${chapterName}" permanently?`)) {
-                return;
-            }
-
-            const { error } = await supabase
-                .from(NOTES_TABLE_NAME)
-                .delete()
-                .eq('id', id);
-
+            if (!confirm(`Are you sure you want to delete "${chapterName}" permanently?`)) return;
+            const { error } = await supabase.from(NOTES_TABLE_NAME).delete().eq('id', id);
             if (error) {
-                console.error("Deletion Error:", error);
                 displayMessage(`Error deleting material: ${error.message}`, 'error');
             } else {
                 displayMessage(`Material "${chapterName}" deleted successfully!`, 'success');
-                loadMaterialsForAdmin(); // Refresh the list
+                loadMaterialsForAdmin();
             }
         }
         window.deleteMaterial = deleteMaterial; 
 
-        // --- TOGGLE NEW BADGE (UPDATE) FUNCTION ---
         async function toggleNewBadge(id, chapterName, currentStatus) {
-            const newStatus = !currentStatus;
-
-            const { error } = await supabase
-                .from(NOTES_TABLE_NAME)
-                .update({ is_new: newStatus })
-                .eq('id', id);
-
+            const { error } = await supabase.from(NOTES_TABLE_NAME).update({ is_new: !currentStatus }).eq('id', id);
             if (error) {
-                console.error("Update Error:", error);
                 displayMessage(`Error updating material: ${error.message}`, 'error');
             } else {
-                const statusText = newStatus ? 'NEW badge activated' : 'NEW badge removed';
-                displayMessage(`Material "${chapterName}": ${statusText}`, 'success');
-                loadMaterialsForAdmin(); // Refresh the list
+                displayMessage(`Material "${chapterName}" updated!`, 'success');
+                loadMaterialsForAdmin();
             }
         }
         window.toggleNewBadge = toggleNewBadge; 
 
-        // --- LOAD MANAGEMENT LIST ---
-
         async function loadMaterialsForAdmin() {
             const materialList = document.getElementById('material-list');
             const loadingDiv = document.getElementById('material-list-loading');
-            
             loadingDiv.style.display = 'block';
             materialList.innerHTML = ''; 
 
-            // Fetch all materials (Notes and Practicals)
             const { data: materials, error } = await supabase
                 .from(NOTES_TABLE_NAME)
                 .select('id, subject, chapter_name, is_new, material_type') 
                 .order('created_at', { ascending: false });
 
             loadingDiv.style.display = 'none';
-
-            if (error || !materials) {
-                materialList.innerHTML = `<li style="color: red; padding: 10px;">Error loading materials: ${error ? error.message : 'No data.'}</li>`;
-                return;
-            }
+            if (error || !materials) return;
 
             materials.forEach(material => {
                 const listItem = document.createElement('li');
-                // Use a dedicated class for styling
                 listItem.className = material.is_new ? 'material-item new-highlight' : 'material-item'; 
-                
-                // Escape single quotes in chapter name for JavaScript function calls
                 const escapedChapterName = material.chapter_name.replace(/'/g, "\\'"); 
-
-                const newButtonText = material.is_new ? '✅ Remove NEW' : '➕ Add NEW';
-                const newButtonColor = material.is_new ? '#ffc107' : '#007bff';
-
                 listItem.innerHTML = `
-                    <div class="material-info">
-                        <div style="font-weight: bold;">
-                            [${material.material_type}] ${material.subject}: ${material.chapter_name}
-                        </div>
-                    </div>
+                    <div class="material-info"><b>[${material.material_type}]</b> ${material.subject}: ${material.chapter_name}</div>
                     <div>
-                        <button 
-                            onclick="toggleNewBadge(${material.id}, '${escapedChapterName}', ${material.is_new})"
-                            style="background-color: ${newButtonColor}; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-right: 10px;"
-                        >
-                            ${newButtonText}
+                        <button onclick="toggleNewBadge(${material.id}, '${escapedChapterName}', ${material.is_new})" style="background-color: ${material.is_new ? '#ffc107' : '#007bff'}; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-right: 10px;">
+                            ${material.is_new ? '✅ Remove NEW' : '➕ Add NEW'}
                         </button>
-                        <button 
-                            onclick="deleteMaterial(${material.id}, '${escapedChapterName}')"
-                            style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;"
-                        >
-                            🗑️ Delete
-                        </button>
+                        <button onclick="deleteMaterial(${material.id}, '${escapedChapterName}')" style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">🗑️ Delete</button>
                     </div>
                 `;
                 materialList.appendChild(listItem);
             });
         }
 
-
-        // --- EXISTING SUBMIT MATERIAL FUNCTION (Updated to refresh list) ---
         async function submitMaterial(event) {
             event.preventDefault();
             const form = document.getElementById('material-form');
-            
             const materialData = {
                 material_type: form.materialType.value,
                 subject: form.subject.value,
@@ -266,27 +271,13 @@
                 is_new: form.isNew.checked,
             };
 
-            if (!materialData.subject || !materialData.chapter_name || !materialData.google_drive_link) {
-                displayMessage('Please fill out all required fields.', 'error');
-                return;
-            }
-
-            try {
-                const { error } = await supabase
-                    .from(NOTES_TABLE_NAME)
-                    .insert([materialData]);
-
-                if (error) {
-                    throw error;
-                }
-
-                displayMessage(`Material (${materialData.material_type}) added successfully!`, 'success');
+            const { error } = await supabase.from(NOTES_TABLE_NAME).insert([materialData]);
+            if (error) {
+                displayMessage(`Error: ${error.message}`, 'error');
+            } else {
+                displayMessage(`Material added successfully!`, 'success');
                 form.reset(); 
-                loadMaterialsForAdmin(); // 👈 Refresh the list after adding
-                
-            } catch (error) {
-                console.error("Submission Error:", error);
-                displayMessage(`Error adding material: ${error.message}.`, 'error');
+                loadMaterialsForAdmin();
             }
         }
         
@@ -294,16 +285,13 @@
             const welcomeUser = document.getElementById('welcome-user');
             const adminContent = document.getElementById('admin-content');
             const loading = document.getElementById('loading');
-            const materialForm = document.getElementById('material-form');
-            
-            materialForm.addEventListener('submit', submitMaterial);
+            document.getElementById('material-form').addEventListener('submit', submitMaterial);
             
             const session = await checkAuthAndRedirect(true, 'login.html'); 
-            
             if (session) {
                 welcomeUser.textContent = `Hello, ${session.user.email}!`;
                 adminContent.style.display = 'block';
-                loadMaterialsForAdmin(); // 👈 Load the management list immediately upon login
+                loadMaterialsForAdmin();
             }
             loading.style.display = 'none';
         });

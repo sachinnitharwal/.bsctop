@@ -462,37 +462,89 @@
     
     <a href="/Sections/bookcorner.html" class="section-link">Book Corner</a>
   </section>
-  <br />
   
-  
- <h2 class="blog-section-title">Latest Posts & Blogs</h2>
-  
-  <section class="blog-posts-container">
-    <a href="blog-detail.html?id=3" class="blog-post-card">
-        <img src="exam-pattern-80-marks.jpg" alt="Exam Pattern 80 Marks Image">
-        <div class="blog-content">
-            <h3>Chem/Phy Exam Pattern (80 Marks - Sem 1)</h3>
-            <p>सेमेस्टर 1 परीक्षा (80 Marks) के दोनों भागों (A, B) को विस्तार से समझें।</p>
-        </div>
-    </a>
-    <a href="blog-detail.html?id=1" class="blog-post-card">
-        <img src="placeholder-blog-image1.jpg" alt="Blog Image 1">
-        <div class="blog-content">
-            <h3>How to make an effective study time table</h3>
-            <p>समय सारणी बनाने के 5 आसान चरण जो आपको अधिकतम अंक दिलाएँगे...</p>
-        </div>
-    </a>
+<section id="latest-blogs" style="padding: 50px 20px; max-width: 1200px; margin: 0 auto;">
+    <h2 style="text-align: center; color: #4A90E2; font-size: 2rem; margin-bottom: 40px;">Latest Updates & Articles</h2>
     
-    <a href="blog-detail.html?id=2" class="blog-post-card">
-        <img src="placeholder-blog-image2.jpg" alt="Blog Image 2">
-        <div class="blog-content">
-            <h3>Physics Syllabus Explained (RR College, Alwar)</h3>
-            <p>RR कॉलेज, अलवर के प्रथम वर्ष भौतिकी पाठ्यक्रम (UG6102) की विस्तृत जानकारी।</p>
-        </div>
-    </a>
-    
-  </section>
-  <br />
+    <div id="blog-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+        <p style="text-align: center; color: #888;">Fetching latest blogs...</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="all-blogs.html" style="color: #4A90E2; text-decoration: none; border: 1px solid #4A90E2; padding: 10px 25px; border-radius: 5px; transition: 0.3s;">View All Posts</a>
+    </div>
+</section>
+
+<script type="module">
+    // अपनी app.js का पाथ चेक कर लें (जैसे './admin/app.js')
+    import { supabase } from '/Sections/app.js'; 
+
+    async function loadBlogsHome() {
+        const blogGrid = document.getElementById('blog-grid');
+
+        try {
+            // Supabase से ब्लॉग्स मंगाना (Order by latest first)
+            const { data: blogs, error } = await supabase
+                .from('blogs')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(6); // होम पेज पर सिर्फ ताज़ा 6 ब्लॉग दिखाने के लिए
+
+            if (error) throw error;
+
+            if (!blogs || blogs.length === 0) {
+                blogGrid.innerHTML = "<p style='text-align: center;'>No blogs found.</p>";
+                return;
+            }
+
+            // HTML साफ़ करें
+            blogGrid.innerHTML = '';
+
+            blogs.forEach(blog => {
+                const card = document.createElement('div');
+                card.style = `
+                    background: #1e1e1e; 
+                    border-radius: 12px; 
+                    overflow: hidden; 
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+                    transition: transform 0.3s ease;
+                    display: flex;
+                    flex-direction: column;
+                `;
+                
+                // Card Hover Effect
+                card.onmouseover = () => card.style.transform = 'translateY(-5px)';
+                card.onmouseout = () => card.style.transform = 'translateY(0)';
+
+                card.innerHTML = `
+                    <div style="width: 100%; height: 200px; overflow: hidden;">
+                        <img src="${blog.image_url || 'https://via.placeholder.com/400x200?text=No+Image'}" 
+                             style="width: 100%; height: 100%; object-fit: cover;" 
+                             alt="${blog.title}">
+                    </div>
+                    <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column;">
+                        <h3 style="margin: 0 0 10px 0; color: #fff; font-size: 1.25rem; line-height: 1.4;">${blog.title}</h3>
+                        <p style="color: #aaa; font-size: 0.85rem; margin-bottom: 15px;">
+                            ${new Date(blog.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} | By ${blog.author || 'Admin'}
+                        </p>
+                        <a href="blog-detail.html?id=${blog.id}" 
+                           style="margin-top: auto; color: #4A90E2; text-decoration: none; font-weight: bold; display: inline-block;">
+                           Read Full Article →
+                        </a>
+                    </div>
+                `;
+                blogGrid.appendChild(card);
+            });
+
+        } catch (err) {
+            console.error("Home Blog Error:", err);
+            blogGrid.innerHTML = "<p style='text-align: center; color: red;'>Failed to load blogs.</p>";
+        }
+    }
+
+    // पेज लोड होने पर रन करें
+    loadBlogsHome();
+</script>
 
 
   <br />
