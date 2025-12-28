@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Post | BSC TOP</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9282641508923214"
+        crossorigin="anonymous"></script>
     <style>
         :root {
             --primary-color: #4A90E2;
@@ -141,11 +144,40 @@
 
 
     // Views को +1 करने का लॉजिक
-    const { error: updateError } = await supabase
-        .from('blogs')
-        .update({ views: (blog.views || 0) + 1 })
-        .eq('id', blogId);
+    async function fetchBlog() {
+    const params = new URLSearchParams(window.location.search);
+    const blogId = params.get('id');
 
+    if (!blogId) return;
+
+    try {
+        // 1. सबसे पहले ब्लॉग का डेटा मंगाएं
+        const { data: blog, error } = await supabase
+            .from('blogs')
+            .select('*')
+            .eq('id', blogId)
+            .single();
+
+        if (error || !blog) throw error;
+
+        // 2. डेटा को पेज पर दिखाएँ (Title, Content etc.)
+        document.getElementById('post-title').textContent = blog.title;
+        document.getElementById('post-body').innerHTML = blog.body;
+        // ... बाकी का डिस्प्ले कोड ...
+
+        // 🚨 3. VIEWS को +1 बढ़ाएं (Main Logic)
+        const currentViews = blog.views || 0;
+        const { error: updateError } = await supabase
+            .from('blogs')
+            .update({ views: currentViews + 1 })
+            .eq('id', blogId);
+
+        if (updateError) console.error("Views Update Error:", updateError);
+
+    } catch (err) {
+        console.error("Error:", err);
+    }
+}
 
         }
 
