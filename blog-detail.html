@@ -39,7 +39,7 @@
         #post-image {
             width: 100%;
             height: 400px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             display: none; /* शुरू में छुपा रहेगा */
@@ -137,6 +137,16 @@
                 console.error(err);
                 document.getElementById('loading').innerHTML = "❌ Blog not found or Error loading data.";
             }
+            // fetchBlog फंक्शन के अंदर, डेटा मिलने के बाद इसे जोड़ें:
+
+
+    // Views को +1 करने का लॉजिक
+    const { error: updateError } = await supabase
+        .from('blogs')
+        .update({ views: (blog.views || 0) + 1 })
+        .eq('id', blogId);
+
+
         }
 
         fetchBlog();

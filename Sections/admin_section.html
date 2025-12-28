@@ -153,6 +153,11 @@
             </div>
         </div>
     </div>
+<hr>
+<h3>📊 Manage Blogs & Views</h3>
+<div id="admin-blog-list">
+    <p>Loading blogs statistics...</p>
+</div>
 
     <script type="module">
         import { checkAuthAndRedirect, signOut, supabase } from './app.js'; 
@@ -295,6 +300,36 @@
             }
             loading.style.display = 'none';
         });
+        async function loadBlogsForAdmin() {
+    const blogList = document.getElementById('admin-blog-list'); // एक नया <ul> या <div> बनायें
+    
+    const { data: blogs, error } = await supabase
+        .from('blogs')
+        .select('id, title, views, created_at')
+        .order('created_at', { ascending: false });
+
+    if (error) return;
+
+    blogList.innerHTML = blogs.map(blog => `
+        <div style="background: #2d2d2d; padding: 15px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <strong style="color: #4A90E2;">${blog.title}</strong><br>
+                <small style="color: #888;">Published on: ${new Date(blog.created_at).toLocaleDateString()}</small>
+            </div>
+            <div style="text-align: right;">
+                <span style="background: #4CAF50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">
+                    👁️ ${blog.views || 0} Views
+                </span>
+                <button onclick="deleteBlog(${blog.id})" style="background: #dc3545; border: none; color: white; padding: 5px 10px; border-radius: 4px; margin-left: 10px; cursor: pointer;">
+                    🗑️
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// इसे DOMContentLoaded के अंदर कॉल करें
+
     </script>
 </body>
 </html>
