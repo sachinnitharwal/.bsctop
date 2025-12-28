@@ -327,8 +327,18 @@
         </div>
     `).join('');
 }
+document.addEventListener('DOMContentLoaded', async () => {
+    // ... पुराने कोड ...
+    const session = await checkAuthAndRedirect(true, 'login.html'); 
+    
+    if (session) {
+        loadMaterialsForAdmin(); // पुराने मटेरियल के लिए
+        loadBlogsForAdmin();    // 👈 यह लाइन जोड़ना मत भूलना!
+    }
+});
 
 // इसे DOMContentLoaded के अंदर कॉल करें
+
 
     </script>
 </body>
