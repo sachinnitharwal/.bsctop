@@ -25,35 +25,28 @@
     /* --- PROFESSIONAL THEME VARIABLES --- */
     /* -------------------------------------- */
     
-    :root {
-      /* Base Colors (Dark Theme) */
-      --webbgcolor: #121212; 
-      --text-color: #E0E0E0; 
-      --accent-color: #4A90E2; 
-      
-      /* Navigation and Header */
-      --navcolor: linear-gradient(to right, #1E3C72, #2A5298); 
-      
-      /* Side Menu */
-      --sidemenubg: #1D1D1D;
-      --sidemenutext: var(--accent-color); 
-      
-      /* Section Boxes (Notes, PYP, etc.) */
-      --sectionbg: #282828; 
-      --sectiontextcolor: var(--text-color);
-      --borderleft: var(--accent-color);
-      
-      /* Team/Other Text */
-      --ourttext: #B0B0B0;
-      
-      /* Theme Toggle Icon Color */
-      --toggle-color-default: white;
-      --toggle-color-on: #FFD700; 
-      
-      /* Blog Card specific colors */
-      --blog-card-bg: #1D1D1D;
-      --blog-card-shadow: rgba(0, 0, 0, 0.4);
-    }
+:root {
+  --webbgcolor: #0b0c10;
+  --text-color: #ffffff;
+  --accent-color: #6f6cff;
+
+  --navcolor: #000000;
+
+  --sidemenubg: linear-gradient(180deg, #0b0c10, #050507);
+  --sidemenutext: #d6d6ff;
+
+  --sectionbg: #121212;
+  --sectiontextcolor: #eaeaff;
+  --borderleft: #6f6cff;
+
+  --ourttext: #a0a0ff;
+
+  --toggle-color-default: #ffffff;
+  --toggle-color-on: #ffd700;
+
+  --blog-card-bg: #121212;
+  --blog-card-shadow: rgba(0, 0, 0, 0.6);
+}
     
     /* Light mode */
     .lightmode {
@@ -79,6 +72,40 @@
     }
     
     /* -------------------------------------- */
+    /* ===== MODERN HEADER ===== */
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #000;
+  border-bottom: 1px solid #1f1f1f;
+}
+
+.menu-btn {
+  background: #111;
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.brand h1 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.brand span {
+  color: var(--accent-color);
+}
+
+.brand p {
+  font-size: 11px;
+  color: #9aa0ff;
+  letter-spacing: 1px;
+}
     /* --- BASE STYLES --- */
     /* -------------------------------------- */
     body {
@@ -101,7 +128,36 @@
       cursor: pointer;
       font-size: 22px;
     }
-    
+    /* Admin Login Button - Styled as a Pill */
+.admin-login-link{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(99, 102, 241, 0.1); /* Light Indigo tint */
+    color: #6366F1;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    transition: 0.3s ease;
+}
+
+.admin-login-link:hover {
+    background: #6366F1;
+    color: white;
+}
+
+/* Mobile adjustments */
+@media (max-width: 400px) {
+    .span {
+        display: none; /* Mobile पर सिर्फ लॉक आइकन दिखेगा */
+    }
+    .admin-login-pill {
+        padding: 8px 12px;
+    }
+}
     .logo img {
       height: 30px;
       width: auto;
@@ -122,415 +178,986 @@
         color: var(--toggle-color-on);
     }
     
-    /* --- SIDE MENU --- */
-    .side-menu {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: var(--sidemenubg);
-      overflow-x: hidden;
-      transition: 0.3s;
-      padding-top: 60px;
-      z-index: 1000;
-    }
+/* --- SIDE MENU BASE STYLE --- */
+.side-menu {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #0A0A0A; /* Pure Dark Background */
+    overflow-x: hidden;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2000;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+}
+
+/* Close Button */
+.side-menu .closebtn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 32px;
+    color: #6366F1;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Menu Header (Logo/Title Area) */
+.menu-header {
+    padding: 40px 25px 30px;
+    border-bottom: 1px solid #222;
+    margin-bottom: 10px;
+}
+
+.brand-name {
+    font-size: 24px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.brand-name .highlight {
+    color: #6366F1; /* Indigo Color */
+}
+
+.sub-brand {
+    font-size: 10px;
+    color: #94A3B8;
+    letter-spacing: 1.5px;
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+/* Links Container */
+.menu-links {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+/* Individual Link Design */
+.side-menu a {
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #94A3B8; /* Dim text color */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: 0.3s;
+    margin: 4px 10px;
+    border-radius: 12px;
+}
+
+/* Icon Alignment */
+.side-menu a i {
+    font-size: 18px;
+    width: 25px;
+    text-align: center;
+}
+
+/* Active & Hover State (Rozgar Style Glow) */
+.side-menu a:hover, .side-menu a.active {
+    background: #1A1A1A; /* Grayish dark background */
+    color: white;
+    border-left: 4px solid #6366F1; /* Indigo Left Border */
+}
+
+.side-menu a.active i {
+    color: #6366F1;
+}
+
+/* Admin Link Styling */
+.admin-link i {
+    color: #FF6B6B; /* Red icon for admin */
+}
+
+    /* --- WELCOME BANNER STYLING --- */
+#welcome-banner {
+    padding: 60px 20px;
+    text-align: center;
+    background: radial-gradient(circle at top, #1a1b3a 0%, #0A0A0A 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+#demo {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.4;
+    color: #ffffff;
+    margin-bottom: 40px;
+}
+
+#dynamic-content {
+    color: #6366F1; /* Indigo Accent */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: inline-block;
+    border-bottom: 3px solid #6366F1;
+}
+
+/* --- MODERN CONTACT CARD (Glassmorphism) --- */
+.contact-card {
+    position: relative;
+    max-width: 450px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: 0.3s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    border-color: #6366F1;
+}
+
+/* Purple Glow behind card */
+.cc-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.cc-icon {
+    font-size: 40px;
+    color: #6366F1;
+    margin-bottom: 15px;
+}
+
+.cc-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 10px 0;
+}
+
+.cc-text {
+    font-size: 14px;
+    color: #94A3B8;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.cc-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.cc-email {
+    color: #6366F1;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.cc-email:hover {
+    color: #818cf8;
+}
+
+.cc-btn {
+    background: #6366F1;
+    color: white;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.cc-btn:hover {
+    background: #4f46e5;
+    transform: scale(1.05);
+}
+
+/* --- OFFERINGS SECTION STYLING --- */
+.sections-container {
+    padding: 40px 20px;
+    background-color: #0A0A0A;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.offerings-section-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.title-underline {
+    width: 60px;
+    height: 4px;
+    background: #6366F1;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* Grid Layout */
+.offerings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Card Design */
+.offering-card {
+    display: flex;
+    align-items: center;
+    background: #161616;
+    border: 1px solid #222;
+    padding: 16px 20px;
+    border-radius: 15px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.offering-card:hover {
+    background: #1A1A1A;
+    border-color: #6366F1;
+    transform: translateX(5px);
+}
+
+/* Icon Styling */
+.card-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366F1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-right: 15px;
+}
+
+.card-text {
+    flex-grow: 1;
+    color: #E0E0E0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.arrow-icon {
+    color: #444;
+    font-size: 14px;
+}
+
+/* Highlighted Card (Lectures) */
+.highlight-card {
+    border-left: 4px solid #6366F1;
+    background: linear-gradient(90deg, #1A1B3A 0%, #161616 100%);
+}
+
+.highlight-card .card-icon {
+    background: #6366F1;
+    color: white;
+}
+
+
     
-    .side-menu a {
-      padding: 10px 20px;
-      text-decoration: none;
-      font-size: 18px;
-      color: var(--sidemenutext);
-      display: block;
-      transition: 0.2s;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
+/* --- BLOG SECTION STYLING --- */
+#latest-blogs {
+    padding: 60px 20px;
+    background-color: #0A0A0A;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.blog-section-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* Grid Layout */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+/* Individual Blog Card Design */
+.blog-card {
+    background: #161616;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #222;
+    transition: 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+}
+
+.blog-card:hover {
+    transform: translateY(-8px);
+    border-color: #6366F1;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* Image Container */
+.blog-card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 1px solid #222;
+}
+
+/* Content Area */
+.blog-card-content {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.blog-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+}
+
+.blog-card-meta {
+    font-size: 12px;
+    color: #94A3B8;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.blog-card-meta i {
+    color: #6366F1;
+}
+
+.read-more {
+    font-size: 14px;
+    color: #6366F1;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Loading & View All */
+.blog-loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #888;
+    padding: 40px;
+}
+
+.view-all-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.view-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #6366F1;
+    text-decoration: none;
+    border: 1px solid #6366F1;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.view-all-btn:hover {
+    background: #6366F1;
+    color: white;
+}
+
     
-    .side-menu a:hover {
-      background: rgba(255, 255, 255, 0.1);
+/* --- TEAM SECTION STYLING --- */
+#team-section {
+    padding: 60px 20px;
+    background-color: #0A0A0A;
+}
+
+.ourteam {
+    text-align: center;
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Team Grid Layout */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 40px auto 0;
+}
+
+/* Individual Team Card */
+.team-card {
+    background: #161616;
+    border: 1px solid #222;
+    border-radius: 20px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: 0.3s ease;
+}
+
+.team-card:hover {
+    border-color: #6366F1;
+    transform: translateY(-5px);
+    background: #1A1A1A;
+}
+
+/* Profile Photo Wrapper */
+.avatar-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.team-img {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #6366F1;
+    padding: 3px;
+    background: #0A0A0A;
+}
+
+/* Member Details */
+.team-info {
+    flex-grow: 1;
+}
+
+.team-info .name {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: capitalize;
+}
+
+.team-info .role {
+    margin: 4px 0 10px;
+    font-size: 13px;
+    color: #94A3B8;
+}
+
+/* Tiny Badge for Role Category */
+.badge {
+    display: inline-block;
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366F1;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Mobile Tweaks */
+@media (max-width: 480px) {
+    .team-card {
+        padding: 20px;
     }
-    
-    .side-menu .closebtn {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 28px;
-      color: var(--accent-color);
-      cursor: pointer;
+    .team-img {
+        width: 65px;
+        height: 65px;
     }
+}
+
+/* --- SOCIAL SECTION STYLING --- */
+#social-platforms {
+    padding: 50px 20px;
+    background-color: #0A0A0A;
+}
+
+.social-title {
+    text-align: center;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Social Grid Layout */
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 30px auto 0;
+}
+
+/* Individual Social Card */
+.social-card {
+    background: #161616;
+    border: 1px solid #222;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-card:hover {
+    border-color: #6366F1;
+    background: #1A1A1A;
+    transform: scale(1.02);
+}
+
+/* QR Code Container */
+.qr-wrapper {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    background: white; /* QR codes are easier to scan on white */
+    padding: 5px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.qr-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* QR Hover Overlay */
+.qr-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(99, 102, 241, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.qr-wrapper:hover .qr-overlay {
+    opacity: 1;
+}
+
+/* Info Details */
+.social-info .name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.platform-name {
+    margin: 4px 0 10px;
+    font-size: 14px;
+    color: #94A3B8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.platform-name i {
+    color: #6366F1;
+}
+
+/* Scan Badge */
+.scan-badge {
+    display: inline-block;
+    background: #6366F1;
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
     
-    /* --- WELCOME / BANNER SECTION --- */
-    #welcome-banner {
-        padding: 40px 20px; 
-        background-color: var(--webbgcolor);
-        background-image: url('your_background_image.jpg'); 
-        background-size: cover;
-        background-position: center;
+/* --- MODERN FOOTER STYLING --- */
+.main-footer {
+    background-color: #000000;
+    color: #94A3B8;
+    padding: 50px 20px 20px;
+    border-top: 1px solid #1A1A1A;
+    font-family: 'Inter', sans-serif;
+}
+
+.footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto 40px;
+}
+
+.footer-brand {
+    flex: 1;
+    min-width: 280px;
+}
+
+.footer-logo {
+    color: #FFFFFF;
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 15px 0;
+    letter-spacing: 1px;
+}
+
+.footer-logo .accent {
+    color: #6366F1;
+}
+
+.disclaimer-text {
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 350px;
+}
+
+.footer-contact h3 {
+    color: #FFFFFF;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.footer-contact p {
+    font-size: 14px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-contact a {
+    color: #6366F1;
+    text-decoration: none;
+}
+
+/* Links Grid */
+.footer-links-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    border-top: 1px solid #1A1A1A;
+    border-bottom: 1px solid #1A1A1A;
+    padding: 20px 0;
+    margin-bottom: 30px;
+}
+
+.footer-links-grid a {
+    color: #94A3B8;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.footer-links-grid a:hover {
+    color: #6366F1;
+}
+
+/* Bottom Copyright & Admin */
+.footer-bottom {
+    text-align: center;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.copyright {
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.owner {
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+.footer-admin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1A1A1A;
+    color: #FF6B6B; /* Admin specific color */
+    padding: 8px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid #333;
+    transition: 0.3s;
+}
+
+.footer-admin-btn:hover {
+    background: #FF6B6B;
+    color: white;
+    border-color: #FF6B6B;
+}
+
+@media (max-width: 768px) {
+    .footer-top {
+        flex-direction: column;
         text-align: center;
-        color: white;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-        margin-bottom: 20px;
     }
+    .footer-contact p {
+        justify-content: center;
+    }
+}
 
-    #demo {
-        margin: 0 0 15px 0;
-        color: white; 
-        font-size: 24px;
-        font-weight: bold;
-    }
-    
-    #dynamic-content {
-        color: #FFC107; 
-        font-weight: 800;
-        transition: color 0.5s ease;
-    }
-    
-    /* --- MAIN SECTIONS/LINKS --- */
-    .sections-container {
-      padding: 10px 20px 20px 20px;
-      background-color: var(--webbgcolor);
-    }
-    
-    /* Changed title to 'Our Offerings' */
-    .offerings-section-title {
-        color: var(--text-color);
-        text-align: center;
-        font-size: 24px;
-        margin: 30px 0 15px 0;
-        padding: 0 20px;
-        position: relative;
-    }
-    
-    .offerings-section-title::after {
-      content: '';
-      background: var(--accent-color);
-      width: 80px;
-      height: 3px;
-      position: absolute;
-      bottom: -10px;
-      left: 50%; 
-      transform: translateX(-50%);
-    }
-
-    .section-link {
-      display: block;
-      margin: 15px 0;
-      color: var(--sectiontextcolor);
-      text-decoration: none;
-      font-weight: bold;
-      background: var(--sectionbg);
-      border-radius: 8px;
-      padding: 18px 15px; 
-      border-left: 6px solid var(--borderleft);
-      font-size: 18px;
-      text-align: left;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    
-    .section-link:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-      background: #333;
-    }
-    
-    /* --- BLOG POST CARDS --- */
-    .blog-section-title {
-        color: var(--text-color);
-        text-align: center;
-        font-size: 24px;
-        margin: 40px 0 20px 0; 
-        padding: 0 20px;
-        position: relative;
-    }
-    
-    .blog-section-title::after {
-      content: '';
-      background: var(--accent-color);
-      width: 80px;
-      height: 3px;
-      position: absolute;
-      bottom: -10px;
-      left: 50%; 
-      transform: translateX(-50%);
-    }
-
-    .blog-posts-container {
-        padding: 0 20px;
-    }
-
-    .blog-post-card {
-        display: block;
-        text-decoration: none;
-        color: var(--text-color);
-        background: var(--blog-card-bg);
-        border-radius: 10px;
-        margin: 15px 0; /* Adjusted margin for consistency */
-        overflow: hidden;
-        box-shadow: 0 4px 10px var(--blog-card-shadow);
-        transition: transform 0.3s;
-    }
-
-    .blog-post-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 15px var(--blog-card-shadow);
-    }
-    
-    .blog-post-card img {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-    }
-    
-    .blog-content {
-        padding: 15px;
-    }
-
-    .blog-content h3 {
-        margin: 0 0 5px 0;
-        color: var(--accent-color);
-        font-size: 18px;
-    }
-
-    .blog-content p {
-        margin: 0;
-        font-size: 14px;
-        color: var(--ourttext);
-    }
-    
-    /* --- TEAM / SOCIAL --- */
-    .ourteam {
-      color: var(--text-color);
-      text-align: center;
-      position: relative;
-      margin-top: 30px;
-      margin-bottom: 30px;
-      font-size: 24px;
-    }
-    
-    h1.ourteam::after {
-      content: '';
-      background: var(--accent-color);
-      width: 80px;
-      height: 3px;
-      position: absolute;
-      bottom: -10px;
-      left: 50%; 
-      transform: translateX(-50%);
-    }
-
-    .teamcard {
-      margin-bottom: 40px;
-      background-color: transparent;
-    }
-    
-    .container {
-      background-color: #282828; 
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      height: auto; 
-      padding: 15px;
-      border-radius: 10px;
-      display: flex;
-      text-align: left;
-      margin: 15px 20px;
-      align-items: center;
-    }
-    
-    .id {
-      height: 80px;
-      width: 80px;
-      border: 3px solid var(--accent-color);
-      border-radius: 50%; 
-      margin-right: 15px;
-      object-fit: cover;
-    }
-    
-    .name {
-      color: var(--accent-color);
-      font-size: 16px;
-      margin-bottom: 0;
-    }
-    
-    .bio {
-      color: #A0A0A0;
-      font-size: 14px;
-      margin-top: 5px;
-    }
-
-    .socialcontainer .container .id {
-        border-radius: 10px; 
-    }
-    
-    /* --- FOOTER --- */
-    footer {
-      background: var(--navcolor);
-      color: #ddd;
-      padding: 20px;
-      text-align: center;
-    }
-    
-    footer a {
-      color: #B0C4DE; 
-      margin: 0 8px;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 5px;
-    }
-    
-    footer a.admin {
-      color: #FF6B6B; 
-      font-weight: bold;
-    }
-    
-    .admin-login-link {
-        font-size: 14px;
-        color: white;
-        text-decoration: none;
-        padding: 5px 10px;
-        border: 1px solid white;
-        border-radius: 5px;
-        transition: background 0.2s, color 0.3s;
-    }
-    .admin-login-link:hover {
-        background: rgba(255, 255, 255, 0.2);
-    }
   </style>
   
 </head>
 
 <body>
   
-  <header>
-    <div class="menu" onclick="openMenu()">☰ MENU</div>
-    <div class="logo"><img src="logo.svg" alt="logo" /></div>
-    
-    <a id="theme-toggle-btn" onclick="toggleTheme()">
-        <i class="fas fa-lightbulb"></i>
-    </a>
-    
-    <a href="/Sections/login.html" class="admin-login-link">Admin Login</a>
-  </header>
+  <header class="top-bar">
+  <button class="menu-btn" onclick="openMenu()">
+    <i class="fas fa-bars"></i>
+  </button>
   
-  
-  <div id="sideMenu" class="side-menu">
-    <span class="closebtn" onclick="closeMenu()">&times;</span>
-    <a href="index.html">Home</a>
-    <a href="/Sections/material.html">Notes Section</a>
-    <a href="/Sections/pyp.html">PYP Section</a>
-    <a href="/Sections/notice.html">Notice Section</a>
-    <a href="about.html">About Us</a>
-    <a href="">Work With Us</a>
-    <a href="">Join Group</a>
-    <a href="/Sections/login.html" class="admin">Admin Login</a>
-    <a href="/Sections/bookcorner.html">Book Corner</a>
+  <div class="brand">
+    <h1>BSC <span>TOP</span></h1>
+    <p>POWERED BY WEDEVGROUP</p>
   </div>
   
+  <a id="theme-toggle-btn" onclick="toggleTheme()">
+    <i class="fas fa-lightbulb"></i>
+  </a>
   
-  <section id="welcome-banner">
-    <p id="demo">Welcome students, here you will find <span id="dynamic-content">material</span>.</p>
-    
-    <div class="contact-card" style="margin: 30px auto 0 auto;">
-      <div class="cc-icon" aria-hidden="true">
-        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-          <path d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M22 6.5l-10 7.5L2 6.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
+  <a href="/Sections/login.html" class="admin-login-link">Admin Login</a>
+</header>
+  
+  
+<div id="sideMenu" class="side-menu">
+    <span class="closebtn" onclick="closeMenu()">&times;</span>
 
-      <div class="cc-body">
-        <h3 class="cc-title">Want a website?</h3>
-        <p class="cc-text">Contact me for website work — I'll build one for you.</p>
-        <a class="cc-email" href="mailto:dream100wala@gmail.com">dream100wala@gmail.com</a>
-        <div class="cc-actions">
-          <a class="cc-btn" href="mailto:dream100wala@gmail.com">Send Email</a>
+    <div class="menu-header">
+        <div class="brand-name">BSC <span class="highlight">TOP</span></div>
+        <div class="sub-brand">POWERED BY WEDEVGROUP</div>
+    </div>
+
+    <div class="menu-links">
+        <a href="index.html" class="active">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <a href="/Sections/material.html">
+            <i class="fas fa-book-open"></i> Notes Section
+        </a>
+        <a href="/Sections/pyp.html">
+            <i class="fas fa-file-invoice"></i> PYP Section
+        </a>
+        <a href="/Sections/notice.html">
+            <i class="fas fa-bullhorn"></i> Notice Section
+        </a>
+        <a href="/Sections/bookcorner.html">
+            <i class="fas fa-swatchbook"></i> Book Corner
+        </a>
+        <a href="about.html">
+            <i class="fas fa-info-circle"></i> About Us
+        </a>
+        <a href="#">
+            <i class="fas fa-briefcase"></i> Work With Us
+        </a>
+        <a href="#">
+            <i class="fab fa-whatsapp"></i> Join Group
+        </a>
+        <a href="/Sections/login.html" class="admin-link">
+            <i class="fas fa-user-shield"></i> Admin Login
+        </a>
+    </div>
+</div>
+
+  
+<section id="welcome-banner">
+    <div class="banner-content">
+        <p id="demo">Welcome students, here you will find <br>
+            <span id="dynamic-content">Material</span>
+        </p>
+    </div>
+    
+    <div class="contact-card">
+        <div class="cc-glow"></div> <div class="cc-icon">
+            <i class="fas fa-laptop-code"></i>
         </div>
-      </div>
+
+        <div class="cc-body">
+            <h3 class="cc-title">Want a Professional Website?</h3>
+            <p class="cc-text">Build your online presence with us. High-quality work guaranteed.</p>
+            
+            <div class="cc-footer">
+                <a class="cc-email" href="mailto:dream100wala@gmail.com">
+                    <i class="far fa-envelope"></i> dream100wala@gmail.com
+                </a>
+                <a class="cc-btn" href="mailto:dream100wala@gmail.com">
+                    <i class="fas fa-paper-plane"></i> Send Email
+                </a>
+            </div>
+        </div>
     </div>
-  </section>
+</section>
+
   
   
-  <section class="sections-container">
+<section class="sections-container">
+    <div class="section-header">
+        <h2 class="offerings-section-title">Our Offerings</h2>
+        <div class="title-underline"></div>
+    </div>
     
-    <h2 class="offerings-section-title">Our Offerings</h2>
-    
-    <a href="/Sections/material.html" class="section-link">Notes and practical files</a>
-        <a href="https://bsctopbydeepakisrota.blogspot.com/2025/12/1st-sem-math.html" class="section-link">Full study material with lectures</a>
-    <a href="/Sections/pyp.html" class="section-link">Previous Year Papers</a>
-    
-    <a href="/Sections/assignment.html" class="section-link">Home Assignments / Important</a>
-    
-    <a href="/Sections/notice.html" class="section-link">Notice Section</a>
-    
-    <a href="/Sections/bookcorner.html" class="section-link">Book Corner</a>
-  </section>
+    <div class="offerings-grid">
+        <a href="/Sections/material.html" class="offering-card">
+            <div class="card-icon"><i class="fas fa-notes-medical"></i></div>
+            <span class="card-text">Notes and Practical Files</span>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="https://bsctopbydeepakisrota.blogspot.com/2025/12/1st-sem-math.html" class="offering-card highlight-card">
+            <div class="card-icon"><i class="fas fa-video"></i></div>
+            <span class="card-text">Full Study Material with Lectures</span>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="/Sections/pyp.html" class="offering-card">
+            <div class="card-icon"><i class="fas fa-history"></i></div>
+            <span class="card-text">Previous Year Papers</span>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="/Sections/assignment.html" class="offering-card">
+            <div class="card-icon"><i class="fas fa-tasks"></i></div>
+            <span class="card-text">Home Assignments / Important</span>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="/Sections/notice.html" class="offering-card">
+            <div class="card-icon"><i class="fas fa-bell"></i></div>
+            <span class="card-text">Notice Section</span>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="/Sections/bookcorner.html" class="offering-card">
+            <div class="card-icon"><i class="fas fa-book"></i></div>
+            <span class="card-text">Book Corner</span>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+    </div>
+</section>
+
   
-<section id="latest-blogs" style="padding: 50px 20px; max-width: 1200px; margin: 0 auto;">
-    <h2 style="text-align: center; color: #4A90E2; font-size: 2rem; margin-bottom: 40px;">Latest Updates & Articles</h2>
+<section id="latest-blogs">
+    <div class="section-header">
+        <h2 class="blog-section-title">Latest Updates & Articles</h2>
+        <div class="title-underline"></div>
+    </div>
     
-    <div id="blog-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
-        <p style="text-align: center; color: #888;">Fetching latest blogs...</p>
+    <div id="blog-grid" class="blog-grid">
+        <div class="blog-loading">
+            <i class="fas fa-spinner fa-spin"></i> Fetching latest blogs...
+        </div>
     </div>
 
-    <div style="text-align: center; margin-top: 40px;">
-        <a href="all-blogs.html" style="color: #4A90E2; text-decoration: none; border: 1px solid #4A90E2; padding: 10px 25px; border-radius: 5px; transition: 0.3s;">View All Posts</a>
+    <div class="view-all-container">
+        <a href="all-blogs.html" class="view-all-btn">
+            View All Posts <i class="fas fa-arrow-right"></i>
+        </a>
     </div>
 </section>
 
 <script type="module">
-    // अपनी app.js का पाथ चेक कर लें (जैसे './admin/app.js')
+    // Supabase import (Aapka original path)
     import { supabase } from '/Sections/app.js'; 
 
     async function loadBlogsHome() {
         const blogGrid = document.getElementById('blog-grid');
 
         try {
-            // Supabase से ब्लॉग्स मंगाना (Order by latest first)
+            // 1. Supabase से डेटा मंगाना (Limit 6)
             const { data: blogs, error } = await supabase
                 .from('blogs')
                 .select('*')
                 .order('created_at', { ascending: false })
-                .limit(6); // होम पेज पर सिर्फ ताज़ा 6 ब्लॉग दिखाने के लिए
+                .limit(6);
 
             if (error) throw error;
 
+            // 2. अगर कोई ब्लॉग न मिले
             if (!blogs || blogs.length === 0) {
-                blogGrid.innerHTML = "<p style='text-align: center;'>No blogs found.</p>";
+                blogGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #888;">
+                        <i class="fas fa-folder-open" style="font-size: 40px; display: block; margin-bottom: 10px;"></i>
+                        No blogs found at the moment.
+                    </div>`;
                 return;
             }
 
-            // HTML साफ़ करें
+            // 3. Grid को साफ़ करें और नया डेटा भरें
             blogGrid.innerHTML = '';
 
             blogs.forEach(blog => {
-                const card = document.createElement('div');
-                card.style = `
-                    background: #1e1e1e; 
-                    border-radius: 12px; 
-                    overflow: hidden; 
-                    box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
-                    transition: transform 0.3s ease;
-                    display: flex;
-                    flex-direction: column;
-                `;
+                const card = document.createElement('a');
+                card.href = `blog-detail.html?id=${blog.id}`;
+                card.className = 'blog-card'; 
                 
-                // Card Hover Effect
-                card.onmouseover = () => card.style.transform = 'translateY(-5px)';
-                card.onmouseout = () => card.style.transform = 'translateY(0)';
-
                 card.innerHTML = `
-                    <div style="width: 100%; height: 200px; overflow: hidden;">
-                        <img src="${blog.image_url || 'https://via.placeholder.com/400x200?text=No+Image'}" 
-                             style="width: 100%; height: 100%; object-fit: cover;" 
-                             alt="${blog.title}">
+                    <div class="blog-card-img-container" style="position: relative; width: 100%; height: 180px; overflow: hidden;">
+                        <img src="${blog.image_url || 'https://via.placeholder.com/400x200?text=BSC+TOP'}" 
+                             class="blog-card-img" 
+                             alt="${blog.title}"
+                             style="width: 100%; height: 100%; object-fit: cover;">
+                        <div style="position: absolute; top: 10px; right: 10px; background: rgba(99, 102, 241, 0.9); color: white; padding: 2px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; text-transform: uppercase;">
+                             New Post
+                        </div>
                     </div>
-                    <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column;">
-                        <h3 style="margin: 0 0 10px 0; color: #fff; font-size: 1.25rem; line-height: 1.4;">${blog.title}</h3>
-                        <p style="color: #aaa; font-size: 0.85rem; margin-bottom: 15px;">
-                            ${new Date(blog.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} | By ${blog.author || 'Admin'}
-                        </p>
-                        <a href="blog-detail.html?id=${blog.id}" 
-                           style="margin-top: auto; color: #4A90E2; text-decoration: none; font-weight: bold; display: inline-block;">
-                           Read Full Article →
-                        </a>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta" style="display: flex; gap: 15px; font-size: 12px; color: #94A3B8; margin-bottom: 10px;">
+                            <span><i class="far fa-calendar-alt" style="color: #6366F1;"></i> ${new Date(blog.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
+                            <span><i class="far fa-user" style="color: #6366F1;"></i> ${blog.author || 'Admin'}</span>
+                        </div>
+                        <h3 class="blog-card-title" style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0 0 10px 0; line-height: 1.4;">${blog.title}</h3>
+                        <div class="read-more" style="font-size: 14px; color: #6366F1; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                            Read Full Article <i class="fas fa-chevron-right"></i>
+                        </div>
                     </div>
                 `;
                 blogGrid.appendChild(card);
@@ -538,96 +1165,145 @@
 
         } catch (err) {
             console.error("Home Blog Error:", err);
-            blogGrid.innerHTML = "<p style='text-align: center; color: red;'>Failed to load blogs.</p>";
+            blogGrid.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; color: #FF6B6B; padding: 40px;">
+                    <i class="fas fa-exclamation-triangle"></i><br>
+                    Failed to load blogs.
+                </div>`;
         }
     }
 
     // पेज लोड होने पर रन करें
-    loadBlogsHome();
+    document.addEventListener('DOMContentLoaded', loadBlogsHome);
 </script>
+
+
 
 
   <br />
 
   
-  <h1 class="ourteam">OUR TEAM</h1>
-  <div class="teamcard">
-    <div class="container">
-      <img src="IMG_20250924_195239.jpg" class="id" alt="profile photo">
-      </img>
-      <div>
-        <h3 class="name">Sachin Chaudhary</h3>
-        <h4 class="bio">Front-end and Back-end Developer</h4>
-      </div>
+<section id="team-section">
+    <div class="section-header">
+        <h2 class="ourteam">OUR TEAM</h2>
+        <div class="title-underline"></div>
     </div>
-    <div class="container">
-      <img src="sanjay saini.jpg" class="id" alt="profile photo">
-      </img>
-      <div>
-        <h3 class="name">SANJAY SAINI</h3>
-        <h4 class="bio">Website Manager</h4>
-      </div>
+
+    <div class="team-grid">
+        <div class="team-card">
+            <div class="avatar-wrapper">
+                <img src="IMG_20250924_195239.jpg" class="team-img" alt="Sachin Chaudhary">
+            </div>
+            <div class="team-info">
+                <h3 class="name">Sachin Chaudhary</h3>
+                <p class="role">Lead Developer</p>
+                <span class="badge">Full-Stack developer</span>
+                 <span class="badge">Admin</span>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="avatar-wrapper">
+                <img src="sanjay saini.jpg" class="team-img" alt="Sanjay Saini">
+            </div>
+            <div class="team-info">
+                <h3 class="name">Sanjay Saini</h3>
+                <p class="role">Website Manager</p>
+                <span class="badge">Admin</span>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="avatar-wrapper">
+                <img src="IMG_20250926_070150-removebg-preview.jpg" class="team-img" alt="Shailendra Jangid">
+            </div>
+            <div class="team-info">
+                <h3 class="name">Shailendra Jangid</h3>
+                <p class="role">Material Manager</p>
+                <span class="badge">Resources</span>
+            </div>
+        </div>
+
+        <div class="team-card">
+            <div class="avatar-wrapper">
+                <img src="sanju singh.jpg" class="team-img" alt="Sanju Singh">
+            </div>
+            <div class="team-info">
+                <h3 class="name">Sanju Singh</h3>
+                <p class="role">Material Manager</p>
+                <span class="badge">Resources</span>
+            </div>
+        </div>
     </div>
-    
-    <div class="container">
-      <img src="IMG_20250926_070150-removebg-preview.jpg" class="id" alt="profile photo">
-      </img>
-      <div>
-        <h3 class="name"> Shailendra Jangid</h3>
-        <h4 class="bio">Material Manager</h4>
-      </div>
+</section>
+
+  
+<section id="social-platforms">
+    <div class="section-header">
+        <h2 class="social-title">OUR SOCIAL PLATFORMS</h2>
+        <div class="title-underline"></div>
     </div>
-    
-    <div class="container">
-      <img src="sanju singh.jpg" class="id" alt="profile photo">
-      </img>
-      <div>
-        <h3 class="name">Sanju Singh</h3>
-        <h4 class="bio">Material Manager</h4>
-      </div>
+
+    <div class="social-grid">
+        <div class="social-card">
+            <div class="qr-wrapper">
+                <img src="wqr.png" class="qr-img" alt="WhatsApp QR">
+                <div class="qr-overlay"><i class="fas fa-expand"></i></div>
+            </div>
+            <div class="social-info">
+                <h3 class="name">Scan to Join</h3>
+                <p class="platform-name"><i class="fab fa-whatsapp"></i> WhatsApp Group</p>
+                <div class="scan-badge">OFFICIAL</div>
+            </div>
+        </div>
+
+        <div class="social-card">
+            <div class="qr-wrapper">
+                <img src="BSC TOP .png" class="qr-img" alt="Website QR">
+                <div class="qr-overlay"><i class="fas fa-expand"></i></div>
+            </div>
+            <div class="social-info">
+                <h3 class="name">Scan to Visit</h3>
+                <p class="platform-name"><i class="fas fa-globe"></i> Website Portal</p>
+                <div class="scan-badge">DIRECT LINK</div>
+            </div>
+        </div>
     </div>
-  </div>
+</section>
+
   
   
-  <h1 style="font-size: 20px; margin: 5px 20px; padding: 5px; color: var(--text-color);">OUR SOCIAL PLATFORMS</h1>
-  
-  <div class="socialcontainer">
-    <div class="container">
-      <img src="wqr.png" class="id" alt="profile photo">
-      </img>
-      <div>
-        <h3 class="name">Scan me</h3>
-        <h4 class="bio"> WhatsApp Group</h4>
-      </div>
+<footer class="main-footer">
+    <div class="footer-top">
+        <div class="footer-brand">
+            <h2 class="footer-logo">BSC <span class="accent">TOP</span></h2>
+            <p class="disclaimer-text">An Independent Educational Resource Platform with no official university affiliation.</p>
+        </div>
+
+        <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <p><i class="fas fa-envelope"></i> <a href="mailto:dream100wala@gmail.com">dream100wala@gmail.com</a></p>
+            <p><i class="fas fa-map-marker-alt"></i> RR College, Alwar, Rajasthan, India</p>
+        </div>
     </div>
-    
-    <div class="container">
-      <img src="BSC TOP .png" class="id" alt="profile photo">
-      </img>
-      <div>
-        <h3 class="name">Scan me</h3>
-        <h4 class="bio"> Website</h4>
-      </div>
+
+    <div class="footer-links-grid">
+        <a href="about.html">About Us</a>
+        <a href="terms.html">Terms & Conditions</a>
+        <a href="disclaimer.html">Disclaimer</a>
+        <a href="privacy.html">Privacy Policy</a>
     </div>
-  </div> 
-  
-  
-  <footer>
-    <p>© 2025 Sachin Nitharwal | All Rights Reserved |An Independent Educational Resource Platform with no official university affiliation|
-    <h2>Contact Us</h2>
-    <p>Email: <a href="mailto:dream100wala@gmail.com">dream100wala@gmail.com</a><br>
-      Address: RR College, Alwar, Rajasthan, India</p>
-    </p>
-    <div class="bottom">
-      <a href="about.html">About Us</a>
-      <a href="terms.html">terms & conditions</a>
-      <a href="disclaimer.html">disclaimer</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="/Sections/login.html" class="admin"><i class="fas fa-id-card-alt">Admin login</i></a>
+
+    <div class="footer-bottom">
+        <p class="copyright">© 2025 <span class="owner">Sachin Nitharwal</span> | All Rights Reserved</p>
+        <div class="admin-box">
+            <a href="/Sections/login.html" class="footer-admin-btn">
+                <i class="fas fa-user-shield"></i> Admin Login
+            </a>
+        </div>
     </div>
-  </footer>
-  
-  
+</footer>
+
   <script>
     // 🚨 FIXED: Side Menu Functions 🚨
     function openMenu() {
