@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Books | BSC TOP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        :root { --accent: #EAB308; --bg: #050505; --card: #111; }
+        body { background: var(--bg); color: white; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        
+        .box { background: var(--card); padding: 30px; border-radius: 24px; width: 100%; max-width: 380px; border: 1px solid #222; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; }
+        h2 { color: var(--accent); margin: 0 0 5px 0; font-size: 26px; font-weight: 800; }
+        p.sub { color: #94A3B8; font-size: 13px; margin-bottom: 25px; line-height: 1.5; }
+        
+        .instruction-card { background: rgba(234, 179, 8, 0.08); border: 1px dashed var(--accent); padding: 15px; margin-bottom: 20px; border-radius: 12px; text-align: left; }
+        .instruction-card h4 { margin: 0 0 8px 0; font-size: 13px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+        .instruction-card p { margin: 0; font-size: 12px; color: #CCC; line-height: 1.4; }
+
+        .field { margin-bottom: 18px; text-align: left; }
+        label { display: block; font-size: 11px; color: #94A3B8; margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        input { width: 100%; padding: 14px; background: #1A1A1A; border: 1px solid #333; color: white; border-radius: 12px; box-sizing: border-box; font-size: 14px; transition: 0.3s; }
+        input:focus { border-color: var(--accent); outline: none; background: #222; }
+
+        .btn { width: 100%; padding: 16px; background: var(--accent); border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: #000; font-size: 16px; margin-top: 10px; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(234, 179, 8, 0.3); }
+        .btn:active { transform: scale(0.98); }
+
+        .footer-note { margin-top: 20px; font-size: 11px; color: #555; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>BSC TOP</h2>
+    <p class="sub">अपनी पुरानी बुक्स को अच्छे दाम पर बेचें।</p>
+    
+    <div class="instruction-card">
+        <h4><i class="fas fa-bullhorn"></i> जरूरी सूचना</h4>
+        <p>डिटेल्स भेजने के बाद एडमिन आपके <b>WhatsApp</b> पर संपर्क करेगा और रिव्यू के लिए बुक की फोटो मांगेगा।</p>
+    </div>
+
+    <form id="sellForm">
+        <div class="field">
+            <label>Book Name & Semester</label>
+            <input type="text" id="name" placeholder="उदा: Zoology Vol 1 (Sem 2)" required>
+        </div>
+        
+        <div class="field">
+            <label>Your WhatsApp Number</label>
+            <input type="tel" id="whatsapp" placeholder="91XXXXXXXX" required>
+        </div>
+        
+        <div class="field">
+            <label>Selling Price (₹)</label>
+            <input type="number" id="price" placeholder="150" required>
+        </div>
+
+        <button type="submit" class="btn">
+            <i class="fas fa-envelope"></i> Send Details via Email
+        </button>
+    </form>
+
+    <div class="footer-note">
+        Powered by BSC TOP Book Corner
+    </div>
+</div>
+
+<script>
+    document.getElementById('sellForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // फॉर्म से डेटा उठाना
+        const bookName = document.getElementById('name').value;
+        const whatsapp = document.getElementById('whatsapp').value;
+        const price = document.getElementById('price').value;
+
+        // ईमेल का विषय (Subject)
+        const subject = encodeURIComponent("New Book Sale Request: " + bookName);
+
+        // ईमेल का मुख्य संदेश (Body)
+        const body = encodeURIComponent(
+            "Hello Admin,\n\n" +
+            "मैं अपनी बुक BSC TOP पर लिस्ट करना चाहता हूँ। डिटेल्स नीचे दी गई हैं:\n\n" +
+            "----------------------------\n" +
+            "📚 BOOK NAME: " + bookName + "\n" +
+            "💰 PRICE: ₹" + price + "\n" +
+            "📱 WHATSAPP: " + whatsapp + "\n" +
+            "----------------------------\n\n" +
+            "कृपया मेरी बुक रिव्यू करें। मैं व्हाट्सएप पर फोटो भेजने के लिए तैयार हूँ।"
+        );
+
+        // Direct Mailto Link
+        const mailtoUrl = `mailto:dream100wala@gmail.com?subject=${subject}&body=${body}`;
+
+        // ईमेल ऐप खोलना
+        window.location.href = mailtoUrl;
+    });
+</script>
+
+</body>
+</html>
