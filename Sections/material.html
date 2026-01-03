@@ -1,236 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Table</title>
+    <title>Materials Hub | BSC TOP</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9282641508923214"
-        crossorigin="anonymous"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-L5T047QX77');
-    </script>
-
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+        :root {
+            --bg-pure: #050505;
+            --card-bg: #111111;
+            --accent: #6366F1;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --text-main: #FFFFFF;
+            --text-dim: #94A3B8;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 10px;
+            background-color: var(--bg-pure);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; padding: 0;
         }
 
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-            max-height: 80vh;
-            margin-bottom: 20px; /* Added spacing */
+        /* --- STICKY NAV --- */
+        .main-header {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1A1A1A;
+            position: sticky; top: 0; z-index: 1000;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
+        .brand-logo { margin: 0; font-size: 20px; font-weight: 800; }
+        .brand-logo span { color: var(--accent); text-shadow: 0 0 15px var(--accent-glow); }
+
+        .content-wrapper { padding: 25px 20px; max-width: 600px; margin: 0 auto; }
+
+        /* --- SUBJECT BOXES (GRADIENT LOOK) --- */
+        .view-label { 
+            font-size: 11px; color: var(--accent); font-weight: 800; 
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block;
         }
 
-        th,
-        td {
-            border: 1.5px solid black;
-            padding: 8px;
+        .subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 35px; }
+        
+        .subject-box {
+            background: var(--card-bg);
+            border: 1px solid #1F1F1F;
+            padding: 30px 15px;
+            border-radius: 24px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; overflow: hidden;
         }
 
-        th {
-            background: #f2f2f2;
-            position: sticky;
-            top: 0;
+        .subject-box::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent);
+            opacity: 0; transition: 0.3s;
         }
 
-        td:first-child {
-            font-weight: bold;
-            text-align: left;
+        .subject-box:hover { 
+            border-color: var(--accent); 
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 15px rgba(99, 102, 241, 0.1);
+        }
+        
+        .subject-box:hover::before { opacity: 1; }
+
+        .subject-box i { 
+            font-size: 32px; color: var(--accent); margin-bottom: 15px; display: block;
+            filter: drop-shadow(0 0 8px var(--accent-glow));
         }
 
-        .math {
-            background-color: #d0e4ff;
+        .subject-box h3 { margin: 0; font-size: 14px; font-weight: 700; color: #fff; }
+
+        /* --- DETAIL VIEW (CLEAN CARDS) --- */
+        #detailView { display: none; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .back-nav {
+            display: inline-flex; align-items: center; gap: 10px; margin-bottom: 25px;
+            cursor: pointer; color: #fff; font-weight: 600; font-size: 13px;
+            background: #1A1A1A; padding: 10px 18px; border-radius: 14px;
         }
 
-        .physics {
-            background-color: #d4fcd4;
+        /* --- PREMIUM MATERIAL CARD --- */
+        .material-card {
+            background: linear-gradient(145deg, #161616, #0F0F0F);
+            border: 1px solid #222;
+            border-radius: 22px; padding: 20px;
+            margin-bottom: 18px;
+            position: relative;
         }
 
-        .chemistry {
-            background-color: #ffe0b2;
+        .card-top { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
+
+        .icon-box { 
+            width: 50px; height: 50px; background: #1A1A1A; 
+            border-radius: 15px; display: flex; align-items: center; justify-content: center;
+            color: var(--accent); font-size: 20px; border: 1px solid #262626;
         }
 
-        .newbadge {
-            background-color: yellow;
-            display: inline;
-            color: red;
-            font-weight: bold;
-            border: 2px solid yellowgreen;
-            border-radius: 8px;
-            padding: 2px 5px;
-            margin-left: 5px;
+        .subject-info h3 { margin: 0; font-size: 16px; font-weight: 700; color: #fff; flex-grow: 1; }
+        
+        .view-btn {
+            text-decoration: none; background: var(--accent); color: white;
+            padding: 10px 20px; border-radius: 12px; font-size: 12px; font-weight: 800;
+            transition: 0.3s; border: none; cursor: pointer;
         }
 
-        .loading-row {
-            text-align: center;
-            padding: 20px;
-            font-size: 1.2em;
-            color: gray;
+        .view-btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px var(--accent-glow); }
+
+        /* --- PILLS (GLASS LOOK) --- */
+        .card-footer { display: flex; flex-wrap: wrap; gap: 10px; border-top: 1px solid #1F1F1F; padding-top: 18px; }
+        
+        .pill { 
+            font-size: 10px; padding: 6px 14px; border-radius: 10px; font-weight: 700; 
+            display: flex; align-items: center; gap: 8px; background: #1A1A1A; color: var(--text-dim);
+            border: 1px solid #262626;
         }
+
+        .pill i { color: var(--accent); font-size: 12px; }
+
+        .loading-state { text-align: center; padding: 100px 0; color: var(--text-dim); }
     </style>
-
 </head>
-
 <body>
 
-    <h2>📚 Dynamic Study Notes</h2>
-    <div class="table-container">
-        <table id="notesTable">
-            <thead>
-                <tr>
-                    <th>Sub.</th>
-                    <th>Chapter Name</th>
-                    <th>Teacher's Name</th>
-                    <th>Sender Student</th>
-                    <th>Remarks</th>
-                </tr>
-            </thead>
-            <tbody id="notesBody">
-                <tr id="initial-loading-note-row">
-                    <td colspan="5" class="loading-row">Loading new study notes from the server...</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <header class="main-header">
+        <h1 class="brand-logo">BSC <span>TOP</span></h1>
+        <div style="width: 40px; height: 40px; background: #1A1A1A; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-bell" style="font-size: 16px; color: var(--text-dim);"></i>
+        </div>
+    </header>
 
-    <h2>📑 Practical Files (Static)</h2>
-    <div class="table-container">
-        <table id="practicalTable">
-            <thead>
-                <tr>
-                    <th>Sub.</th>
-                    <th>Practical's name</th>
-                    <th>Sender Student</th>
-                    <th>Remarks</th>
-                </tr>
-            </thead>
-            <tbody id="practicalBody">
-                <tr>
-                    <td class="physics">Physics</td>
-                    <td><a href="https://drive.google.com/file/d/1sH3aWtB94FSuUUwotOA_30D9_Uxm74GZ/view?usp=drivesdk">Searle experiment </a></td>
-                    <td>Sachin Nitharwal</td>
-                    <td>Upload date (24/09/2025)</td>
+    <main class="content-wrapper">
+        
+        <div id="mainView">
+            <span class="view-label">📚 Class notes</span>
+            <div class="subject-grid" id="subjectsGrid">
+                <div class="loading-state"><i class="fas fa-circle-notch fa-spin"></i></div>
+            </div>
 
-                </tr>
-                <tr>
-                    <td class="physics">Physics</td>
-                    <td><a href="https://drive.google.com/file/d/1t39fHTZLiIi-FdGtGwFxH_o5RCoIgcFf/view?usp=drivesdk">Compound pendulum</a></td>
-                    <td>Sachin Nitharwal</td>
-                    <td>Upload date (24/09/2025)</td>
+            <span class="view-label">🔬 Laboratory Work</span>
+            <div class="subject-grid">
+                <div class="subject-box" onclick="showPracticals('Physics')">
+                    <i class="fas fa-flask-vial"></i>
+                    <h3>Physics</h3>
+                </div>
+                <div class="subject-box" onclick="showPracticals('Chemistry')">
+                    <i class="fas fa-vial-circle-check"></i>
+                    <h3>Chemistry</h3>
+                </div>
+            </div>
+        </div>
 
-                </tr>
-                <tr>
-                    <td class="physics">Physics</td>
-                    <td><a href="https://drive.google.com/file/d/1zxFZAC732E1Qv4v79cDWrH8N4VJrXpdr/view?usp=drivesdk">Maxwell Needle</a>
-                        <p class="newbadge">NEW</p>
-                    </td>
-                    <td>Sachin Nitharwal</td>
-                    <td>Upload date (8/10/2025)</td>
-                </tr>
-                </tbody>
-        </table>
-    </div>
+        <div id="detailView">
+            <div class="back-nav" onclick="goBack()"><i class="fas fa-chevron-left"></i> Back to Hub</div>
+            <h2 id="activeSubjectName" style="font-size: 28px; font-weight: 800; margin: 0 0 25px 0;">Subject</h2>
+            <div id="cardsContainer"></div>
+        </div>
+
+    </main>
 
     <script type="module">
-        // Assuming app.js is in the same folder now, or you've set the correct relative path.
-        // If app.js is in the same folder (Sections/), use './app.js'
         import { supabase } from './app.js'; 
 
-        const NOTES_TABLE_NAME = 'materials';
+        let allNotes = [];
 
-        /**
-         * Fetches and displays study notes (material_type = 'Note') from Supabase.
-         */
-        async function loadNotes() {
-            const notesBody = document.getElementById("notesBody");
-            notesBody.innerHTML = ''; // Clear the body
+        async function load() {
+            try {
+                const { data, error } = await supabase.from('materials').select('*').eq('material_type', 'Note').order('created_at', {ascending: false});
+                if (error) throw error;
+                allNotes = data;
 
-            // 🚨 DEBUG STEP 1: Check if Supabase client is available 🚨
-            if (!supabase || !supabase.from) {
-                console.error("CRITICAL ERROR: Supabase client is not defined. Check HTML HEAD (CDN) and app.js.");
-                notesBody.innerHTML = `<td colspan="5" class="loading-row" style="color:red;">CRITICAL ERROR: Client failed to initialize.</td>`;
-                return;
-            }
-            console.log("Supabase Client Status: Ready. Attempting fetch...");
-
-            const { data: notes, error } = await supabase
-                .from(NOTES_TABLE_NAME)
-                .select('*')
-                .eq('material_type', 'Note') // Filter only for 'Note' materials
-                .order('created_at', { ascending: false }); // Newest first
-
-            // 🚨 DEBUG STEP 2: Log fetch results 🚨
-            console.log("--- Supabase Fetch Results ---");
-            console.log("Fetch Error (Should be null):", error);
-            console.log("Data Array Received (Check Length):", notes);
-            console.log("--- End Fetch Results ---");
-            
-            if (error) {
-                console.error("Error fetching notes:", error);
-                notesBody.innerHTML = `<td colspan="5" class="loading-row" style="color:red;">Error loading notes: ${error.message}</td>`;
-                return;
-            }
-
-            if (!notes || notes.length === 0) {
-                 // This is the message you get if the filter is wrong or RLS is blocking.
-                 notesBody.innerHTML = `<td colspan="5" class="loading-row">No study notes were returned from the server (Filter or RLS issue).</td>`;
-                 return;
-            }
-
-            // --- RENDER NOTES (Only runs if data is present) ---
-            notes.forEach(note => {
-                const subjectClass = note.subject.toLowerCase();
-                const isNew = note.is_new ? '<p class="newbadge">NEW</p>' : '';
-
-                const tr = document.createElement("tr");
-                tr.className = subjectClass;
-
-                tr.innerHTML = `
-                    <td class="${subjectClass}">${note.subject}</td>
-                    <td>
-                        <a href="${note.google_drive_link}" target="_blank">${note.chapter_name}</a>
-                        ${isNew}
-                    </td>
-                    <td>${note.teacher_name || ''}</td>
-                    <td>${note.sender_student || ''}</td>
-                    <td>${note.remarks || 'No remarks'}</td>
-                `;
-                notesBody.appendChild(tr);
-            });
-            
+                const grid = document.getElementById("subjectsGrid");
+                const subjects = [...new Set(data.map(n => n.subject))];
+                grid.innerHTML = '';
+                
+                subjects.forEach(sub => {
+                    const div = document.createElement('div');
+                    div.className = 'subject-box';
+                    div.onclick = () => showNotes(sub);
+                    div.innerHTML = `<i class="fas fa-book-open-reader"></i><h3>${sub}</h3>`;
+                    grid.appendChild(div);
+                });
+            } catch (e) { grid.innerHTML = "Offline"; }
         }
 
-        document.addEventListener('DOMContentLoaded', loadNotes);
-        
+        window.showNotes = (sub) => {
+            toggle('detail');
+            document.getElementById('activeSubjectName').innerText = sub;
+            const filtered = allNotes.filter(n => n.subject === sub);
+            document.getElementById('cardsContainer').innerHTML = filtered.map(n => renderCard(n.chapter_name, n.google_drive_link, n.teacher_name, n.sender_student)).join('');
+        };
+
+        window.showPracticals = (type) => {
+            toggle('detail');
+            document.getElementById('activeSubjectName').innerText = type + " Practicals";
+            // Example Data - Add your links here
+            const data = type === 'Physics' ? [{name: "Searle Exp", link: "#", t: "Physics Dept", s: "Sachin"}] : [];
+            document.getElementById('cardsContainer').innerHTML = data.map(p => renderCard(p.name, p.link, p.t, p.s)).join('') || "No Files";
+        }
+
+        function renderCard(title, link, t, s) {
+            return `
+                <div class="material-card">
+                    <div class="card-top">
+                        <div class="icon-box"><i class="fas fa-file-lines"></i></div>
+                        <div class="subject-info"><h3>${title}</h3></div>
+                        <a href="${link}" target="_blank" class="view-btn">View</a>
+                    </div>
+                    <div class="card-footer">
+                        <div class="pill"><i class="fas fa-chalkboard-user"></i> ${t || 'Teacher'}</div>
+                        <div class="pill"><i class="fas fa-user-graduate"></i> ${s || 'Admin'}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggle(v) {
+            document.getElementById('mainView').style.display = v === 'main' ? 'block' : 'none';
+            document.getElementById('detailView').style.display = v === 'detail' ? 'block' : 'none';
+            window.scrollTo(0,0);
+        }
+
+        window.goBack = () => toggle('main');
+        document.addEventListener('DOMContentLoaded', load);
     </script>
-
-    <script type="text/javascript">
-        var infolinks_pid = 3440557;
-        var infolinks_wsid = 0;
-    </script>
-    <script type="text/javascript" src="http://resources.infolinks.com/js/infolinks_main.js"></script>
-
-
 </body>
-
 </html>

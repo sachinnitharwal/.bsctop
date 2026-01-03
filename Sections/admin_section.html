@@ -1,345 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="style.css"> 
-    <style>
-        /* Existing Styles */
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .submit-btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        #message { margin-top: 20px; padding: 10px; border-radius: 4px; display: none; }
-        .success { background-color: #d4edda; color: #155724; }
-        .error { background-color: #f8d7da; color: #721c24; }
+    <title>Control Center | BSC TOP Admin</title>
 
-        /* Management List Styles */
-        .material-item {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+
+        :root {
+            --bg-dark: #08090A;
+            --card-bg: #111214;
+            --accent: #4A90E2;
+            --accent-light: #64B5F6;
+            --success: #00C853;
+            --error: #FF5252;
+            --text-main: #FFFFFF;
+            --text-dim: #94A3B8;
         }
-        .material-info { flex-grow: 1; }
-        .new-highlight { background-color: #fff3cd; }
-        
-        /* Blog Dashboard Styles */
-        .dashboard { max-width: 600px; margin: 20px auto; background: #1e1e1e; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { color: #4A90E2; text-align: center; }
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; margin-bottom: 5px; color: #bbb; }
-        .input-group input, .input-group textarea { width: 100%; padding: 12px; background: #2d2d2d; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; }
-        textarea { height: 150px; resize: vertical; }
-        .blog-btn { width: 100%; padding: 15px; background: #4A90E2; border: none; color: white; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .blog-btn:hover { background: #357ABD; }
-        #status { text-align: center; margin-top: 15px; font-size: 14px; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; min-height: 100vh;
+        }
+
+        /* --- MODERN HEADER --- */
+        .admin-nav {
+            background: rgba(17, 18, 20, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #222;
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand { font-weight: 800; font-size: 1.2rem; }
+        .brand span { color: var(--accent); }
+
+        .logout-btn {
+            background: rgba(255, 82, 82, 0.1); color: var(--error);
+            border: 1px solid var(--error); padding: 8px 16px;
+            border-radius: 10px; cursor: pointer; font-weight: 600;
+            transition: 0.3s;
+        }
+        .logout-btn:hover { background: var(--error); color: #fff; }
+
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
+
+        /* --- TABS SYSTEM --- */
+        .tabs-header {
+            display: flex; gap: 10px; margin-bottom: 25px;
+            overflow-x: auto; padding-bottom: 5px;
+        }
+        .tab-btn {
+            background: var(--card-bg); color: var(--text-dim);
+            border: 1px solid #222; padding: 12px 20px;
+            border-radius: 12px; cursor: pointer; white-space: nowrap;
+            font-weight: 600; transition: 0.3s;
+        }
+        .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- DASHBOARD CARDS & FORMS --- */
+        .glass-card {
+            background: var(--card-bg); border: 1px solid #222;
+            border-radius: 20px; padding: 25px; margin-bottom: 25px;
+        }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+        .input-group { margin-bottom: 18px; }
+        .input-group label { display: block; font-size: 12px; color: var(--text-dim); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; }
+        input, select, textarea {
+            width: 100%; padding: 12px 15px; background: #1A1B1E;
+            border: 1px solid #2A2B2E; border-radius: 12px; color: #fff;
+            font-family: inherit; font-size: 14px; box-sizing: border-box;
+        }
+        input:focus { border-color: var(--accent); outline: none; }
+
+        .submit-btn {
+            width: 100%; padding: 15px; background: var(--accent);
+            color: white; border: none; border-radius: 12px;
+            font-weight: 700; cursor: pointer; transition: 0.3s;
+        }
+        .submit-btn:hover { background: var(--accent-light); transform: translateY(-2px); }
+
+        /* --- ITEM LISTS --- */
+        .item-row {
+            background: #16171A; border: 1px solid #222;
+            padding: 15px; border-radius: 15px; margin-bottom: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .item-info b { color: var(--accent); }
+        .item-actions { display: flex; gap: 8px; }
+        .action-btn { 
+            width: 35px; height: 35px; border-radius: 8px; border: none; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .btn-del { background: rgba(255, 82, 82, 0.1); color: var(--error); }
+        .btn-edit { background: rgba(0, 200, 83, 0.1); color: var(--success); }
+
+        #message {
+            position: fixed; bottom: 20px; right: 20px; padding: 15px 25px;
+            border-radius: 12px; color: white; display: none; z-index: 2000;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .success { background: var(--success); }
+        .error { background: var(--error); }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>🔑 Admin Dashboard</h2>
-        <p id="welcome-user">Loading user data...</p>
-        
-        <div id="loading" style="text-align: center;">
-            <p>Checking authentication...</p>
+    <nav class="admin-nav">
+        <div class="brand">BSC <span>TOP</span> Control</div>
+        <div id="user-info" style="font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 15px;">
+            <span id="welcome-user">Admin</span>
+            <button class="logout-btn" onclick="signOut()"><i class="fas fa-sign-out-alt"></i> Exit</button>
         </div>
-        
-        <div id="admin-content" style="display: none;">
-            <button onclick="signOut()">Log Out</button>
+    </nav>
 
-            <hr>
-            <h3>➕ Add New Material</h3>
-            <div id="message"></div>
-            
-            <form id="material-form">
-                <div class="form-group">
-                    <label for="materialType">Material Type</label>
-                    <select id="materialType" name="materialType" required>
-                        <option value="Note">Study Note (Appears in main table)</option>
-                        <option value="Practical">Practical File</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <select id="subject" name="subject" required>
-                        <option value="Math">Math</option>
-                        <option value="Physics">Physics</option>
-                        <option value="Chemistry">Chemistry</option>
-                        <option value="Others">Others</option>
-                    </select>
-                </div>
+    <div class="container">
+        <div class="tabs-header">
+            <button class="tab-btn active" onclick="switchTab('material-tab', this)"><i class="fas fa-book"></i> Materials</button>
+            <button class="tab-btn" onclick="switchTab('blog-tab', this)"><i class="fas fa-pen-nib"></i> Blogs</button>
+            <button class="tab-btn" onclick="switchTab('stats-tab', this)"><i class="fas fa-chart-line"></i> Statistics</button>
+        </div>
 
-                <div class="form-group">
-                    <label for="chapterName">Chapter / Practical Name</label>
-                    <input type="text" id="chapterName" name="chapterName" placeholder="e.g., 1. Graph Theory Part 1" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="teacherName">Teacher's Name</label>
-                    <input type="text" id="teacherName" name="teacherName" placeholder="e.g., SK Sir">
-                </div>
-                
-                <div class="form-group">
-                    <label for="senderStudent">Sender Student</label>
-                    <input type="text" id="senderStudent" name="senderStudent" placeholder="e.g., Shailendra Jangid">
-                </div>
+        <div id="message"></div>
 
-                <div class="form-group">
-                    <label for="remarks">Remarks</label>
-                    <textarea id="remarks" name="remarks" placeholder="e.g., Upload date"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="googleDriveLink">Google Drive Link</label>
-                    <input type="url" id="googleDriveLink" name="googleDriveLink" required placeholder="https://drive.google.com/...">
-                </div>
-                
-                <div class="form-group">
-                    <label for="isNew">Display "NEW" Badge?</label>
-                    <input type="checkbox" id="isNew" name="isNew">
-                </div>
-
-                <button type="submit" class="submit-btn">Submit Material</button>
-            </form>
-
-            <hr>
-            <h3>⚙️ Manage Existing Materials (Update/Delete)</h3>
-            <div id="material-list-loading" style="text-align: center; padding: 20px;">
-                <p>Loading materials for management...</p>
+        <div id="material-tab" class="tab-content active">
+            <div class="glass-card">
+                <h3 style="margin-top:0"><i class="fas fa-plus-circle"></i> New Material</h3>
+                <form id="material-form">
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Type</label>
+                            <select id="materialType" name="materialType">
+                                <option value="Note">Study Note</option>
+                                <option value="Practical">Practical File</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Subject</label>
+                            <select id="subject" name="subject">
+                                <option value="Math">Math</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Botany">Botany</option>
+                                <option value="Zoology">Zoology</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Title</label>
+                        <input type="text" id="chapterName" placeholder="Chapter or Practical Name" required>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Teacher</label>
+                            <input type="text" id="teacherName" placeholder="SK Sir">
+                        </div>
+                        <div class="input-group">
+                            <label>Sender (Student)</label>
+                            <input type="text" id="senderStudent" placeholder="Student Name">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Drive URL</label>
+                        <input type="url" id="googleDriveLink" placeholder="https://drive.google.com/..." required>
+                    </div>
+                    <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="isNew" style="width: auto;"> <label style="margin:0; font-size:14px;">Show "NEW" Badge</label>
+                    </div>
+                    <button type="submit" class="submit-btn">Publish Material</button>
+                </form>
             </div>
-            <ul id="material-list" style="list-style-type: none; padding: 0;"></ul>
 
-            <div class="dashboard">
-                <h2>Add New Blog Post</h2>
+            <h3>Manage Content</h3>
+            <div id="material-list"></div>
+        </div>
+
+        <div id="blog-tab" class="tab-content">
+            <div class="glass-card">
+                <h3 style="margin-top:0"><i class="fas fa-rss"></i> Create Blog Post</h3>
                 <div class="input-group">
-                    <label>Blog Title</label>
-                    <input type="text" id="blogTitle" placeholder="e.g. Physics Exam Pattern">
+                    <label>Title</label>
+                    <input type="text" id="blogTitle" placeholder="Physics Exam Pattern 2026">
                 </div>
                 <div class="input-group">
-                    <label>Image URL</label>
-                    <input type="text" id="imageUrl" placeholder="Paste image link here">
+                    <label>Thumbnail Image URL</label>
+                    <input type="text" id="imageUrl" placeholder="Direct link to image">
                 </div>
                 <div class="input-group">
-                    <label>Author Name</label>
-                    <input type="text" id="authorName" value="Sachin Nitharwal">
+                    <label>Content (HTML Supported)</label>
+                    <textarea id="blogBody" style="height: 200px;" placeholder="Write your post content here..."></textarea>
                 </div>
-                <div class="input-group">
-                    <label>Blog Content (HTML Tags allowed)</label>
-                    <textarea id="blogBody" placeholder="Write your blog here..."></textarea>
-                </div>
-                <button class="blog-btn" onclick="postBlog()">🚀 Publish Blog</button>
-                <p id="status"></p>
+                <button class="submit-btn" onclick="postBlog()">Publish Blog Post</button>
             </div>
+        </div>
+
+        <div id="stats-tab" class="tab-content">
+            <div id="admin-blog-list"></div>
         </div>
     </div>
-<hr>
-<h3>📊 Manage Blogs & Views</h3>
-<div id="admin-blog-list">
-    <p>Loading blogs statistics...</p>
-</div>
 
     <script type="module">
         import { checkAuthAndRedirect, signOut, supabase } from './app.js'; 
-
         window.signOut = signOut;
-        const NOTES_TABLE_NAME = 'materials';
 
-        // --- BLOG FUNCTION ---
-        async function postBlog() {
-            const title = document.getElementById('blogTitle').value;
-            const image = document.getElementById('imageUrl').value;
-            const author = document.getElementById('authorName').value;
-            const body = document.getElementById('blogBody').value;
-            const status = document.getElementById('status');
-
-            if(!title || !body) {
-                status.innerText = "Title and Content are required!";
-                status.className = "error";
-                return;
-            }
-
-            status.innerText = "Publishing...";
-            
-            const { data, error } = await supabase
-                .from('blogs') 
-                .insert([{ title: title, image_url: image, author: author, body: body }]);
-
-            if (error) {
-                status.innerText = "Error: " + error.message;
-                status.className = "error";
-            } else {
-                status.innerText = "Blog Published Successfully! ✅";
-                status.className = "success";
-                document.getElementById('blogTitle').value = "";
-                document.getElementById('imageUrl').value = "";
-                document.getElementById('blogBody').value = "";
-            }
+        // Tab Switching Logic
+        window.switchTab = (tabId, btn) => {
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+            if(tabId === 'stats-tab') loadBlogsForAdmin();
         }
-        window.postBlog = postBlog;
 
-        // --- MATERIAL FUNCTIONS (UNTOUCHED) ---
+        // --- CORE FUNCTIONS ---
         function displayMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = text;
-            messageDiv.className = ''; 
-            messageDiv.classList.add(type);
-            messageDiv.style.display = 'block';
-            setTimeout(() => { messageDiv.style.display = 'none'; }, 5000);
+            const m = document.getElementById('message');
+            m.textContent = text;
+            m.className = type;
+            m.style.display = 'block';
+            setTimeout(() => m.style.display = 'none', 4000);
         }
 
-        async function deleteMaterial(id, chapterName) {
-            if (!confirm(`Are you sure you want to delete "${chapterName}" permanently?`)) return;
-            const { error } = await supabase.from(NOTES_TABLE_NAME).delete().eq('id', id);
-            if (error) {
-                displayMessage(`Error deleting material: ${error.message}`, 'error');
-            } else {
-                displayMessage(`Material "${chapterName}" deleted successfully!`, 'success');
-                loadMaterialsForAdmin();
-            }
-        }
-        window.deleteMaterial = deleteMaterial; 
+        // Material Submission
+        document.getElementById('material-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true; btn.innerText = "Processing...";
 
-        async function toggleNewBadge(id, chapterName, currentStatus) {
-            const { error } = await supabase.from(NOTES_TABLE_NAME).update({ is_new: !currentStatus }).eq('id', id);
-            if (error) {
-                displayMessage(`Error updating material: ${error.message}`, 'error');
-            } else {
-                displayMessage(`Material "${chapterName}" updated!`, 'success');
-                loadMaterialsForAdmin();
-            }
-        }
-        window.toggleNewBadge = toggleNewBadge; 
-
-        async function loadMaterialsForAdmin() {
-            const materialList = document.getElementById('material-list');
-            const loadingDiv = document.getElementById('material-list-loading');
-            loadingDiv.style.display = 'block';
-            materialList.innerHTML = ''; 
-
-            const { data: materials, error } = await supabase
-                .from(NOTES_TABLE_NAME)
-                .select('id, subject, chapter_name, is_new, material_type') 
-                .order('created_at', { ascending: false });
-
-            loadingDiv.style.display = 'none';
-            if (error || !materials) return;
-
-            materials.forEach(material => {
-                const listItem = document.createElement('li');
-                listItem.className = material.is_new ? 'material-item new-highlight' : 'material-item'; 
-                const escapedChapterName = material.chapter_name.replace(/'/g, "\\'"); 
-                listItem.innerHTML = `
-                    <div class="material-info"><b>[${material.material_type}]</b> ${material.subject}: ${material.chapter_name}</div>
-                    <div>
-                        <button onclick="toggleNewBadge(${material.id}, '${escapedChapterName}', ${material.is_new})" style="background-color: ${material.is_new ? '#ffc107' : '#007bff'}; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-right: 10px;">
-                            ${material.is_new ? '✅ Remove NEW' : '➕ Add NEW'}
-                        </button>
-                        <button onclick="deleteMaterial(${material.id}, '${escapedChapterName}')" style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">🗑️ Delete</button>
-                    </div>
-                `;
-                materialList.appendChild(listItem);
-            });
-        }
-
-        async function submitMaterial(event) {
-            event.preventDefault();
-            const form = document.getElementById('material-form');
-            const materialData = {
-                material_type: form.materialType.value,
-                subject: form.subject.value,
-                chapter_name: form.chapterName.value,
-                teacher_name: form.teacherName.value,
-                sender_student: form.senderStudent.value,
-                remarks: form.remarks.value,
-                google_drive_link: form.googleDriveLink.value,
-                is_new: form.isNew.checked,
+            const payload = {
+                material_type: document.getElementById('materialType').value,
+                subject: document.getElementById('subject').value,
+                chapter_name: document.getElementById('chapterName').value,
+                teacher_name: document.getElementById('teacherName').value,
+                sender_student: document.getElementById('senderStudent').value,
+                google_drive_link: document.getElementById('googleDriveLink').value,
+                is_new: document.getElementById('isNew').checked,
             };
 
-            const { error } = await supabase.from(NOTES_TABLE_NAME).insert([materialData]);
-            if (error) {
-                displayMessage(`Error: ${error.message}`, 'error');
-            } else {
-                displayMessage(`Material added successfully!`, 'success');
-                form.reset(); 
+            const { error } = await supabase.from('materials').insert([payload]);
+            btn.disabled = false; btn.innerText = "Publish Material";
+
+            if (error) displayMessage(error.message, 'error');
+            else {
+                displayMessage("Published successfully! ✅", "success");
+                e.target.reset();
                 loadMaterialsForAdmin();
+            }
+        });
+
+        // Load Materials
+        async function loadMaterialsForAdmin() {
+            const list = document.getElementById('material-list');
+            list.innerHTML = '<p style="text-align:center">Fetching list...</p>';
+            const { data, error } = await supabase.from('materials').select('*').order('created_at', { ascending: false });
+            
+            if (error) return;
+            list.innerHTML = data.map(m => `
+                <div class="item-row">
+                    <div class="item-info">
+                        <b>[${m.subject}]</b> ${m.chapter_name.substring(0, 30)}${m.chapter_name.length > 30 ? '...' : ''}
+                        <div style="font-size:10px; color:#555">${m.material_type}</div>
+                    </div>
+                    <div class="item-actions">
+                        <button onclick="toggleNew(${m.id}, ${m.is_new})" class="action-btn btn-edit">
+                            <i class="fas ${m.is_new ? 'fa-check-circle' : 'fa-plus'}"></i>
+                        </button>
+                        <button onclick="delMaterial(${m.id})" class="action-btn btn-del"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Blog Posting
+        window.postBlog = async () => {
+            const title = document.getElementById('blogTitle').value;
+            const body = document.getElementById('blogBody').value;
+            if(!title || !body) return displayMessage("Title & Content required", "error");
+
+            const { error } = await supabase.from('blogs').insert([{
+                title, body, 
+                image_url: document.getElementById('imageUrl').value,
+                author: "Sachin Nitharwal"
+            }]);
+
+            if(error) displayMessage(error.message, "error");
+            else {
+                displayMessage("Blog Live! 🚀", "success");
+                document.getElementById('blogTitle').value = '';
+                document.getElementById('blogBody').value = '';
             }
         }
-        
+
+        // Stats & View Loading
+        async function loadBlogsForAdmin() {
+            const stats = document.getElementById('admin-blog-list');
+            const { data } = await supabase.from('blogs').select('*').order('views', {ascending: false});
+            stats.innerHTML = data.map(b => `
+                <div class="item-row">
+                    <div>
+                        <b>${b.title}</b>
+                        <p style="margin:5px 0 0; font-size:12px; color:var(--text-dim)">👁️ ${b.views || 0} Total Reads</p>
+                    </div>
+                    <button onclick="delBlog(${b.id})" class="action-btn btn-del"><i class="fas fa-trash"></i></button>
+                </div>
+            `).join('');
+        }
+
+        // Delete Handlers
+        window.delMaterial = async (id) => {
+            if(!confirm("Delete this material?")) return;
+            await supabase.from('materials').delete().eq('id', id);
+            loadMaterialsForAdmin();
+        }
+
+        window.delBlog = async (id) => {
+            if(!confirm("Delete this blog?")) return;
+            await supabase.from('blogs').delete().eq('id', id);
+            loadBlogsForAdmin();
+        }
+
+        window.toggleNew = async (id, current) => {
+            await supabase.from('materials').update({ is_new: !current }).eq('id', id);
+            loadMaterialsForAdmin();
+        }
+
         document.addEventListener('DOMContentLoaded', async () => {
-            const welcomeUser = document.getElementById('welcome-user');
-            const adminContent = document.getElementById('admin-content');
-            const loading = document.getElementById('loading');
-            document.getElementById('material-form').addEventListener('submit', submitMaterial);
-            
             const session = await checkAuthAndRedirect(true, 'login.html'); 
             if (session) {
-                welcomeUser.textContent = `Hello, ${session.user.email}!`;
-                adminContent.style.display = 'block';
+                document.getElementById('welcome-user').textContent = session.user.email.split('@')[0];
                 loadMaterialsForAdmin();
             }
-            loading.style.display = 'none';
         });
-        async function loadBlogsForAdmin() {
-    const blogList = document.getElementById('admin-blog-list'); // एक नया <ul> या <div> बनायें
-    
-    const { data: blogs, error } = await supabase
-        .from('blogs')
-        .select('id, title, views, created_at')
-        .order('created_at', { ascending: false });
-
-    if (error) return;
-
-    blogList.innerHTML = blogs.map(blog => `
-        <div style="background: #2d2d2d; padding: 15px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <strong style="color: #4A90E2;">${blog.title}</strong><br>
-                <small style="color: #888;">Published on: ${new Date(blog.created_at).toLocaleDateString()}</small>
-            </div>
-            <div style="text-align: right;">
-                <span style="background: #4CAF50; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">
-                    👁️ ${blog.views || 0} Views
-                </span>
-                <button onclick="deleteBlog(${blog.id})" style="background: #dc3545; border: none; color: white; padding: 5px 10px; border-radius: 4px; margin-left: 10px; cursor: pointer;">
-                    🗑️
-                </button>
-            </div>
-        </div>
-    `).join('');
-}
-document.addEventListener('DOMContentLoaded', async () => {
-    // ... पुराने कोड ...
-    const session = await checkAuthAndRedirect(true, 'login.html'); 
-    
-    if (session) {
-        loadMaterialsForAdmin(); // पुराने मटेरियल के लिए
-        loadBlogsForAdmin();    // 👈 यह लाइन जोड़ना मत भूलना!
-    }
-});
-
-// इसे DOMContentLoaded के अंदर कॉल करें
-
-
     </script>
 </body>
 </html>
