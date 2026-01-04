@@ -1368,20 +1368,33 @@
     </script>
     
     <script src="script.js" type="text/javascript" charset="utf-8"></script>
-<div id="floating-install" style="display: none; position: fixed; bottom: 85px; right: 20px; z-index: 999;">
-    <button onclick="installPWA()" style="background: #EAB308; color: black; border: none; width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; animation: bounce 2s infinite;">
-        <i class="fas fa-download" style="font-size: 24px;"></i>
-    </button>
-</div>
+    <div id="floating-install" style="display: none; position: fixed; bottom: 85px; right: 20px; z-index: 999;">
+        <button onclick="installPWA()" style="background: #EAB308; color: black; border: none; width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; animation: bounce 2s infinite;">
+            <i class="fas fa-download" style="font-size: 24px;"></i>
+        </button>
+    </div>
+    
+    <style>
+        @keyframes bounce {
 
-<style>
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-    40% {transform: translateY(-10px);}
-    60% {transform: translateY(-5px);}
-}
-</style>
-
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+            
+            40% {
+                transform: translateY(-10px);
+            }
+            
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+    
     
     <script>
         // Service Worker Registration
@@ -1418,6 +1431,32 @@
             pwaPopup.style.display = 'none';
         });
     </script>
+    <div id="floating-install" style="display: none; position: fixed; bottom: 85px; right: 20px; z-index: 999;">
+        <button onclick="installPWA()" style="background: #EAB308; color: black; border: none; width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; animation: bounce 2s infinite;">
+            <i class="fas fa-download" style="font-size: 24px;"></i>
+        </button>
+    </div>
+    
+    <style>
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+            
+            40% {
+                transform: translateY(-10px);
+            }
+            
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
     
 </body>
 
