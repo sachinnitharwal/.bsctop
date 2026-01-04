@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bsctop-v3';
+const CACHE_NAME = 'bsctop-v4';
 const assets = [
   '/',
   '/index.html',

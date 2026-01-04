@@ -964,6 +964,40 @@
                 justify-content: center;
             }
         }
+        
+        /* Nav Download Button Style */
+.nav-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #EAB308 0%, #ca9b06 100%);
+    color: #000 !important;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(234, 179, 8, 0.3);
+    border: none;
+}
+
+.nav-download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(234, 179, 8, 0.5);
+}
+
+/* मोबाइल पर सिर्फ आइकन दिखे (Optional) */
+@media (max-width: 480px) {
+    .nav-download-btn span {
+        display: none;
+    }
+    .nav-download-btn {
+        padding: 10px;
+        border-radius: 50%;
+    }
+}
+
     </style>
     
 </head>
@@ -976,7 +1010,7 @@
         </button>
         
         <div class="brand">
-            <h1>BSC <span>TOP</span></h1>
+            <h1>BSC<span>TOP</span></h1>
             <p>POWERED BY WEDEVGROUP</p>
         </div>
         
@@ -985,6 +1019,11 @@
         </a>
         
         <a href="/Sections/login.html" class="admin-login-link">Admin Login</a>
+        <a href="download-app.html" class="nav-download-btn">
+    <i class="fas fa-download"></i> 
+    <span>Get App</span>
+</a>
+
     </header>
     
     
@@ -1024,6 +1063,11 @@
             <a href="/Sections/login.html" class="admin-link">
                 <i class="fas fa-user-shield"></i> Admin Login
             </a>
+            <a href="download-app.html" class="nav-download-btn">
+    <i class="fas fa-download"></i> 
+    <span>Get App</span>
+</a>
+
         </div>
     </div>
     
