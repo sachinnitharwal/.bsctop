@@ -1021,7 +1021,7 @@
         <a href="/Sections/login.html" class="admin-login-link">Admin Login</a>
         <a href="download-app.html" class="nav-download-btn">
     <i class="fas fa-download"></i> 
-    <span>Get App</span>
+    <span>Get BSC TOP App</span>
 </a>
 
     </header>
@@ -1359,7 +1359,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p class="copyright">© 2025 <span class="owner">Sachin Nitharwal</span> | All Rights Reserved</p>
+            <p class="copyright">© 2025 <span class="owner">Sachin Chaudhary</span> | All Rights Reserved</p>
             <div class="admin-box">
                 <a href="/Sections/login.html" class="footer-admin-btn">
                     <i class="fas fa-user-shield"></i> Admin Login
@@ -1439,68 +1439,7 @@
         }
     </style>
     
-    
-    <script>
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(() => console.log('BSC TOP App Ready'))
-                    .catch(err => console.log('PWA Error', err));
-            });
-        }
-        
-        // PWA Install Logic
-        let deferredPrompt;
-        const pwaPopup = document.getElementById('pwa-popup');
-        const installBtn = document.getElementById('install-btn');
-        
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            // पॉपअप को 3 सेकंड बाद दिखाएँ ताकि यूजर थोड़ा पेज देख ले
-            setTimeout(() => { pwaPopup.style.display = 'block'; }, 2000);
-        });
-        
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') pwaPopup.style.display = 'none';
-                deferredPrompt = null;
-            }
-        });
-        
-        document.getElementById('close-pwa').addEventListener('click', () => {
-            pwaPopup.style.display = 'none';
-        });
-    </script>
-    <div id="floating-install" style="display: none; position: fixed; bottom: 85px; right: 20px; z-index: 999;">
-        <button onclick="installPWA()" style="background: #EAB308; color: black; border: none; width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; animation: bounce 2s infinite;">
-            <i class="fas fa-download" style="font-size: 24px;"></i>
-        </button>
-    </div>
-    
-    <style>
-        @keyframes bounce {
 
-            0%,
-            20%,
-            50%,
-            80%,
-            100% {
-                transform: translateY(0);
-            }
-            
-            40% {
-                transform: translateY(-10px);
-            }
-            
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-    </style>
     
 </body>
 
