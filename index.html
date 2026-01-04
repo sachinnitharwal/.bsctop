@@ -1368,31 +1368,20 @@
     </script>
     
     <script src="script.js" type="text/javascript" charset="utf-8"></script>
-    <div id="pwa-popup" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 360px; background: #161616; border: 1px solid #EAB308; border-radius: 20px; padding: 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.9); z-index: 9999; animation: slideUp 0.6s ease-out;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <img src="logo.png" style="width: 45px; height: 45px; border-radius: 10px; border: 1px solid #333;">
-            <div style="flex: 1;">
-                <h4 style="margin: 0; color: #EAB308; font-size: 15px; font-family: sans-serif;">BSC TOP App</h4>
-                <p style="margin: 2px 0 0; color: #888; font-size: 11px; font-family: sans-serif;">Install for Fast Access & Notes</p>
-            </div>
-            <button id="close-pwa" style="background: none; border: none; color: #666; font-size: 22px; cursor: pointer;">&times;</button>
-        </div>
-        <button id="install-btn" style="width: 100%; margin-top: 12px; background: #EAB308; color: #000; border: none; padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; font-family: sans-serif;">INSTALL APP</button>
-    </div>
-    
-    <style>
-        @keyframes slideUp {
-            from {
-                bottom: -100px;
-                opacity: 0;
-            }
-            
-            to {
-                bottom: 40px;
-                opacity: 1;
-            }
-        }
-    </style>
+<div id="floating-install" style="display: none; position: fixed; bottom: 85px; right: 20px; z-index: 999;">
+    <button onclick="installPWA()" style="background: #EAB308; color: black; border: none; width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 10px 25px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; animation: bounce 2s infinite;">
+        <i class="fas fa-download" style="font-size: 24px;"></i>
+    </button>
+</div>
+
+<style>
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-10px);}
+    60% {transform: translateY(-5px);}
+}
+</style>
+
     
     <script>
         // Service Worker Registration
