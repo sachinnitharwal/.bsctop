@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control Center | BSC TOP Admin</title>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-
+        
         :root {
             --bg-dark: #08090A;
             --card-bg: #111214;
@@ -21,108 +22,259 @@
             --text-main: #FFFFFF;
             --text-dim: #94A3B8;
         }
-
+        
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
             font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0; padding: 0;
-            display: flex; flex-direction: column; min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-
+        
         /* --- MODERN HEADER --- */
         .admin-nav {
             background: rgba(17, 18, 20, 0.8);
             backdrop-filter: blur(10px);
             padding: 15px 25px;
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-bottom: 1px solid #222;
-            position: sticky; top: 0; z-index: 1000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-
-        .brand { font-weight: 800; font-size: 1.2rem; }
-        .brand span { color: var(--accent); }
-
+        
+        .brand {
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        
+        .brand span {
+            color: var(--accent);
+        }
+        
         .logout-btn {
-            background: rgba(255, 82, 82, 0.1); color: var(--error);
-            border: 1px solid var(--error); padding: 8px 16px;
-            border-radius: 10px; cursor: pointer; font-weight: 600;
+            background: rgba(255, 82, 82, 0.1);
+            color: var(--error);
+            border: 1px solid var(--error);
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
             transition: 0.3s;
         }
-        .logout-btn:hover { background: var(--error); color: #fff; }
-
-        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; width: 100%; box-sizing: border-box; }
-
+        
+        .logout-btn:hover {
+            background: var(--error);
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
         /* --- TABS SYSTEM --- */
         .tabs-header {
-            display: flex; gap: 10px; margin-bottom: 25px;
-            overflow-x: auto; padding-bottom: 5px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 5px;
         }
+        
         .tab-btn {
-            background: var(--card-bg); color: var(--text-dim);
-            border: 1px solid #222; padding: 12px 20px;
-            border-radius: 12px; cursor: pointer; white-space: nowrap;
-            font-weight: 600; transition: 0.3s;
+            background: var(--card-bg);
+            color: var(--text-dim);
+            border: 1px solid #222;
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 600;
+            transition: 0.3s;
         }
-        .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-
-        .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
-        .tab-content.active { display: block; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
+        
+        .tab-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         /* --- DASHBOARD CARDS & FORMS --- */
         .glass-card {
-            background: var(--card-bg); border: 1px solid #222;
-            border-radius: 20px; padding: 25px; margin-bottom: 25px;
+            background: var(--card-bg);
+            border: 1px solid #222;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
         }
-
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
-
-        .input-group { margin-bottom: 18px; }
-        .input-group label { display: block; font-size: 12px; color: var(--text-dim); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; }
-        input, select, textarea {
-            width: 100%; padding: 12px 15px; background: #1A1B1E;
-            border: 1px solid #2A2B2E; border-radius: 12px; color: #fff;
-            font-family: inherit; font-size: 14px; box-sizing: border-box;
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
-        input:focus { border-color: var(--accent); outline: none; }
-
+        
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .input-group {
+            margin-bottom: 18px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: #1A1B1E;
+            border: 1px solid #2A2B2E;
+            border-radius: 12px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        input:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+        
         .submit-btn {
-            width: 100%; padding: 15px; background: var(--accent);
-            color: white; border: none; border-radius: 12px;
-            font-weight: 700; cursor: pointer; transition: 0.3s;
+            width: 100%;
+            padding: 15px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        .submit-btn:hover { background: var(--accent-light); transform: translateY(-2px); }
-
+        
+        .submit-btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+        }
+        
         /* --- ITEM LISTS --- */
         .item-row {
-            background: #16171A; border: 1px solid #222;
-            padding: 15px; border-radius: 15px; margin-bottom: 12px;
-            display: flex; justify-content: space-between; align-items: center;
+            background: #16171A;
+            border: 1px solid #222;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .item-info b { color: var(--accent); }
-        .item-actions { display: flex; gap: 8px; }
-        .action-btn { 
-            width: 35px; height: 35px; border-radius: 8px; border: none; 
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
+        
+        .item-info b {
+            color: var(--accent);
         }
-        .btn-del { background: rgba(255, 82, 82, 0.1); color: var(--error); }
-        .btn-edit { background: rgba(0, 200, 83, 0.1); color: var(--success); }
-
+        
+        .item-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-del {
+            background: rgba(255, 82, 82, 0.1);
+            color: var(--error);
+        }
+        
+        .btn-edit {
+            background: rgba(0, 200, 83, 0.1);
+            color: var(--success);
+        }
+        
         #message {
-            position: fixed; bottom: 20px; right: 20px; padding: 15px 25px;
-            border-radius: 12px; color: white; display: none; z-index: 2000;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 12px;
+            color: white;
+            display: none;
+            z-index: 2000;
             animation: slideIn 0.3s ease;
         }
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
-        .success { background: var(--success); }
-        .error { background: var(--error); }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+            
+            to {
+                transform: translateX(0);
+            }
+        }
+        
+        .success {
+            background: var(--success);
+        }
+        
+        .error {
+            background: var(--error);
+        }
     </style>
 </head>
-<body>
 
+<body>
+    
     <nav class="admin-nav">
         <div class="brand">BSC <span>TOP</span> Control</div>
         <div id="user-info" style="font-size: 12px; color: var(--text-dim); display: flex; align-items: center; gap: 15px;">
@@ -130,16 +282,16 @@
             <button class="logout-btn" onclick="signOut()"><i class="fas fa-sign-out-alt"></i> Exit</button>
         </div>
     </nav>
-
+    
     <div class="container">
         <div class="tabs-header">
             <button class="tab-btn active" onclick="switchTab('material-tab', this)"><i class="fas fa-book"></i> Materials</button>
             <button class="tab-btn" onclick="switchTab('blog-tab', this)"><i class="fas fa-pen-nib"></i> Blogs</button>
             <button class="tab-btn" onclick="switchTab('stats-tab', this)"><i class="fas fa-chart-line"></i> Statistics</button>
         </div>
-
+        
         <div id="message"></div>
-
+        
         <div id="material-tab" class="tab-content active">
             <div class="glass-card">
                 <h3 style="margin-top:0"><i class="fas fa-plus-circle"></i> New Material</h3>
@@ -186,12 +338,36 @@
                     </div>
                     <button type="submit" class="submit-btn">Publish Material</button>
                 </form>
+                <hr>
+                <div class="admin-card" style="margin-top: 30px; border: 1px solid #EAB308; background: #111; padding: 25px; border-radius: 15px;">
+                    <h2 style="color: #EAB308;"><i class="fas fa-video"></i> Manage Lectures</h2>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <input type="text" id="v_title" placeholder="Video Title" style="padding: 12px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff;">
+                        <input type="text" id="v_url" placeholder="YouTube URL" style="padding: 12px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff;">
+                        <select id="v_subject" style="padding: 12px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff;">
+                            <option value="Computer">Computer</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Math">Math</option>
+                            <option value="Chemistry">Chemistry</option>
+                        </select>
+                        <input type="number" id="v_chapter" placeholder="Chapter No." style="padding: 12px; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff;">
+                    </div>
+                    <button onclick="addLecture()" style="width: 100%; margin-top: 15px; background: #EAB308; color: black; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Publish Video</button>
+                    
+                    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #222;">
+                    
+                    <h3 style="color: #fff; font-size: 16px;">Uploaded Lectures</h3>
+                    <div id="lecture-list" style="margin-top: 15px;">
+                    </div>
+                </div>
+                
             </div>
-
+            
             <h3>Manage Content</h3>
             <div id="material-list"></div>
         </div>
-
+        
         <div id="blog-tab" class="tab-content">
             <div class="glass-card">
                 <h3 style="margin-top:0"><i class="fas fa-rss"></i> Create Blog Post</h3>
@@ -210,25 +386,25 @@
                 <button class="submit-btn" onclick="postBlog()">Publish Blog Post</button>
             </div>
         </div>
-
+        
         <div id="stats-tab" class="tab-content">
             <div id="admin-blog-list"></div>
         </div>
     </div>
-
+    
     <script type="module">
-        import { checkAuthAndRedirect, signOut, supabase } from './app.js'; 
+        import { checkAuthAndRedirect, signOut, supabase } from './app.js';
         window.signOut = signOut;
-
+        
         // Tab Switching Logic
         window.switchTab = (tabId, btn) => {
             document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             btn.classList.add('active');
-            if(tabId === 'stats-tab') loadBlogsForAdmin();
+            if (tabId === 'stats-tab') loadBlogsForAdmin();
         }
-
+        
         // --- CORE FUNCTIONS ---
         function displayMessage(text, type) {
             const m = document.getElementById('message');
@@ -237,13 +413,14 @@
             m.style.display = 'block';
             setTimeout(() => m.style.display = 'none', 4000);
         }
-
+        
         // Material Submission
         document.getElementById('material-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = e.target.querySelector('button');
-            btn.disabled = true; btn.innerText = "Processing...";
-
+            btn.disabled = true;
+            btn.innerText = "Processing...";
+            
             const payload = {
                 material_type: document.getElementById('materialType').value,
                 subject: document.getElementById('subject').value,
@@ -253,10 +430,11 @@
                 google_drive_link: document.getElementById('googleDriveLink').value,
                 is_new: document.getElementById('isNew').checked,
             };
-
+            
             const { error } = await supabase.from('materials').insert([payload]);
-            btn.disabled = false; btn.innerText = "Publish Material";
-
+            btn.disabled = false;
+            btn.innerText = "Publish Material";
+            
             if (error) displayMessage(error.message, 'error');
             else {
                 displayMessage("Published successfully! ✅", "success");
@@ -264,7 +442,7 @@
                 loadMaterialsForAdmin();
             }
         });
-
+        
         // Load Materials
         async function loadMaterialsForAdmin() {
             const list = document.getElementById('material-list');
@@ -287,31 +465,86 @@
                 </div>
             `).join('');
         }
-
+        
+        // 1. वीडियो अपलोड करने का फंक्शन
+        window.addLecture = async () => {
+            const title = document.getElementById('v_title').value;
+            const youtube_url = document.getElementById('v_url').value;
+            const subject = document.getElementById('v_subject').value;
+            const chapter_no = document.getElementById('v_chapter').value;
+            
+            if (!title || !youtube_url) return alert("Please fill all details!");
+            
+            const { error } = await supabase
+                .from('lectures')
+                .insert([{ title, youtube_url, subject, chapter_no: parseInt(chapter_no) }]);
+            
+            if (error) alert("Error: " + error.message);
+            else {
+                alert("Lecture Added!");
+                fetchAdminLectures(); // लिस्ट रिफ्रेश करें
+            }
+        };
+        
+        // 2. अपलोडेड लेक्चर्स को दिखाने का फंक्शन
+        async function fetchAdminLectures() {
+            const listDiv = document.getElementById('lecture-list');
+            const { data, error } = await supabase.from('lectures').select('*').order('created_at', { ascending: false });
+            
+            if (data) {
+                listDiv.innerHTML = data.map(l => `
+            <div style="display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 10px; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid #EAB308;">
+                <div>
+                    <div style="font-weight: bold; font-size: 14px;">${l.title}</div>
+                    <div style="font-size: 11px; color: #888;">${l.subject} - Ch ${l.chapter_no}</div>
+                </div>
+                <button onclick="deleteLecture('${l.id}')" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        `).join('');
+            }
+        }
+        
+        // 3. वीडियो डिलीट करने का फंक्शन
+        window.deleteLecture = async (id) => {
+            if (confirm("Kya aap is video ko delete karna chahte hain?")) {
+                const { error } = await supabase.from('lectures').delete().eq('id', id);
+                if (error) alert(error.message);
+                else fetchAdminLectures();
+            }
+        };
+        
+        // पेज लोड होने पर लिस्ट दिखाएं
+        document.addEventListener('DOMContentLoaded', fetchAdminLectures);
+        
+        
+        
         // Blog Posting
         window.postBlog = async () => {
             const title = document.getElementById('blogTitle').value;
             const body = document.getElementById('blogBody').value;
-            if(!title || !body) return displayMessage("Title & Content required", "error");
-
+            if (!title || !body) return displayMessage("Title & Content required", "error");
+            
             const { error } = await supabase.from('blogs').insert([{
-                title, body, 
+                title,
+                body,
                 image_url: document.getElementById('imageUrl').value,
                 author: "Sachin Nitharwal"
             }]);
-
-            if(error) displayMessage(error.message, "error");
+            
+            if (error) displayMessage(error.message, "error");
             else {
                 displayMessage("Blog Live! 🚀", "success");
                 document.getElementById('blogTitle').value = '';
                 document.getElementById('blogBody').value = '';
             }
         }
-
+        
         // Stats & View Loading
         async function loadBlogsForAdmin() {
             const stats = document.getElementById('admin-blog-list');
-            const { data } = await supabase.from('blogs').select('*').order('views', {ascending: false});
+            const { data } = await supabase.from('blogs').select('*').order('views', { ascending: false });
             stats.innerHTML = data.map(b => `
                 <div class="item-row">
                     <div>
@@ -322,27 +555,27 @@
                 </div>
             `).join('');
         }
-
+        
         // Delete Handlers
         window.delMaterial = async (id) => {
-            if(!confirm("Delete this material?")) return;
+            if (!confirm("Delete this material?")) return;
             await supabase.from('materials').delete().eq('id', id);
             loadMaterialsForAdmin();
         }
-
+        
         window.delBlog = async (id) => {
-            if(!confirm("Delete this blog?")) return;
+            if (!confirm("Delete this blog?")) return;
             await supabase.from('blogs').delete().eq('id', id);
             loadBlogsForAdmin();
         }
-
+        
         window.toggleNew = async (id, current) => {
             await supabase.from('materials').update({ is_new: !current }).eq('id', id);
             loadMaterialsForAdmin();
         }
-
+        
         document.addEventListener('DOMContentLoaded', async () => {
-            const session = await checkAuthAndRedirect(true, 'login.html'); 
+            const session = await checkAuthAndRedirect(true, 'login.html');
             if (session) {
                 document.getElementById('welcome-user').textContent = session.user.email.split('@')[0];
                 loadMaterialsForAdmin();
@@ -350,4 +583,5 @@
         });
     </script>
 </body>
+
 </html>

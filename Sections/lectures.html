@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Lectures | BSC TOP</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        :root { --accent: #EAB308; --bg: #050505; --card: #111; --gray: #888; --success: #22c55e; }
+        body { background: var(--bg); color: white; font-family: 'Poppins', sans-serif; margin: 0; scroll-behavior: smooth; }
+
+        /* SEO Section */
+        .seo-section { padding: 80px 20px 20px; text-align: center; max-width: 900px; margin: auto; }
+        .seo-section h1 { color: var(--accent); font-size: clamp(28px, 5vw, 40px); font-weight: 800; margin: 0; }
+        .seo-section p { color: #ccc; line-height: 1.8; margin-top: 15px; font-size: 15px; }
+
+        /* Sticky Header (Progress + Search + Filters) */
+        .sticky-header { position: sticky; top: 0; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid #222; padding: 15px 0; }
+        .container { max-width: 1200px; margin: auto; padding: 0 20px; }
+
+        /* Progress Bar */
+        .progress-text { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; margin-bottom: 6px; color: var(--accent); }
+        .progress-bg { background: #222; height: 6px; border-radius: 10px; overflow: hidden; margin-bottom: 15px; }
+        #progress-fill { background: linear-gradient(90deg, var(--accent), var(--success)); width: 0%; height: 100%; transition: 0.5s ease; }
+
+        /* Search Bar */
+        .search-box { position: relative; margin-bottom: 15px; }
+        .search-box input { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 12px 45px; border-radius: 12px; color: white; outline: none; transition: 0.3s; box-sizing: border-box; }
+        .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(234, 179, 8, 0.2); }
+        .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gray); }
+
+        /* Filters */
+        .filter-wrapper { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .filter-btn { background: #1a1a1a; color: white; border: 1px solid #333; padding: 8px 16px; border-radius: 50px; cursor: pointer; transition: 0.2s; font-size: 12px; font-weight: 600; }
+        .filter-btn.active { background: var(--accent); color: black; border-color: var(--accent); }
+
+        /* Grid & Cards */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; padding: 30px 20px; max-width: 1300px; margin: auto; }
+        .video-card { background: var(--card); border-radius: 18px; overflow: hidden; border: 1px solid #222; transition: 0.3s; }
+        .video-card.watched { border-color: var(--success); opacity: 0.85; }
+        
+        .thumb-box { width: 100%; aspect-ratio: 16/9; background: #000; }
+        .thumb-box iframe { width: 100%; height: 100%; border: none; }
+
+        .info-box { padding: 15px; }
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .sub-tag { color: var(--accent); font-size: 10px; font-weight: 800; text-transform: uppercase; background: rgba(234, 179, 8, 0.1); padding: 2px 8px; border-radius: 4px; }
+        
+        .tick-btn { background: #222; border: none; color: #444; font-size: 22px; cursor: pointer; transition: 0.3s; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; }
+        .tick-btn.active { color: var(--success); }
+        
+        .v-title { font-size: 16px; margin: 10px 0; font-weight: 600; line-height: 1.4; color: #fff; }
+        .video-card.watched .v-title { text-decoration: line-through; color: var(--gray); }
+
+        #no-data { text-align: center; padding: 100px 20px; display: none; color: var(--gray); }
+    </style>
+</head>
+<body>
+
+    <section class="seo-section">
+        <h1>BSC TOP Video Library</h1>
+        <p>निःशुल्क और उच्च गुणवत्ता वाले वीडियो लेक्चर्स के साथ अपनी B.Sc की तैयारी को आसान बनाएं। प्रत्येक टॉपिक को आपके यूनिवर्सिटी सिलेबस के अनुसार विस्तार से समझाया गया है। नीचे दिए गए सर्च बार या फिल्टर का उपयोग करके अपने विषय के वीडियो खोजें।</p>
+    </section>
+
+    <div class="sticky-header">
+        <div class="container">
+            <div class="progress-text">
+                <span><i class="fas fa-tasks"></i> Progress Tracker</span>
+                <span id="progress-percent">0% Completed</span>
+            </div>
+            <div class="progress-bg"><div id="progress-fill"></div></div>
+
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search by topic, subject or chapter..." onkeyup="handleSearch()">
+            </div>
+
+            <div class="filter-wrapper">
+                <button class="filter-btn active" onclick="filterVideos('All', this)">All</button>
+                <button class="filter-btn" onclick="filterVideos('Computer', this)">Computer</button>
+                <button class="filter-btn" onclick="filterVideos('Physics', this)">Physics</button>
+                <button class="filter-btn" onclick="filterVideos('Math', this)">Math</button>
+                <button class="filter-btn" onclick="filterVideos('Chemistry', this)">Chemistry</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="video-grid" class="video-grid"></div>
+    <div id="no-data"><i class="fas fa-search" style="font-size: 40px; margin-bottom: 10px;"></i><p>हमें आपकी खोज के अनुसार कोई वीडियो नहीं मिला।</p></div>
+
+    <script type="module">
+        import { supabase } from './Sections/app.js';
+
+        let allLectures = [];
+        let currentFilter = 'All';
+
+        async function init() {
+            const { data, error } = await supabase
+                .from('lectures')
+                .select('*')
+                .order('chapter_no', { ascending: true });
+
+            if (data) {
+                allLectures = data;
+                renderVideos(allLectures);
+                updateProgress();
+            }
+        }
+
+        window.renderVideos = (videos) => {
+            const grid = document.getElementById('video-grid');
+            const noData = document.getElementById('no-data');
+            grid.innerHTML = '';
+            
+            if (videos.length === 0) {
+                noData.style.display = 'block';
+                return;
+            }
+
+            noData.style.display = 'none';
+            videos.forEach(v => {
+                const vidId = v.youtube_url.split('v=')[1]?.split('&')[0] || v.youtube_url.split('/').pop();
+                const isWatched = localStorage.getItem(`watched_${v.id}`) === 'true';
+
+                grid.innerHTML += `
+                    <div class="video-card ${isWatched ? 'watched' : ''}" id="card-${v.id}">
+                        <div class="thumb-box">
+                            <iframe src="https://www.youtube.com/embed/${vidId}" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                        <div class="info-box">
+                            <div class="card-top">
+                                <span class="sub-tag">${v.subject}</span>
+                                <button onclick="toggleWatched('${v.id}')" class="tick-btn ${isWatched ? 'active' : ''}" id="tick-${v.id}">
+                                    <i class="fas fa-check-circle"></i>
+                                </button>
+                            </div>
+                            <h3 class="v-title">${v.title}</h3>
+                            <div style="font-size: 12px; color: var(--gray);">Chapter ${v.chapter_no} • Online Class</div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.handleSearch = () => {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allLectures.filter(l => 
+                (currentFilter === 'All' || l.subject.includes(currentFilter)) &&
+                (l.title.toLowerCase().includes(term) || l.subject.toLowerCase().includes(term) || l.chapter_no.toString().includes(term))
+            );
+            renderVideos(filtered);
+        }
+
+        window.filterVideos = (sub, btn) => {
+            currentFilter = sub;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            handleSearch(); // Filter के साथ Search को भी मिला कर चलायेगा
+        }
+
+        window.toggleWatched = (id) => {
+            const btn = document.getElementById(`tick-${id}`);
+            const card = document.getElementById(`card-${id}`);
+            const isNowWatched = !btn.classList.contains('active');
+
+            if (isNowWatched) {
+                btn.classList.add('active');
+                card.classList.add('watched');
+                localStorage.setItem(`watched_${id}`, 'true');
+            } else {
+                btn.classList.remove('active');
+                card.classList.remove('watched');
+                localStorage.removeItem(`watched_${id}`);
+            }
+            updateProgress();
+        }
+
+        function updateProgress() {
+            if (allLectures.length === 0) return;
+            const watchedCount = allLectures.filter(v => localStorage.getItem(`watched_${v.id}`) === 'true').length;
+            const percent = Math.round((watchedCount / allLectures.length) * 100);
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-percent').innerText = percent + '% Completed';
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
+
