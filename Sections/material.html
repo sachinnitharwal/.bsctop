@@ -210,7 +210,7 @@
             toggle('detail');
             document.getElementById('activeSubjectName').innerText = type + " Practicals";
             // Example Data - Add your links here
-            const data = type === 'Physics' ? [{name: "Searle Exp", link: "https://drive.google.com/file/d/1sH3aWtB94FSuUUwotOA_30D9_Uxm74GZ/view?usp=drivesdk", t: "Physics Dept", s: "Sachin"}] : [];
+            const data = type === 'Physics' ? [{name: "Searle Exp","compound pendulum" link: "https://drive.google.com/file/d/1sH3aWtB94FSuUUwotOA_30D9_Uxm74GZ/view?usp=drivesdk","https://drive.google.com/file/d/1t39fHTZLiIi-FdGtGwFxH_o5RCoIgcFf/view?usp=drivesdk" t: "Physics Dept","Physics Dept" s: "Sachin","Sachin"}] : [];
             document.getElementById('cardsContainer').innerHTML = data.map(p => renderCard(p.name, p.link, p.t, p.s)).join('') || "No Files";
         }
 
