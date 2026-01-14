@@ -210,7 +210,7 @@
             toggle('detail');
             document.getElementById('activeSubjectName').innerText = type + " Practicals";
             // Example Data - Add your links here
-            const data = type === 'Physics' ? [{name: "Searle Exp","compound pendulum" link: "https://drive.google.com/file/d/1sH3aWtB94FSuUUwotOA_30D9_Uxm74GZ/view?usp=drivesdk","https://drive.google.com/file/d/1t39fHTZLiIi-FdGtGwFxH_o5RCoIgcFf/view?usp=drivesdk" t: "Physics Dept","Physics Dept" s: "Sachin","Sachin"}] : [];
+            const data = type === 'Physics' ? [{name: "Searle Exp", link: "https://drive.google.com/file/d/1sH3aWtB94FSuUUwotOA_30D9_Uxm74GZ/view?us, t: "Physics Dept","Physics Dept" s: "Sachin","Sachin"}] : [];
             document.getElementById('cardsContainer').innerHTML = data.map(p => renderCard(p.name, p.link, p.t, p.s)).join('') || "No Files";
         }
 
@@ -238,6 +238,90 @@
 
         window.goBack = () => toggle('main');
         document.addEventListener('DOMContentLoaded', load);
+       
     </script>
+    <script type="module">
+    import { supabase } from './app.js'; 
+
+    let allMaterials = []; // Notes aur Practicals dono yahan store honge
+
+    async function load() {
+        try {
+            // Hum saara data ek sath fetch kar rahe hain
+            const { data, error } = await supabase
+                .from('materials')
+                .select('*')
+                .order('created_at', {ascending: false});
+            
+            if (error) throw error;
+            allMaterials = data;
+
+            // --- 1. SET NOTES GRID ---
+            const notesGrid = document.getElementById("subjectsGrid");
+            const notesOnly = allMaterials.filter(m => m.material_type === 'Note');
+            const noteSubjects = [...new Set(notesOnly.map(n => n.subject))];
+            
+            notesGrid.innerHTML = '';
+            noteSubjects.forEach(sub => {
+                const div = document.createElement('div');
+                div.className = 'subject-box';
+                div.onclick = () => showContent(sub, 'Note');
+                div.innerHTML = `<i class="fas fa-file-signature"></i><h3>${sub}</h3>`;
+                notesGrid.appendChild(div);
+            });
+
+        } catch (e) { 
+            document.getElementById("subjectsGrid").innerHTML = "Connection Error"; 
+        }
+    }
+
+    // Ek hi common function jo type ke hisaab se filter karega
+    window.showContent = (subject, type) => {
+        toggle('detail');
+        const heading = type === 'Note' ? subject : subject + " Practicals";
+        document.getElementById('activeSubjectName').innerText = heading;
+
+        const filtered = allMaterials.filter(m => m.subject === subject && m.material_type === type);
+        
+        if(filtered.length > 0) {
+            document.getElementById('cardsContainer').innerHTML = filtered.map(m => 
+                renderCard(m.chapter_name, m.google_drive_link, m.teacher_name, m.sender_student, type)
+            ).join('');
+        } else {
+            document.getElementById('cardsContainer').innerHTML = "<div class='loading-state'>No Files Available Yet</div>";
+        }
+    };
+
+    // Laboratory Work Buttons ke liye direct calls
+    window.showPracticals = (subject) => showContent(subject, 'Practical');
+
+    function renderCard(title, link, t, s, type) {
+        // Type ke hisaab se icon badal jayega
+        const iconClass = type === 'Practical' ? 'fa-vial' : 'fa-file-lines';
+        return `
+            <div class="material-card">
+                <div class="card-top">
+                    <div class="icon-box"><i class="fas ${iconClass}"></i></div>
+                    <div class="subject-info"><h3>${title}</h3></div>
+                    <a href="${link}" target="_blank" class="view-btn">View</a>
+                </div>
+                <div class="card-footer">
+                    <div class="pill"><i class="fas fa-chalkboard-user"></i> ${t || 'Teacher'}</div>
+                    <div class="pill"><i class="fas fa-user-graduate"></i> ${s || 'Admin'}</div>
+                </div>
+            </div>
+        `;
+    }
+
+    function toggle(v) {
+        document.getElementById('mainView').style.display = v === 'main' ? 'block' : 'none';
+        document.getElementById('detailView').style.display = v === 'detail' ? 'block' : 'none';
+        window.scrollTo(0,0);
+    }
+
+    window.goBack = () => toggle('main');
+    document.addEventListener('DOMContentLoaded', load);
+</script>
+
 </body>
 </html>
