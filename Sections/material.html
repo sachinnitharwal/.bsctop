@@ -45,7 +45,6 @@
 
         .content-wrapper { padding: 25px 20px; max-width: 600px; margin: 0 auto; }
 
-        /* --- SUBJECT BOXES (GRADIENT LOOK) --- */
         .view-label { 
             font-size: 11px; color: var(--viewlabel); font-weight: 800; 
             text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block;
@@ -60,33 +59,13 @@
             border-radius: 24px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative; overflow: hidden;
+            transition: 0.3s;
         }
+        .subject-box:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .subject-box i { font-size: 32px; color: var(--accent); margin-bottom: 15px; display: block; }
 
-        .subject-box::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent);
-            opacity: 0; transition: 0.3s;
-        }
-
-        .subject-box:hover { 
-            border-color: var(--accent); 
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 15px rgba(99, 102, 241, 0.1);
-        }
-        
-        .subject-box:hover::before { opacity: 1; }
-
-        .subject-box i { 
-            font-size: 32px; color: var(--accent); margin-bottom: 15px; display: block;
-            filter: drop-shadow(0 0 8px var(--accent-glow));
-        }
-
-        .subject-box h3 { margin: 0; font-size: 14px; font-weight: 700; color: #fff; }
-
-        /* --- DETAIL VIEW (CLEAN CARDS) --- */
-        #detailView { display: none; animation: slideUp 0.5s ease; }
+        /* --- DETAIL VIEW --- */
+        #detailView, #fullContentView { display: none; animation: slideUp 0.5s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         .back-nav {
@@ -95,60 +74,43 @@
             background: #1A1A1A; padding: 10px 18px; border-radius: 14px;
         }
 
-        /* --- PREMIUM MATERIAL CARD --- */
         .material-card {
             background: linear-gradient(145deg, #161616, #0F0F0F);
             border: 1px solid #222;
             border-radius: 22px; padding: 20px;
-            margin-bottom: 18px;
-            position: relative;
+            margin-bottom: 18px; cursor: pointer;
         }
 
-        .card-top { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
+        .card-top { display: flex; align-items: center; gap: 18px; }
+        .icon-box { width: 50px; height: 50px; background: #1A1A1A; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 20px; }
 
-        .icon-box { 
-            width: 50px; height: 50px; background: #1A1A1A; 
-            border-radius: 15px; display: flex; align-items: center; justify-content: center;
-            color: var(--accent); font-size: 20px; border: 1px solid #262626;
-        }
-
-        .subject-info h3 { margin: 0; font-size: 16px; font-weight: 700; color: #fff; flex-grow: 1; }
-        
-        .view-btn {
-            text-decoration: none; background: var(--accent); color: white;
-            padding: 10px 20px; border-radius: 12px; font-size: 12px; font-weight: 800;
-            transition: 0.3s; border: none; cursor: pointer;
-        }
-
-        .view-btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px var(--accent-glow); }
-
-        /* --- PILLS (GLASS LOOK) --- */
-        .card-footer { display: flex; flex-wrap: wrap; gap: 10px; border-top: 1px solid #1F1F1F; padding-top: 18px; }
-        
         .pill { 
             font-size: 10px; padding: 6px 14px; border-radius: 10px; font-weight: 700; 
-            display: flex; align-items: center; gap: 8px; background: #1A1A1A; color: var(--text-dim);
-            border: 1px solid #262626;
+            display: inline-flex; align-items: center; gap: 8px; background: #1A1A1A; color: var(--text-dim);
+            border: 1px solid #262626; margin-top: 15px;
         }
 
-        .pill i { color: var(--accent); font-size: 12px; }
+        .view-btn {
+            display: block; text-align: center; text-decoration: none; background: var(--accent); color: white;
+            padding: 15px; border-radius: 12px; font-size: 14px; font-weight: 800; margin-top: 20px;
+        }
 
-        .loading-state { text-align: center; padding: 100px 0; color: var(--text-dim); }
+        .ad-space {
+            width: 100%; min-height: 100px; background: #0a0a0a; border: 1px dashed #333;
+            margin: 20px 0; display: flex; align-items: center; justify-content: center; color: #444; font-size: 12px;
+        }
     </style>
 </head>
 <body>
 
     <header class="main-header">
         <h1 class="brand-logo">BSC <span>TOP</span></h1>
-        <div style="width: 40px; height: 40px; background: #1A1A1A; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-            <i class="fas fa-bell" style="font-size: 16px; color: var(--text-dim);"></i>
-        </div>
     </header>
 
     <main class="content-wrapper">
         
         <div id="mainView">
-            <span class="view-label">📚 Semester 1  Class notes</span>
+            <span class="view-label">📚 Semester 1 Class notes</span>
             <div class="subject-grid" id="subjectsGrid">
                 <div class="loading-state"><i class="fas fa-circle-notch fa-spin"></i></div>
             </div>
@@ -167,9 +129,30 @@
         </div>
 
         <div id="detailView">
-            <div class="back-nav" onclick="goBack()"><i class="fas fa-chevron-left"></i> Back to Hub</div>
-            <h2 id="activeSubjectName" style="font-size: 28px; font-weight: 800; margin: 0 0 25px 0;">Subject</h2>
+            <div class="back-nav" onclick="toggle('main')"><i class="fas fa-chevron-left"></i> Back to Hub</div>
+            <h2 id="activeSubjectName" style="font-size: 28px; font-weight: 800; margin-bottom: 25px;">Subject</h2>
             <div id="cardsContainer"></div>
+        </div>
+
+        <div id="fullContentView">
+            <div class="back-nav" onclick="goBackToList()"><i class="fas fa-arrow-left"></i> Back to List</div>
+            
+            <div style="background: var(--card-bg); padding: 25px; border-radius: 24px; border: 1px solid #222;">
+                <span id="contentBadge" class="pill" style="background: var(--accent); color: white; border: none;">Note</span>
+                <h1 id="contentTitle" style="font-size: 26px; margin: 15px 0 10px 0;">Chapter Title</h1>
+                <p id="contentMeta" style="color: var(--text-dim); font-size: 13px; margin-bottom: 20px;"></p>
+
+                <div class="ad-space">Google AdSense - Horizontal Ad</div>
+
+                <div id="contentDescription" style="line-height: 1.7; color: #ccc; font-size: 15px; margin: 20px 0;">
+                    </div>
+
+                <div class="ad-space" style="height: 250px;">Google AdSense - Square Ad</div>
+
+                <a id="finalLink" href="#" target="_blank" class="view-btn">
+                    <i class="fas fa-file-pdf"></i> Access Full PDF Material
+                </a>
+            </div>
         </div>
 
     </main>
@@ -177,151 +160,86 @@
     <script type="module">
         import { supabase } from './app.js'; 
 
-        let allNotes = [];
+        let allMaterials = [];
+        let currentSub = '';
+        let currentType = '';
 
         async function load() {
             try {
-                const { data, error } = await supabase.from('materials').select('*').eq('material_type', 'Note').order('created_at', {ascending: false});
+                const { data, error } = await supabase.from('materials').select('*').order('created_at', {ascending: false});
                 if (error) throw error;
-                allNotes = data;
+                allMaterials = data;
 
-                const grid = document.getElementById("subjectsGrid");
-                const subjects = [...new Set(data.map(n => n.subject))];
-                grid.innerHTML = '';
+                const notesGrid = document.getElementById("subjectsGrid");
+                const notesOnly = data.filter(m => m.material_type === 'Note');
+                const noteSubjects = [...new Set(notesOnly.map(n => n.subject))];
                 
-                subjects.forEach(sub => {
+                notesGrid.innerHTML = '';
+                noteSubjects.forEach(sub => {
                     const div = document.createElement('div');
                     div.className = 'subject-box';
-                    div.onclick = () => showNotes(sub);
-                    div.innerHTML = `<i class="fas fa-book-open-reader"></i><h3>${sub}</h3>`;
-                    grid.appendChild(div);
+                    div.onclick = () => showContent(sub, 'Note');
+                    div.innerHTML = `<i class="fas fa-file-signature"></i><h3>${sub}</h3>`;
+                    notesGrid.appendChild(div);
                 });
-            } catch (e) { grid.innerHTML = "Offline"; }
+            } catch (e) { console.error(e); }
         }
 
-        window.showNotes = (sub) => {
+        window.showContent = (subject, type) => {
+            currentSub = subject;
+            currentType = type;
             toggle('detail');
-            document.getElementById('activeSubjectName').innerText = sub;
-            const filtered = allNotes.filter(n => n.subject === sub);
-            document.getElementById('cardsContainer').innerHTML = filtered.map(n => renderCard(n.chapter_name, n.google_drive_link, n.teacher_name, n.sender_student)).join('');
+            document.getElementById('activeSubjectName').innerText = type === 'Note' ? subject : subject + " Practicals";
+            
+            const filtered = allMaterials.filter(m => m.subject === subject && m.material_type === type);
+            document.getElementById('cardsContainer').innerHTML = filtered.map(m => renderCard(m)).join('') || "No Files Available";
         };
 
-        window.showPracticals = (type) => {
-            toggle('detail');
-            document.getElementById('activeSubjectName').innerText = type + " Practicals";
-            // Example Data - Add your links here
-            const data = type === 'Physics' ? [{name: "Searle Exp", link: "https://drive.google.com/file/d/1sH3aWtB94FSuUUwotOA_30D9_Uxm74GZ/view?us, t: "Physics Dept","Physics Dept" s: "Sachin","Sachin"}] : [];
-            document.getElementById('cardsContainer').innerHTML = data.map(p => renderCard(p.name, p.link, p.t, p.s)).join('') || "No Files";
-        }
+        window.showPracticals = (subject) => showContent(subject, 'Practical');
 
-        function renderCard(title, link, t, s) {
+        function renderCard(m) {
+            const icon = m.material_type === 'Practical' ? 'fa-vial' : 'fa-file-lines';
             return `
-                <div class="material-card">
+                <div class="material-card" onclick="openFullContent('${m.id}')">
                     <div class="card-top">
-                        <div class="icon-box"><i class="fas fa-file-lines"></i></div>
-                        <div class="subject-info"><h3>${title}</h3></div>
-                        <a href="${link}" target="_blank" class="view-btn">View</a>
+                        <div class="icon-box"><i class="fas ${icon}"></i></div>
+                        <div class="subject-info"><h3>${m.chapter_name}</h3></div>
+                        <i class="fas fa-chevron-right" style="color: #444;"></i>
                     </div>
-                    <div class="card-footer">
-                        <div class="pill"><i class="fas fa-chalkboard-user"></i> ${t || 'Teacher'}</div>
-                        <div class="pill"><i class="fas fa-user-graduate"></i> ${s || 'Admin'}</div>
-                    </div>
+                    <div class="pill"><i class="fas fa-chalkboard-user"></i> ${m.teacher_name || 'Verified Faculty'}</div>
                 </div>
             `;
         }
 
+        window.openFullContent = (id) => {
+            const m = allMaterials.find(item => item.id == id);
+            if(!m) return;
+
+            document.getElementById('detailView').style.display = 'none';
+            document.getElementById('fullContentView').style.display = 'block';
+
+            document.getElementById('contentTitle').innerText = m.chapter_name;
+            document.getElementById('contentBadge').innerText = m.material_type;
+            document.getElementById('contentMeta').innerHTML = `<i class="fas fa-user-edit"></i> Provided by ${m.teacher_name || 'Admin'} | <i class="fas fa-graduation-cap"></i> BSC TOP`;
+            document.getElementById('contentDescription').innerText = m.description || "In this section, you will find comprehensive study materials for " + m.chapter_name + ". These notes are curated as per the latest university syllabus to help you score better in your exams.";
+            document.getElementById('finalLink').href = m.google_drive_link;
+            
+            window.scrollTo(0,0);
+        };
+
+        window.goBackToList = () => {
+            document.getElementById('fullContentView').style.display = 'none';
+            document.getElementById('detailView').style.display = 'block';
+        };
+
         function toggle(v) {
             document.getElementById('mainView').style.display = v === 'main' ? 'block' : 'none';
             document.getElementById('detailView').style.display = v === 'detail' ? 'block' : 'none';
+            document.getElementById('fullContentView').style.display = 'none';
             window.scrollTo(0,0);
         }
 
-        window.goBack = () => toggle('main');
         document.addEventListener('DOMContentLoaded', load);
-       
     </script>
-    <script type="module">
-    import { supabase } from './app.js'; 
-
-    let allMaterials = []; // Notes aur Practicals dono yahan store honge
-
-    async function load() {
-        try {
-            // Hum saara data ek sath fetch kar rahe hain
-            const { data, error } = await supabase
-                .from('materials')
-                .select('*')
-                .order('created_at', {ascending: false});
-            
-            if (error) throw error;
-            allMaterials = data;
-
-            // --- 1. SET NOTES GRID ---
-            const notesGrid = document.getElementById("subjectsGrid");
-            const notesOnly = allMaterials.filter(m => m.material_type === 'Note');
-            const noteSubjects = [...new Set(notesOnly.map(n => n.subject))];
-            
-            notesGrid.innerHTML = '';
-            noteSubjects.forEach(sub => {
-                const div = document.createElement('div');
-                div.className = 'subject-box';
-                div.onclick = () => showContent(sub, 'Note');
-                div.innerHTML = `<i class="fas fa-file-signature"></i><h3>${sub}</h3>`;
-                notesGrid.appendChild(div);
-            });
-
-        } catch (e) { 
-            document.getElementById("subjectsGrid").innerHTML = "Connection Error"; 
-        }
-    }
-
-    // Ek hi common function jo type ke hisaab se filter karega
-    window.showContent = (subject, type) => {
-        toggle('detail');
-        const heading = type === 'Note' ? subject : subject + " Practicals";
-        document.getElementById('activeSubjectName').innerText = heading;
-
-        const filtered = allMaterials.filter(m => m.subject === subject && m.material_type === type);
-        
-        if(filtered.length > 0) {
-            document.getElementById('cardsContainer').innerHTML = filtered.map(m => 
-                renderCard(m.chapter_name, m.google_drive_link, m.teacher_name, m.sender_student, type)
-            ).join('');
-        } else {
-            document.getElementById('cardsContainer').innerHTML = "<div class='loading-state'>No Files Available Yet</div>";
-        }
-    };
-
-    // Laboratory Work Buttons ke liye direct calls
-    window.showPracticals = (subject) => showContent(subject, 'Practical');
-
-    function renderCard(title, link, t, s, type) {
-        // Type ke hisaab se icon badal jayega
-        const iconClass = type === 'Practical' ? 'fa-vial' : 'fa-file-lines';
-        return `
-            <div class="material-card">
-                <div class="card-top">
-                    <div class="icon-box"><i class="fas ${iconClass}"></i></div>
-                    <div class="subject-info"><h3>${title}</h3></div>
-                    <a href="${link}" target="_blank" class="view-btn">View</a>
-                </div>
-                <div class="card-footer">
-                    <div class="pill"><i class="fas fa-chalkboard-user"></i> ${t || 'Teacher'}</div>
-                    <div class="pill"><i class="fas fa-user-graduate"></i> ${s || 'Admin'}</div>
-                </div>
-            </div>
-        `;
-    }
-
-    function toggle(v) {
-        document.getElementById('mainView').style.display = v === 'main' ? 'block' : 'none';
-        document.getElementById('detailView').style.display = v === 'detail' ? 'block' : 'none';
-        window.scrollTo(0,0);
-    }
-
-    window.goBack = () => toggle('main');
-    document.addEventListener('DOMContentLoaded', load);
-</script>
-
 </body>
 </html>

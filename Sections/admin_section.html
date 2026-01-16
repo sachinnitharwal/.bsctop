@@ -321,6 +321,10 @@
                     </div>
                     <div class="form-grid">
                         <div class="input-group">
+                            <div class="input-group" style="margin-top: 15px;">
+                                <label>Brief Description (For SEO & AdSense)</label>
+                                <textarea id="m_desc" placeholder="Write 2-3 lines about topics covered, importance for exams, or apparatus used..." style="height: 80px;"></textarea>
+                            </div>
                             <label>Teacher</label>
                             <input type="text" id="teacherName" placeholder="SK Sir">
                         </div>
@@ -429,6 +433,8 @@
                 sender_student: document.getElementById('senderStudent').value,
                 google_drive_link: document.getElementById('googleDriveLink').value,
                 is_new: document.getElementById('isNew').checked,
+                description: document.getElementById('m_desc').value
+                
             };
             
             const { error } = await supabase.from('materials').insert([payload]);
@@ -444,24 +450,24 @@
         });
         
         // Load Materials
-      // --- Is function ko apne script mein loadMaterialsForAdmin ki jagah replace karein ---
-
-async function loadMaterialsForAdmin() {
-    const list = document.getElementById('material-list');
-    list.innerHTML = '<p style="text-align:center; color:var(--text-dim);">Fetching materials...</p>';
-    
-    const { data, error } = await supabase.from('materials').select('*').order('created_at', { ascending: false });
-    
-    if (error) {
-        list.innerHTML = `<p style="color:var(--error)">Error: ${error.message}</p>`;
-        return;
-    }
-
-    // Data categorization
-    const notes = data.filter(m => m.material_type === 'Note');
-    const practicals = data.filter(m => m.material_type === 'Practical');
-
-    list.innerHTML = `
+        // --- Is function ko apne script mein loadMaterialsForAdmin ki jagah replace karein ---
+        
+        async function loadMaterialsForAdmin() {
+            const list = document.getElementById('material-list');
+            list.innerHTML = '<p style="text-align:center; color:var(--text-dim);">Fetching materials...</p>';
+            
+            const { data, error } = await supabase.from('materials').select('*').order('created_at', { ascending: false });
+            
+            if (error) {
+                list.innerHTML = `<p style="color:var(--error)">Error: ${error.message}</p>`;
+                return;
+            }
+            
+            // Data categorization
+            const notes = data.filter(m => m.material_type === 'Note');
+            const practicals = data.filter(m => m.material_type === 'Practical');
+            
+            list.innerHTML = `
         <div style="margin-bottom: 30px;">
             <h4 style="color: #64B5F6; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #222; padding-bottom: 10px;">
                 <i class="fas fa-flask"></i> Laboratory Work (Practicals)
@@ -478,14 +484,14 @@ async function loadMaterialsForAdmin() {
             ${notes.length > 0 ? notes.map(m => renderAdminItem(m)).join('') : '<p style="font-size:12px; color:#555; padding-left:10px;">No study notes added yet.</p>'}
         </div>
     `;
-}
-
-// Helper: Rendering Single Row with Edit & Delete
-function renderAdminItem(m) {
-    const icon = m.material_type === 'Practical' ? 'fa-vial' : 'fa-file-alt';
-    const accentColor = m.material_type === 'Practical' ? '#64B5F6' : 'var(--accent)';
-    
-    return `
+        }
+        
+        // Helper: Rendering Single Row with Edit & Delete
+        function renderAdminItem(m) {
+            const icon = m.material_type === 'Practical' ? 'fa-vial' : 'fa-file-alt';
+            const accentColor = m.material_type === 'Practical' ? '#64B5F6' : 'var(--accent)';
+            
+            return `
         <div class="item-row" id="item-${m.id}">
             <div class="item-info">
                 <div style="display:flex; align-items:center; gap:10px;">
@@ -511,46 +517,48 @@ function renderAdminItem(m) {
             </div>
         </div>
     `;
-}
-
-// Edit Logic: Yeh function purane data ko form mein bhar dega
-window.editMaterial = (item) => {
-    document.getElementById('chapterName').value = item.chapter_name;
-    document.getElementById('googleDriveLink').value = item.google_drive_link;
-    document.getElementById('subject').value = item.subject;
-    document.getElementById('materialType').value = item.material_type;
-    document.getElementById('teacherName').value = item.teacher_name;
-    document.getElementById('senderStudent').value = item.sender_student;
-    document.getElementById('isNew').checked = item.is_new;
-    
-    // Form button ko "Update" mein badalna
-    const submitBtn = document.querySelector('#material-form .submit-btn');
-    submitBtn.innerHTML = `<i class="fas fa-save"></i> Update Material`;
-    submitBtn.style.background = "#00C853";
-    
-    // Naya event listener add karein update ke liye (pehle wala remove karke)
-    document.getElementById('material-form').onsubmit = async (e) => {
-        e.preventDefault();
-        const { error } = await supabase.from('materials').update({
-            chapter_name: document.getElementById('chapterName').value,
-            google_drive_link: document.getElementById('googleDriveLink').value,
-            subject: document.getElementById('subject').value,
-            material_type: document.getElementById('materialType').value,
-            teacher_name: document.getElementById('teacherName').value,
-            sender_student: document.getElementById('senderStudent').value,
-            is_new: document.getElementById('isNew').checked
-        }).eq('id', item.id);
-        
-        if (error) displayMessage(error.message, 'error');
-        else {
-            displayMessage("Material Updated! ✨", "success");
-            setTimeout(() => location.reload(), 1000); // Page reload to reset form and list
         }
-    };
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
+        
+        // Edit Logic: Yeh function purane data ko form mein bhar dega
+        window.editMaterial = (item) => {
+            document.getElementById('chapterName').value = item.chapter_name;
+            document.getElementById('googleDriveLink').value = item.google_drive_link;
+            document.getElementById('subject').value = item.subject;
+            document.getElementById('materialType').value = item.material_type;
+            document.getElementById('teacherName').value = item.teacher_name;
+            document.getElementById('senderStudent').value = item.sender_student;
+            document.getElementById('isNew').checked = item.isvalue
+            document.getElementById('m_desc').value = item.description || '';
+            
+            
+            // Form button ko "Update" mein badalna
+            const submitBtn = document.querySelector('#material-form .submit-btn');
+            submitBtn.innerHTML = `<i class="fas fa-save"></i> Update Material`;
+            submitBtn.style.background = "#00C853";
+            
+            // Naya event listener add karein update ke liye (pehle wala remove karke)
+            document.getElementById('material-form').onsubmit = async (e) => {
+                e.preventDefault();
+                const { error } = await supabase.from('materials').update({
+                    chapter_name: document.getElementById('chapterName').value,
+                    google_drive_link: document.getElementById('googleDriveLink').value,
+                    subject: document.getElementById('subject').value,
+                    material_type: document.getElementById('materialType').value,
+                    teacher_name: document.getElementById('teacherName').value,
+                    sender_student: document.getElementById('senderStudent').value,
+                    is_new: document.getElementById('isNew').checked
+                }).eq('id', item.id);
+                
+                if (error) displayMessage(error.message, 'error');
+                else {
+                    displayMessage("Material Updated! ✨", "success");
+                    setTimeout(() => location.reload(), 1000); // Page reload to reset form and list
+                }
+            };
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
         
         // 1. वीडियो अपलोड करने का फंक्शन
         window.addLecture = async () => {
