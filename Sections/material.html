@@ -171,7 +171,8 @@
 
         async function load() {
             try {
-                const { data, error } = await supabase.from('materials').select('*').order('created_at', {ascending: false});
+                const { data, error } = await supabase.from('materials').select('*').eq('semester', 'Semester 1').order('created_at', {ascending: false});
+                
                 if (error) throw error;
                 allMaterials = data;
 
@@ -242,6 +243,7 @@
             document.getElementById('detailView').style.display = v === 'detail' ? 'block' : 'none';
             document.getElementById('fullContentView').style.display = 'none';
             window.scrollTo(0,0);
+            window.toggle = toggle;
         }
 
         document.addEventListener('DOMContentLoaded', load);
