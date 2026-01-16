@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B.Sc. Materials Hub | BSC TOP</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        :root { --bg: #050505; --card-bg: #111111; --accent: #6366F1; --text: #FFFFFF; --text-dim: #94A3B8; --gold: #EAB308; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
+        
+        .header { text-align: center; padding: 30px 20px 10px; }
+        .header h1 span { color: var(--accent); }
+        .content-wrapper { padding: 0 20px 40px; max-width: 600px; margin: 0 auto; }
+
+        /* Ad Spaces */
+        .ad-unit { width: 100%; min-height: 90px; background: #0A0A0A; border: 1px dashed #222; margin: 15px 0; display: flex; align-items: center; justify-content: center; color: #333; font-size: 10px; border-radius: 12px; }
+
+        /* Views Visibility */
+        #subjectsView, #chaptersView, #fullView { display: none; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Cards Styling */
+        .grid { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .card { 
+            background: linear-gradient(145deg, #111, #0a0a0a); border: 1px solid #1F1F1F; border-radius: 20px; 
+            padding: 18px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; text-decoration: none; color: white;
+        }
+        .card:hover { border-color: var(--accent); transform: translateY(-3px); background: #161616; }
+        .icon-box { width: 45px; height: 45px; background: #1A1A1A; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 800; font-size: 18px; border: 1px solid #222; }
+
+        .sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .sub-box { background: var(--card-bg); border: 1px solid #1F1F1F; padding: 25px 10px; border-radius: 20px; text-align: center; cursor: pointer; border-bottom: 3px solid #1A1A1A; transition: 0.3s; }
+        .sub-box:hover { border-color: var(--accent); border-bottom-color: var(--accent); }
+        .sub-box i { font-size: 24px; color: var(--accent); margin-bottom: 10px; display: block; }
+        
+        /* Navigation */
+        .back-nav { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; margin-bottom: 20px; background: #1A1A1A; padding: 8px 14px; border-radius: 50px; border: 1px solid #222; }
+        .view-label { font-size: 10px; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Note Cards */
+        .note-card { background: #111; border: 1px solid #222; border-radius: 18px; padding: 18px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
+        .note-card:hover { border-color: var(--accent); }
+
+        .view-btn { display: block; text-align: center; text-decoration: none; background: var(--accent); color: white; padding: 16px; border-radius: 14px; font-weight: 800; margin-top: 20px; font-size: 14px; box-shadow: 0 4px 15px var(--accent-glow); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>BSC <span>TOP</span></h1>
+        <p style="color: var(--text-dim); font-size: 13px;">Handwritten Notes & Study Materials</p>
+    </div>
+
+    <main class="content-wrapper">
+        <div class="ad-unit">Google AdSense - Header Ad</div>
+
+        <div id="semView">
+            <span class="view-label">Choose Semester</span>
+            <div class="grid">
+                <a href="material.html" class="card">
+                    <div style="display:flex;gap:15px;align-items:center;">
+                        <div class="icon-box">1</div>
+                        <div><h3>Semester 1</h3><p style="font-size:11px;color:#666;margin:0;">Chemistry, Physics & Maths</p></div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color:#333;"></i>
+                </a>
+
+                <div class="card" onclick="loadSubjects(2)"><div style="display:flex;gap:15px;align-items:center;"><div class="icon-box">2</div><h3>Semester 2</h3></div><i class="fas fa-chevron-right"></i></div>
+                <div class="card" onclick="loadSubjects(3)"><div style="display:flex;gap:15px;align-items:center;"><div class="icon-box">3</div><h3>Semester 3</h3></div><i class="fas fa-chevron-right"></i></div>
+                <div class="card" onclick="loadSubjects(4)"><div style="display:flex;gap:15px;align-items:center;"><div class="icon-box">4</div><h3>Semester 4</h3></div><i class="fas fa-chevron-right"></i></div>
+                <div class="card" onclick="loadSubjects(5)"><div style="display:flex;gap:15px;align-items:center;"><div class="icon-box">5</div><h3>Semester 5</h3></div><i class="fas fa-chevron-right"></i></div>
+                <div class="card" onclick="loadSubjects(6)"><div style="display:flex;gap:15px;align-items:center;"><div class="icon-box">6</div><h3>Semester 6</h3></div><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </div>
+
+        <div id="subjectsView">
+            <div class="back-nav" onclick="showView('sem')"><i class="fas fa-arrow-left"></i> Back to Semesters</div>
+            <span class="view-label" id="semLabel">Semester Notes</span>
+            <div class="sub-grid" id="subContainer"></div>
+        </div>
+
+        <div id="chaptersView">
+            <div class="back-nav" onclick="showView('sub')"><i class="fas fa-arrow-left"></i> Back to Subjects</div>
+            <span class="view-label" id="subLabel">Available Topics</span>
+            <div class="grid" id="chaptersContainer" style="margin-top:20px;"></div>
+        </div>
+
+        <div id="fullView">
+            <div class="back-nav" onclick="showView('chap')"><i class="fas fa-arrow-left"></i> Back to List</div>
+            <div style="background: var(--card-bg); padding: 25px; border-radius: 24px; border: 1px solid #222;">
+                <h1 id="fTitle" style="font-size: 24px; margin-bottom: 10px;">Title</h1>
+                <div class="ad-unit">AdSense - Inside Note</div>
+                <p id="fDesc" style="color:#ccc; font-size: 15px; line-height: 1.6; margin: 20px 0;"></p>
+                <a id="fLink" href="#" target="_blank" class="view-btn"><i class="fas fa-file-pdf"></i> Access Full PDF Notes</a>
+                
+                <div style="margin-top:40px; border-top:1px solid #222; padding-top:25px;">
+                    <span class="view-label">🔥 People also viewed</span>
+                    <div id="recList" style="margin-top:15px;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ad-unit" style="height:250px;">Google AdSense - Footer Ad</div>
+    </main>
+
+    <script type="module">
+        import { supabase } from './app.js'; 
+        let allData = [];
+        let currentSemName = "";
+
+        async function init() {
+            const { data } = await supabase.from('materials').select('*').order('created_at', {ascending:false});
+            allData = data || [];
+        }
+
+        window.loadSubjects = (n) => {
+            currentSemName = "Semester " + n;
+            document.getElementById('semLabel').innerText = `${currentSemName} Subjects`;
+            const filtered = allData.filter(m => m.semester === currentSemName);
+            const subjects = [...new Set(filtered.map(m => m.subject))];
+            
+            const container = document.getElementById('subContainer');
+            container.innerHTML = subjects.map(s => `
+                <div class="sub-box" onclick="loadChapters('${s}')">
+                    <i class="fas fa-flask"></i><h3>${s}</h3>
+                </div>
+            `).join('') || "<p style='grid-column:1/3;text-align:center;padding:20px;color:#444;'>No content yet.</p>";
+            showView('sub');
+        };
+
+        window.loadChapters = (s) => {
+            document.getElementById('subLabel').innerText = s;
+            const filtered = allData.filter(m => m.semester === currentSemName && m.subject === s);
+            document.getElementById('chaptersContainer').innerHTML = filtered.map(m => `
+                <div class="note-card" onclick="loadFull('${m.id}')">
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <h3 style="font-size:16px;margin:0;">${m.chapter_name}</h3>
+                        <i class="fas fa-chevron-right" style="color:var(--accent);"></i>
+                    </div>
+                </div>
+            `).join('');
+            showView('chap');
+        };
+
+        window.loadFull = (id) => {
+            const m = allData.find(i => i.id == id);
+            document.getElementById('fTitle').innerText = m.chapter_name;
+            document.getElementById('fDesc').innerText = m.description || "High-quality handwritten notes for exam preparation.";
+            document.getElementById('fLink').href = m.google_drive_link;
+            
+            const recs = allData.filter(i => i.id != id).sort(()=> 0.5 - Math.random()).slice(0,3);
+            document.getElementById('recList').innerHTML = recs.map(r => `
+                <div class="note-card" onclick="loadFull('${r.id}')" style="padding:12px;background:#0a0a0a;">
+                    <h4 style="font-size:14px;margin:0;color:#94A3B8;">${r.chapter_name}</h4>
+                </div>
+            `).join('');
+            showView('full');
+        };
+
+        function showView(v) {
+            document.getElementById('semView').style.display = v === 'sem' ? 'block' : 'none';
+            document.getElementById('subjectsView').style.display = v === 'sub' ? 'block' : 'none';
+            document.getElementById('chaptersView').style.display = v === 'chap' ? 'block' : 'none';
+            document.getElementById('fullView').style.display = v === 'full' ? 'block' : 'none';
+            window.scrollTo(0,0);
+        }
+        window.showView = showView;
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

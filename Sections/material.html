@@ -1,164 +1,248 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materials Hub | BSC TOP</title>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        :root { --bg-pure: #050505; --card-bg: #111111; --accent: #6366F1; --viewlabel: #F2F2F2; --accent-glow: rgba(99, 102, 241, 0.4); --text-main: #FFFFFF; --text-dim: #94A3B8; }
-        body { background-color: var(--bg-pure); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
-        .main-header { background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(10px); padding: 15px 20px; border-bottom: 1px solid #1A1A1A; position: sticky; top: 0; z-index: 1000; }
+
+        :root {
+            --bg-pure: #050505;
+            --card-bg: #111111;
+            --accent: #6366F1;
+            --viewlabel: #F2F2F2;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --text-main: #FFFFFF;
+            --text-dim: #94A3B8;
+        }
+
+        body {
+            background-color: var(--bg-pure);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; padding: 0;
+        }
+
+        /* --- STICKY NAV --- */
+        .main-header {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1A1A1A;
+            position: sticky; top: 0; z-index: 1000;
+        }
+
         .brand-logo { margin: 0; font-size: 20px; font-weight: 800; }
         .brand-logo span { color: var(--accent); text-shadow: 0 0 15px var(--accent-glow); }
+
         .content-wrapper { padding: 25px 20px; max-width: 600px; margin: 0 auto; }
-        .view-label { font-size: 11px; color: var(--viewlabel); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 25px 0 15px 0; display: block; }
+
+        .view-label { 
+            font-size: 11px; color: var(--viewlabel); font-weight: 800; 
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block;
+        }
+
         .subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 35px; }
-        .subject-box { background: var(--card-bg); border: 1px solid #1F1F1F; padding: 30px 15px; border-radius: 24px; text-align: center; cursor: pointer; transition: 0.3s; }
+        
+        .subject-box {
+            background: var(--card-bg);
+            border: 1px solid #1F1F1F;
+            padding: 30px 15px;
+            border-radius: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
         .subject-box:hover { border-color: var(--accent); transform: translateY(-5px); }
         .subject-box i { font-size: 32px; color: var(--accent); margin-bottom: 15px; display: block; }
-        #subjectsView, #detailView, #fullContentView { display: none; animation: slideUp 0.5s ease; }
+
+        /* --- DETAIL VIEW --- */
+        #detailView, #fullContentView { display: none; animation: slideUp 0.5s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .back-nav { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 25px; cursor: pointer; color: #fff; font-weight: 600; font-size: 13px; background: #1A1A1A; padding: 10px 18px; border-radius: 14px; }
-        .material-card { background: linear-gradient(145deg, #161616, #0F0F0F); border: 1px solid #222; border-radius: 22px; padding: 20px; margin-bottom: 18px; cursor: pointer; }
+
+        .back-nav {
+            display: inline-flex; align-items: center; gap: 10px; margin-bottom: 25px;
+            cursor: pointer; color: #fff; font-weight: 600; font-size: 13px;
+            background: #1A1A1A; padding: 10px 18px; border-radius: 14px;
+        }
+
+        .material-card {
+            background: linear-gradient(145deg, #161616, #0F0F0F);
+            border: 1px solid #222;
+            border-radius: 22px; padding: 20px;
+            margin-bottom: 18px; cursor: pointer;
+        }
+
         .card-top { display: flex; align-items: center; gap: 18px; }
         .icon-box { width: 50px; height: 50px; background: #1A1A1A; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 20px; }
-        .pill { font-size: 10px; padding: 6px 14px; border-radius: 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; background: #1A1A1A; color: var(--text-dim); border: 1px solid #262626; margin-top: 15px; }
-        .view-btn { display: block; text-align: center; text-decoration: none; background: var(--accent); color: white; padding: 15px; border-radius: 12px; font-size: 14px; font-weight: 800; margin-top: 20px; }
-        .ad-space { width: 100%; min-height: 100px; background: #0a0a0a; border: 1px dashed #333; margin: 20px 0; display: flex; align-items: center; justify-content: center; color: #444; font-size: 12px; }
-        .rec-card { display: flex; align-items: center; gap: 12px; background: #0A0A0A; padding: 15px; border-radius: 18px; margin-bottom: 12px; border: 1px solid #1A1A1A; cursor: pointer; }
+
+        .pill { 
+            font-size: 10px; padding: 6px 14px; border-radius: 10px; font-weight: 700; 
+            display: inline-flex; align-items: center; gap: 8px; background: #1A1A1A; color: var(--text-dim);
+            border: 1px solid #262626; margin-top: 15px;
+        }
+
+        .view-btn {
+            display: block; text-align: center; text-decoration: none; background: var(--accent); color: white;
+            padding: 15px; border-radius: 12px; font-size: 14px; font-weight: 800; margin-top: 20px;
+        }
+
+        .ad-space {
+            width: 100%; min-height: 100px; background: #0a0a0a; border: 1px dashed #333;
+            margin: 20px 0; display: flex; align-items: center; justify-content: center; color: #444; font-size: 12px;
+        }
     </style>
 </head>
 <body>
-    <header class="main-header"><h1 class="brand-logo">BSC <span>TOP</span></h1></header>
+
+    <header class="main-header">
+        <h1 class="brand-logo">BSC <span>TOP</span></h1>
+    </header>
+
     <main class="content-wrapper">
+        
         <div id="mainView">
-            <span class="view-label">📅 Select Semester</span>
-            <div class="subject-grid">
-                <div class="subject-box" onclick="selectSemester('Semester 1')"><i class="fas fa-1"></i><h3>Semester 1</h3></div>
-                <div class="subject-box" onclick="selectSemester('Semester 2')"><i class="fas fa-2"></i><h3>Semester 2</h3></div>
+            <span class="view-label">📚 Semester 1 Class notes</span>
+            <div class="subject-grid" id="subjectsGrid">
+                <div class="loading-state"><i class="fas fa-circle-notch fa-spin"></i></div>
             </div>
+
             <span class="view-label">🔬 Laboratory Work</span>
             <div class="subject-grid">
-                <div class="subject-box" onclick="showPracticals('Physics')"><i class="fas fa-flask-vial"></i><h3>Physics</h3></div>
-                <div class="subject-box" onclick="showPracticals('Chemistry')"><i class="fas fa-vial-circle-check"></i><h3>Chemistry</h3></div>
+                <div class="subject-box" onclick="showPracticals('Physics')">
+                    <i class="fas fa-flask-vial"></i>
+                    <h3>Physics</h3>
+                </div>
+                <div class="subject-box" onclick="showPracticals('Chemistry')">
+                    <i class="fas fa-vial-circle-check"></i>
+                    <h3>Chemistry</h3>
+                </div>
             </div>
-        </div>
-
-        <div id="subjectsView">
-            <div class="back-nav" onclick="toggleView('main')"><i class="fas fa-chevron-left"></i> Change Semester</div>
-            <span class="view-label" id="currentSemLabel">Subjects</span>
-            <div class="subject-grid" id="subjectsGrid"></div>
         </div>
 
         <div id="detailView">
-            <div class="back-nav" onclick="toggleView('subjects')"><i class="fas fa-chevron-left"></i> Back</div>
-            <h2 id="activeSubjectName" style="font-size: 24px; margin-bottom: 20px;">Subject</h2>
+            <div class="back-nav" onclick="toggle('main')"><i class="fas fa-chevron-left"></i> Back to Hub</div>
+            <h2 id="activeSubjectName" style="font-size: 28px; font-weight: 800; margin-bottom: 25px;">Subject</h2>
             <div id="cardsContainer"></div>
         </div>
 
         <div id="fullContentView">
-            <div class="back-nav" onclick="toggleView('detail')"><i class="fas fa-arrow-left"></i> Back to List</div>
+            <div class="back-nav" onclick="goBackToList()"><i class="fas fa-arrow-left"></i> Back to List</div>
+            
             <div style="background: var(--card-bg); padding: 25px; border-radius: 24px; border: 1px solid #222;">
-                <h1 id="contentTitle" style="font-size: 24px; margin: 10px 0;">Title</h1>
-                <div id="scrollPrompt" style="color: #EAB308; font-size: 12px; font-weight: 700; margin: 10px 0;"><i class="fas fa-arrow-down fa-bounce"></i> कृपया नीचे स्क्रॉल करें। विज्ञापन (Ads) के बाद आपको "Access Full PDF Material" का बटन दिखाई देगा। वहां से आप फाइल डाउनलोड कर सकते हैं।</div>
-                <div class="ad-space">AdSense Ad</div>
-                <div id="contentDescription" style="color: #ccc; font-size: 14px; margin: 20px 0;"></div>
-                <a id="finalLink" href="#" target="_blank" class="view-btn">Access Full PDF Material</a>
-                <div id="recSection" style="margin-top:30px; border-top:1px solid #222; padding-top:20px;">
-                    <span class="view-label">🔥 People also viewed</span>
-                    <div id="recList"></div>
-                </div>
+                <span id="contentBadge" class="pill" style="background: var(--accent); color: white; border: none;">Note</span>
+                <h1 id="contentTitle" style="font-size: 26px; margin: 15px 0 10px 0;">Chapter Title</h1>
+                <p id="contentMeta" style="color: var(--text-dim); font-size: 13px; margin-bottom: 20px;"></p>
+                <div id="scrollPrompt" style="color: #EAB308; font-size: 13px; font-weight: 700; margin: 10px 0; display: flex; align-items: center; gap: 8px;">
+    <i class="fas fa-arrow-down-long" class="fa-bounce"></i> 
+    <span>​⚠️ डाउनलोड निर्देश: कृपया नीचे स्क्रॉल करें। विज्ञापन (Ads) के बाद आपको "Access Full PDF Material" का बटन दिखाई देगा। वहां से आप फाइल डाउनलोड कर सकते हैं।</span>
+</div>
+
+
+                <div class="ad-space">Google AdSense - Horizontal Ad</div>
+
+                <div id="contentDescription" style="line-height: 1.7; color: #ccc; font-size: 15px; margin: 20px 0;">
+                    </div>
+
+                <div class="ad-space" style="height: 250px;">Google AdSense - Square Ad</div>
+
+                <a id="finalLink" href="#" target="_blank" class="view-btn">
+                    <i class="fas fa-file-pdf"></i> Access Full PDF Material
+                </a>
             </div>
         </div>
+
     </main>
 
     <script type="module">
         import { supabase } from './app.js'; 
+
         let allMaterials = [];
-        let currentSelectedSem = "";
+        let currentSub = '';
+        let currentType = '';
 
         async function load() {
-            const { data, error } = await supabase.from('materials').select('*').order('created_at', {ascending: false});
-            if (!error) allMaterials = data;
+            try {
+                const { data, error } = await supabase.from('materials').select('*').order('created_at', {ascending: false});
+                if (error) throw error;
+                allMaterials = data;
+
+                const notesGrid = document.getElementById("subjectsGrid");
+                const notesOnly = data.filter(m => m.material_type === 'Note');
+                const noteSubjects = [...new Set(notesOnly.map(n => n.subject))];
+                
+                notesGrid.innerHTML = '';
+                noteSubjects.forEach(sub => {
+                    const div = document.createElement('div');
+                    div.className = 'subject-box';
+                    div.onclick = () => showContent(sub, 'Note');
+                    div.innerHTML = `<i class="fas fa-file-signature"></i><h3>${sub}</h3>`;
+                    notesGrid.appendChild(div);
+                });
+            } catch (e) { console.error(e); }
         }
 
-        window.selectSemester = (sem) => {
-            currentSelectedSem = sem;
-            document.getElementById('currentSemLabel').innerText = `${sem} Subjects`;
-            toggleView('subjects');
+        window.showContent = (subject, type) => {
+            currentSub = subject;
+            currentType = type;
+            toggle('detail');
+            document.getElementById('activeSubjectName').innerText = type === 'Note' ? subject : subject + " Practicals";
             
-            // Fix: Agar semester null hai toh use Semester 1 maano
-            const semData = allMaterials.filter(m => {
-                const itemSem = m.semester || "Semester 1";
-                return itemSem === sem && m.material_type === 'Note';
-            });
-
-            const subjects = [...new Set(semData.map(n => n.subject))];
-            const grid = document.getElementById('subjectsGrid');
-            grid.innerHTML = subjects.map(sub => `
-                <div class="subject-box" onclick="showNotesList('${sub}')">
-                    <i class="fas fa-file-signature"></i><h3>${sub}</h3>
-                </div>
-            `).join('') || "<p style='padding:20px; color:#666;'>No data found.</p>";
+            const filtered = allMaterials.filter(m => m.subject === subject && m.material_type === type);
+            document.getElementById('cardsContainer').innerHTML = filtered.map(m => renderCard(m)).join('') || "No Files Available";
         };
 
-        window.showNotesList = (sub) => {
-            toggleView('detail');
-            document.getElementById('activeSubjectName').innerText = sub;
-            const filtered = allMaterials.filter(m => {
-                const itemSem = m.semester || "Semester 1";
-                return m.subject === sub && itemSem === currentSelectedSem && m.material_type === 'Note';
-            });
-            renderCards(filtered);
-        };
+        window.showPracticals = (subject) => showContent(subject, 'Practical');
 
-        window.showPracticals = (sub) => {
-            toggleView('detail');
-            document.getElementById('activeSubjectName').innerText = sub + " Practicals";
-            const filtered = allMaterials.filter(m => m.subject === sub && m.material_type === 'Practical');
-            renderCards(filtered);
-        };
-
-        function renderCards(data) {
-            document.getElementById('cardsContainer').innerHTML = data.map(m => `
-                <div class="material-card" onclick="openFull('${m.id}')">
+        function renderCard(m) {
+            const icon = m.material_type === 'Practical' ? 'fa-vial' : 'fa-file-lines';
+            return `
+                <div class="material-card" onclick="openFullContent('${m.id}')">
                     <div class="card-top">
-                        <div class="icon-box"><i class="fas fa-file-lines"></i></div>
+                        <div class="icon-box"><i class="fas ${icon}"></i></div>
                         <div class="subject-info"><h3>${m.chapter_name}</h3></div>
+                        <i class="fas fa-chevron-right" style="color: #444;"></i>
                     </div>
-                    <div class="pill"><i class="fas fa-user"></i> ${m.teacher_name || 'Admin'}</div>
+                    <div class="pill"><i class="fas fa-chalkboard-user"></i> ${m.teacher_name || 'Verified Faculty'}</div>
                 </div>
-            `).join('') || "No Files Available";
+            `;
         }
 
-        window.openFull = (id) => {
+        window.openFullContent = (id) => {
             const m = allMaterials.find(item => item.id == id);
             if(!m) return;
-            toggleView('full');
+
+            document.getElementById('detailView').style.display = 'none';
+            document.getElementById('fullContentView').style.display = 'block';
+
             document.getElementById('contentTitle').innerText = m.chapter_name;
-            document.getElementById('contentDescription').innerHTML = m.description || "Study material for B.Sc.";
+            document.getElementById('contentBadge').innerText = m.material_type;
+            document.getElementById('contentMeta').innerHTML = `<i class="fas fa-user-edit"></i> Provided by ${m.teacher_name || 'Admin'} | <i class="fas fa-graduation-cap"></i> BSC TOP`;
+            document.getElementById('contentDescription').innerText = m.description || "In this section, you will find comprehensive study materials for " + m.chapter_name + ". These notes are curated as per the latest university syllabus to help you score better in your exams.";
             document.getElementById('finalLink').href = m.google_drive_link;
-
-            // People also viewed (Random 3)
-            const recs = allMaterials.filter(item => item.id != id).sort(() => 0.5 - Math.random()).slice(0, 3);
-            document.getElementById('recList').innerHTML = recs.map(r => `
-                <div class="rec-card" onclick="openFull('${r.id}')">
-                    <i class="fas fa-link"></i>
-                    <div><div style="font-weight:700;">${r.chapter_name}</div><div style="font-size:11px;color:#666;">${r.subject}</div></div>
-                </div>
-            `).join('');
-        };
-
-        window.toggleView = (v) => {
-            document.getElementById('mainView').style.display = v === 'main' ? 'block' : 'none';
-            document.getElementById('subjectsView').style.display = v === 'subjects' ? 'block' : 'none';
-            document.getElementById('detailView').style.display = v === 'detail' ? 'block' : 'none';
-            document.getElementById('fullContentView').style.display = v === 'full' ? 'block' : 'none';
+            
             window.scrollTo(0,0);
         };
+
+        window.goBackToList = () => {
+            document.getElementById('fullContentView').style.display = 'none';
+            document.getElementById('detailView').style.display = 'block';
+        };
+
+        function toggle(v) {
+            document.getElementById('mainView').style.display = v === 'main' ? 'block' : 'none';
+            document.getElementById('detailView').style.display = v === 'detail' ? 'block' : 'none';
+            document.getElementById('fullContentView').style.display = 'none';
+            window.scrollTo(0,0);
+        }
 
         document.addEventListener('DOMContentLoaded', load);
     </script>
