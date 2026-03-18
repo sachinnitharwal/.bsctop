@@ -1,139 +1,219 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Corner | BSC TOP</title>
+    <title>BookHouse | BSC TOP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
         :root {
-            --bg: #050505;
-            --card-bg: #111111;
-            --accent-buy: #22C55E;
-            --accent-sell: #EAB308;
-            --text-main: #FFFFFF;
-            --text-dim: #94A3B8;
-            --danger: #EF4444;
+            --bg: #FFF7F2; /* Soft Cream like image */
+            --accent: #F47D50; /* Orange-Coral */
+            --teal: #19CEC2; /* Teal background shape */
+            --text-dark: #3E2416;
+            --text-dim: #7C6A61;
         }
 
         body {
-            margin: 0; background-color: var(--bg); color: var(--text-main);
+            background-color: var(--bg);
+            color: var(--text-dark);
             font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
         }
 
-        .container { max-width: 600px; margin: 0 auto; padding: 25px 20px; }
+        /* Navbar Style */
+        .navbar {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { 
+            font-family: 'DM Serif Display', serif; 
+            font-size: 24px; 
+            font-weight: 800; 
+            color: var(--text-dark);
+        }
+        .logo span { color: var(--accent); }
 
-        /* --- STICKY NAV --- */
-        header {
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #1A1A1A; background: rgba(5,5,5,0.8); backdrop-filter: blur(10px);
-            position: sticky; top: 0; z-index: 1000;
+        /* Hero Container */
+        .hero {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
-        /* --- DISCLAIMER BOX --- */
-        .disclaimer-card {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 20px; padding: 15px; margin-bottom: 30px;
-            display: flex; gap: 15px; align-items: flex-start;
+        /* Abstract Book Section (Like Image) */
+        .book-visual {
+            position: relative;
+            width: 200px;
+            height: 280px;
+            margin: 40px 0;
         }
-        .disclaimer-card i { color: var(--danger); font-size: 20px; margin-top: 3px; }
-        .disclaimer-card p { margin: 0; font-size: 12px; color: #fca5a5; line-height: 1.5; }
+        .shape-teal {
+            position: absolute;
+            width: 180px; height: 180px;
+            background: var(--teal);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 40%;
+            top: 20px; left: -40px; z-index: 1;
+            opacity: 0.8;
+        }
+        .shape-orange {
+            position: absolute;
+            width: 150px; height: 150px;
+            background: var(--accent);
+            border-radius: 60% 40% 30% 70% / 50% 30% 70% 50%;
+            bottom: 10px; right: -30px; z-index: 1;
+            opacity: 0.7;
+        }
+        .main-book {
+            position: relative;
+            width: 100%; height: 100%;
+            background: #000;
+            border-radius: 5px;
+            z-index: 2;
+            box-shadow: 20px 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            color: white;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .main-book:hover { transform: rotateY(-10deg) scale(1.05); }
 
-        /* --- WORK PROCESS SECTION --- */
-        .section-label { 
-            font-size: 11px; color: var(--text-dim); font-weight: 800; 
-            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block;
-        }
-
-        .process-steps {
-            background: var(--card-bg); border-radius: 24px; padding: 20px;
-            border: 1px solid #1A1A1A; margin-bottom: 35px;
-        }
-        .step { display: flex; gap: 15px; margin-bottom: 15px; align-items: center; }
-        .step:last-child { margin-bottom: 0; }
-        .step-num { 
-            min-width: 28px; height: 28px; background: #1A1A1A; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px; font-weight: 800; color: var(--accent-sell);
-        }
-        .step p { margin: 0; font-size: 13px; color: var(--text-dim); }
-
-        /* --- ACTION CARDS --- */
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        /* Typography */
+        .subtitle { font-size: 14px; font-weight: 800; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
+        .main-title { font-family: 'DM Serif Display', serif; font-size: 42px; margin: 10px 0; line-height: 1; }
+        .price-row { font-size: 24px; font-weight: 800; margin: 20px 0; display: flex; align-items: center; gap: 10px; justify-content: center; }
         
-        .action-card {
-            background: var(--card-bg); border: 1px solid #1F1F1F;
-            padding: 30px 20px; border-radius: 28px; text-align: center;
-            cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none; color: white;
+        /* Buttons */
+        .btn-add {
+            background: var(--accent);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(244, 125, 80, 0.3);
         }
-        .action-card:hover { transform: translateY(-8px); border-color: var(--text-dim); }
-        .action-card i { font-size: 35px; margin-bottom: 15px; display: block; }
-        .action-card h3 { margin: 0; font-size: 18px; font-weight: 800; }
-        .action-card p { margin: 5px 0 0; font-size: 11px; color: var(--text-dim); font-weight: 600; }
 
-        .buy-card i { color: var(--accent-buy); text-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
-        .sell-card i { color: var(--accent-sell); text-shadow: 0 0 20px rgba(234, 179, 8, 0.3); }
+        /* Stats Grid (Simplified How it Works) */
+        .stats-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 40px 40px 0 0;
+            margin-top: 40px;
+        }
+        .stat-card {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 25px;
+            text-align: left;
+        }
+        .stat-card i { color: var(--accent); font-size: 20px; margin-bottom: 10px; }
+        .stat-card h4 { margin: 5px 0; font-size: 15px; }
+        .stat-card p { margin: 0; font-size: 11px; color: var(--text-dim); line-height: 1.4; }
 
+        /* Floating Disclaimer */
+        .alert-box {
+            margin: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border: 1px solid #eee;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div style="font-weight: 800; font-size: 20px;">BSC <span style="color:var(--accent-sell)">TOP</span></div>
-        <a href="/index.html" style="color:var(--text-dim); text-decoration:none; font-size:13px; font-weight:700;">
-            <i class="fas fa-house"></i> Home
-        </a>
-    </header>
+    <nav class="navbar">
+        <div class="logo">Book<span>House</span></div>
+        <a href="buy-books.html" style="color:var(--text-dark)"><i class="fas fa-search"></i></a>
+    </nav>
 
-    <div class="container">
+    <section class="hero">
+        <span class="subtitle">Premium Collection</span>
         
-        <div class="disclaimer-card">
-            <i class="fas fa-shield-halved"></i>
-            <div>
-                <p><b>⚠️ Disclaimer:</b> BSC TOP सिर्फ बुक बेचने वाले और खरीदने वाले को जोड़ने का माध्यम है। किसी भी प्रकार के फ्रॉड या पैसों के गलत लेन-देन के लिए हम जिम्मेदार नहीं हैं। अपनी पर्सनल डिटेल्स अपनी जिम्मेदारी पर ही शेयर करें।</p>
+        <div class="book-visual">
+            <div class="shape-teal"></div>
+            <div class="shape-orange"></div>
+            <div class="main-book">
+                <p style="font-size:10px; margin:0; opacity:0.6;">THE BUSINESS OF</p>
+                <h2 style="font-family:'DM Serif Display'; font-size:32px; margin:5px 0;">Design</h2>
+                <hr style="width:30px; margin:10px 0; border:1px solid var(--accent);">
+                <p style="font-size:11px; opacity:0.8;">Balancing creativity and profitability.</p>
             </div>
         </div>
 
-        <span class="section-label">How it works?</span>
-        <div class="process-steps">
-            <div class="step">
-                <div class="step-num">1</div>
-                <p>seller अपनी बुक की फोटो और डिटेल्स (WhatsApp No. के साथ) सबमिट करता है।</p>
-            </div>
-            <div class="step">
-                <div class="step-num">2</div>
-                <p>buyer को seller का नंबर नहीं दिखेगा, वह डायरेक्ट WhatsApp बटन से चैट शुरू कर सकता है।</p>
-            </div>
-            <div class="step">
-                <div class="step-num">3</div>
-                <p>डील फाइनल होने के बाद सेलर अपनी ईमेल से बुक को "Sold" मार्क कर देता है।</p>
-            </div>
+        <h1 class="main-title">The Business of Design</h1>
+        <p style="color:var(--text-dim); font-size:14px; margin:0 20px;">Ready to sell or buy your academic books with a touch of class?</p>
+
+        <div class="price-row">
+            <span style="opacity:0.4; font-size:18px; text-decoration: line-through;">₹499</span>
+            <span>₹299</span>
         </div>
 
-        <span class="section-label">Choose Action</span>
-        <div class="action-grid">
-            <div class="action-card buy-card" onclick="location.href='buy-books.html'">
-                <i class="fas fa-shopping-bag"></i>
-                <h3>Buy Books</h3>
-                <p>सस्ते दामों में बुक्स खरीदें</p>
-            </div>
-
-            <div class="action-card sell-card" onclick="location.href='sell-books.html'">
-                <i class="fas fa-tag"></i>
-                <h3>Sell Books</h3>
-                <p>पुरानी बुक्स कैश में बदलें</p>
-            </div>
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <a href="buy-books.html" class="btn-add">Explore Books</a>
+            <a href="sell-books.html" style="padding:15px; border-radius:50%; border:1px solid #ddd; color:var(--text-dark)"><i class="fas fa-plus"></i></a>
         </div>
+    </section>
 
-        <p style="text-align:center; color:#222; font-size:10px; margin-top:40px; font-weight:800; text-transform:uppercase; letter-spacing:1px;">
-            Secure Peer-to-Peer Book Exchange
-        </p>
-
+    <div class="alert-box">
+        <div style="background:rgba(244, 125, 80, 0.1); padding:10px; border-radius:12px;">
+            <i class="fas fa-shield-alt" style="color:var(--accent)"></i>
+        </div>
+        <div style="font-size:11px;">
+            <b style="display:block">Smart Safety</b>
+            Books ko check karke hi payment karein. Meet in public!
+        </div>
     </div>
+
+    <div class="stats-section">
+        <div class="stat-card">
+            <i class="fas fa-bolt"></i>
+            <h4>Quick Sell</h4>
+            <p>Photo upload karein aur turant live ho jayein.</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-leaf"></i>
+            <h4>Eco Friendly</h4>
+            <p>Purani books ko naya jeevan dein.</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <h4>Local Trade</h4>
+            <p>Apne hi college ya city mein deal karein.</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-check-circle"></i>
+            <h4>No Middleman</h4>
+            <p>Direct chat on WhatsApp. Zero commission.</p>
+        </div>
+    </div>
+
+    <footer style="text-align:center; padding:40px; font-size:10px; opacity:0.3; font-weight:800; letter-spacing:2px;">
+        BOOKHOUSE MARKETPLACE
+    </footer>
 
 </body>
 </html>
