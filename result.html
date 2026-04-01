@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Examination Results 2026</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #2c3e50; }
+        h2 { color: #2c3e50; text-align: center; text-transform: uppercase; margin-bottom: 25px; font-size: 1.2rem; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 10px; }
+        button:hover { background-color: #219150; }
+        
+        #loading { display: none; text-align: center; margin-top: 20px; }
+        #result-sheet { display: none; margin-top: 30px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f8f9fa; }
+        .fail { color: #e74c3c; font-weight: bold; }
+        .pass { color: #27ae60; }
+        .status-box { background: #fdf2f2; border: 1px solid #fabfbf; padding: 15px; text-align: center; margin-top: 20px; border-radius: 4px; }
+        .header-info { margin-bottom: 20px; font-size: 0.9rem; line-height: 1.6; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="main-card">
+    <div id="login-form">
+        <h2>UG Semester Examination Results</h2>
+        <div class="form-group">
+            <label>Roll Number</label>
+            <input type="text" id="roll" placeholder="Enter Roll No.">
+        </div>
+        <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" id="dob">
+        </div>
+        <button onclick="showResult()">VIEW MARKSHEET</button>
+    </div>
+
+    <div id="loading">
+        <p>Fetching data from server...</p>
+        <img src="https://i.gifer.com/ZKZg.gif" width="50" alt="loading">
+    </div>
+
+    <div id="result-sheet">
+        <h2>Statement of Marks</h2>
+        <div class="header-info">
+            <strong>Course:</strong> B.Sc. (Maths Group) - Semester I<br>
+            <strong>College:</strong>RR Govt. Autonomous College<br>
+            <strong>Status:</strong> <span class="fail">RESULT LATER (BACK)</span>
+        </div>
+
+        <table>
+            <tr>
+                <th>Subject</th>
+                <th>Total</th>
+                <th>Obtained</th>
+                <th>Result</th>
+            </tr>
+            <tr><td>Mechanics</td><td>100</td><td>68</td><td class="pass">P</td></tr>
+            <tr><td>Chemistry</td><td>100</td><td class="fail">24</td><td class="fail">F</td></tr>
+            <tr><td>Discrete Mathematics & OT</td><td>100</td><td class="fail">18</td><td class="fail">F</td></tr>
+            <tr><td>Computer Fundamentals</td><td>100</td><td>72</td><td class="pass">P</td></tr>
+            <tr><td>Environmental Studies</td><td>100</td><td>55</td><td class="pass">P</td></tr>
+            <tr><td>General Hindi</td><td>100</td><td>61</td><td class="pass">P</td></tr>
+            <tr><td>General English</td><td>100</td><td>59</td><td class="pass">P</td></tr>
+        </table>
+
+        <div class="status-box">
+            <h3 class="fail" style="margin:0;">FINAL RESULT: BACK</h3>
+            <p style="font-size: 0.8rem; color: #666;">Apply for Re-evaluation within 15 days.</p>
+        </div>
+        
+        <button style="background: #34495e;" onclick="location.reload()">Back to Search</button>
+    </div>
+</div>
+
+<script>
+    function showResult() {
+        const roll = document.getElementById('roll').value;
+        if(roll === "") {
+            alert("Please enter a valid Roll Number");
+            return;
+        }
+
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('loading').style.display = 'block';
+
+        // Simulate a 2-second server delay for realism
+        setTimeout(() => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('result-sheet').style.display = 'block';
+        }, 2000);
+    }
+</script>
+
+</body>
+</html>
