@@ -6,722 +6,599 @@
   <title>Control Center | BSC TOP Admin</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg:    #08090A;
-      --card:  #111214;
-      --card2: #16171A;
-      --border:#222;
-      --gold:  #f39c12;
-      --blue:  #64B5F6;
-      --green: #00C853;
-      --red:   #FF5252;
-      --purple:#a78bfa;
-      --text:  #FFFFFF;
-      --dim:   #94A3B8;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh; }
-    a { color: inherit; text-decoration: none; }
+  :root{--bg:#08090A;--card:#111214;--card2:#16171A;--bdr:#222;--gold:#f39c12;--blue:#64B5F6;--green:#00C853;--red:#FF5252;--purple:#a78bfa;--text:#fff;--dim:#94A3B8;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;}
+  a{color:inherit;text-decoration:none;}
 
-    /* NAV */
-    .top-nav { background: rgba(17,18,20,0.9); backdrop-filter: blur(12px); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-    .brand { font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
-    .brand span { color: var(--gold); }
-    .brand a { color: var(--dim); font-size: 0.78rem; font-weight: 600; margin-left: 1rem; padding: 5px 12px; border: 1px solid var(--border); border-radius: 8px; transition: 0.2s; }
-    .brand a:hover { background: var(--card2); color: var(--text); }
-    .nav-r { display: flex; align-items: center; gap: 14px; }
-    .nav-r span { font-size: 0.78rem; color: var(--dim); }
-    .btn-logout { background: rgba(255,82,82,0.1); color: var(--red); border: 1px solid var(--red); padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 0.8rem; transition: 0.2s; }
-    .btn-logout:hover { background: var(--red); color: #fff; }
+  /* NAV */
+  .topnav{background:rgba(17,18,20,.9);backdrop-filter:blur(12px);padding:13px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:100;}
+  .brand{font-weight:800;font-size:1.15rem;display:flex;align-items:center;gap:.5rem;}
+  .brand span{color:var(--gold);}
+  .brand a{color:var(--dim);font-size:.75rem;font-weight:700;margin-left:.75rem;padding:4px 11px;border:1px solid var(--bdr);border-radius:8px;transition:.2s;}
+  .brand a:hover{background:var(--card2);color:var(--text);}
+  .navr{display:flex;align-items:center;gap:12px;}
+  .navr span{font-size:.75rem;color:var(--dim);}
+  .btn-out{background:rgba(255,82,82,.1);color:var(--red);border:1px solid var(--red);padding:7px 15px;border-radius:9px;cursor:pointer;font-weight:700;font-size:.78rem;transition:.2s;}
+  .btn-out:hover{background:var(--red);color:#fff;}
 
-    /* LAYOUT */
-    .container { max-width: 960px; margin: 0 auto; padding: 28px 20px; }
+  /* LAYOUT */
+  .wrap{max-width:980px;margin:0 auto;padding:24px 18px;}
 
-    /* TABS */
-    .tab-bar { display: flex; gap: 8px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 4px; }
-    .tab-bar::-webkit-scrollbar { height: 4px; } .tab-bar::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
-    .tbtn { background: var(--card); color: var(--dim); border: 1px solid var(--border); padding: 10px 18px; border-radius: 12px; cursor: pointer; white-space: nowrap; font-weight: 700; font-size: 0.83rem; transition: 0.25s; display: flex; align-items: center; gap: 0.45rem; }
-    .tbtn.on { background: var(--gold); color: #000; border-color: var(--gold); }
-    .tbtn i { font-size: 0.8rem; }
-    .tab-pane { display: none; animation: fadeUp 0.35s ease; }
-    .tab-pane.on { display: block; }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);} }
+  /* STATS ROW */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px;}
+  @media(max-width:600px){.stats{grid-template-columns:1fr 1fr;}}
+  .sbox{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:16px;text-align:center;}
+  .snum{font-size:1.75rem;font-weight:900;}
+  .slbl{font-size:.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-top:3px;}
 
-    /* CARD */
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-bottom: 24px; }
-    .card h3 { margin: 0 0 18px; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-    .card h3 i { font-size: 0.95rem; }
-    .card-accent { border-color: var(--purple); }
+  /* TABS */
+  .tabbar{display:flex;gap:7px;margin-bottom:20px;overflow-x:auto;padding-bottom:3px;}
+  .tabbar::-webkit-scrollbar{height:3px;} .tabbar::-webkit-scrollbar-thumb{background:#333;}
+  .tbtn{background:var(--card);color:var(--dim);border:1px solid var(--bdr);padding:9px 17px;border-radius:12px;cursor:pointer;white-space:nowrap;font-weight:700;font-size:.8rem;transition:.22s;display:flex;align-items:center;gap:.4rem;}
+  .tbtn.on{background:var(--gold);color:#000;border-color:var(--gold);}
+  .pane{display:none;animation:fu .3s ease;}
+  .pane.on{display:block;}
+  @keyframes fu{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:translateY(0);}}
 
-    /* FORMS */
-    .fg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .fg3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
-    @media(max-width:600px){ .fg2,.fg3 { grid-template-columns: 1fr; } }
-    .ig { margin-bottom: 16px; }
-    .ig label { display: block; font-size: 11px; color: var(--dim); margin-bottom: 7px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; }
-    input, select, textarea { width: 100%; padding: 11px 14px; background: #1A1B1E; border: 1px solid #2A2B2E; border-radius: 11px; color: #fff; font-family: inherit; font-size: 13.5px; box-sizing: border-box; transition: border-color 0.2s; }
-    input:focus, select:focus, textarea:focus { border-color: var(--gold); outline: none; }
-    select option { background: #1A1B1E; }
+  /* CARD */
+  .card{background:var(--card);border:1px solid var(--bdr);border-radius:18px;padding:22px;margin-bottom:20px;}
+  .card h3{margin:0 0 16px;font-size:.95rem;display:flex;align-items:center;gap:.5rem;}
 
-    /* BUTTONS */
-    .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: 0.25s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-    .btn-gold { background: var(--gold); color: #000; }
-    .btn-gold:hover { background: #e67e22; transform: translateY(-2px); }
-    .btn-blue { background: rgba(100,181,246,0.15); color: var(--blue); border: 1px solid var(--blue); }
-    .btn-blue:hover { background: rgba(100,181,246,0.3); }
-    .btn-purple { background: rgba(167,139,250,0.15); color: var(--purple); border: 1px solid var(--purple); }
-    .btn-purple:hover { background: rgba(167,139,250,0.3); }
-    .btn-red { background: rgba(255,82,82,0.1); color: var(--red); border: 1px solid rgba(255,82,82,0.3); padding: 7px 14px; border-radius: 9px; cursor: pointer; font-weight: 700; font-size: 0.78rem; transition: 0.2s; }
-    .btn-red:hover { background: var(--red); color: #fff; }
-    .btn-edit { background: rgba(0,200,83,0.1); color: var(--green); border: 1px solid rgba(0,200,83,0.3); padding: 7px 14px; border-radius: 9px; cursor: pointer; font-weight: 700; font-size: 0.78rem; transition: 0.2s; }
-    .btn-edit:hover { background: var(--green); color: #000; }
+  /* FORMS */
+  .fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+  @media(max-width:580px){.fg2,.fg3{grid-template-columns:1fr;}}
+  .ig{margin-bottom:14px;}
+  .ig label{display:block;font-size:11px;color:var(--dim);margin-bottom:6px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;}
+  input,select,textarea{width:100%;padding:10px 13px;background:#1A1B1E;border:1px solid #2A2B2E;border-radius:10px;color:#fff;font-family:inherit;font-size:13.5px;box-sizing:border-box;transition:border-color .2s;}
+  input:focus,select:focus,textarea:focus{border-color:var(--gold);outline:none;}
 
-    /* ITEM ROW */
-    .row { background: var(--card2); border: 1px solid var(--border); padding: 14px 16px; border-radius: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-    .row-info { flex: 1; min-width: 0; }
-    .row-info .title { font-weight: 700; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .row-info .meta { font-size: 0.76rem; color: var(--dim); margin-top: 4px; display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
-    .row-actions { display: flex; gap: 6px; flex-shrink: 0; align-items: flex-start; }
-    .tag { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; }
-    .tag-blue { background: rgba(100,181,246,0.15); color: var(--blue); }
-    .tag-gold { background: rgba(243,156,18,0.15); color: var(--gold); }
-    .tag-purple { background: rgba(167,139,250,0.15); color: var(--purple); }
-    .tag-green { background: rgba(0,200,83,0.15); color: var(--green); }
-    .tag-red { background: rgba(255,82,82,0.15); color: var(--red); }
+  /* BUTTONS */
+  .btn{width:100%;padding:13px;border:none;border-radius:11px;font-weight:800;font-size:.875rem;cursor:pointer;transition:.22s;display:flex;align-items:center;justify-content:center;gap:.45rem;}
+  .btn-gold{background:var(--gold);color:#000;} .btn-gold:hover{background:#e67e22;transform:translateY(-2px);}
+  .btn-blue{background:rgba(100,181,246,.15);color:var(--blue);border:1px solid var(--blue);} .btn-blue:hover{background:rgba(100,181,246,.3);}
+  .btn-purple{background:rgba(167,139,250,.15);color:var(--purple);border:1px solid var(--purple);} .btn-purple:hover{background:rgba(167,139,250,.3);}
+  .btn-red{background:rgba(255,82,82,.1);color:var(--red);border:1px solid rgba(255,82,82,.3);padding:6px 13px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.75rem;transition:.2s;}
+  .btn-red:hover{background:var(--red);color:#fff;}
+  .btn-edit2{background:rgba(0,200,83,.1);color:var(--green);border:1px solid rgba(0,200,83,.3);padding:6px 13px;border-radius:8px;cursor:pointer;font-weight:700;font-size:.75rem;transition:.2s;}
+  .btn-edit2:hover{background:var(--green);color:#000;}
+  .btn-sm{padding:7px 14px;border-radius:9px;border:none;cursor:pointer;font-weight:700;font-size:.78rem;transition:.2s;display:inline-flex;align-items:center;gap:.35rem;}
 
-    /* YT PREVIEW */
-    .yt-prev { width: 100%; aspect-ratio: 16/9; border-radius: 10px; border: none; margin-top: 10px; }
+  /* ROWS */
+  .row{background:var(--card2);border:1px solid var(--bdr);padding:13px 15px;border-radius:13px;margin-bottom:9px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .row-info{flex:1;min-width:0;}
+  .row-info .rtitle{font-weight:700;font-size:.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .row-info .rmeta{font-size:.73rem;color:var(--dim);margin-top:4px;display:flex;flex-wrap:wrap;gap:.3rem .9rem;align-items:center;}
+  .row-acts{display:flex;gap:5px;flex-shrink:0;align-items:flex-start;}
+  .tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;}
+  .tg{background:rgba(100,181,246,.15);color:var(--blue);}
+  .tp{background:rgba(167,139,250,.15);color:var(--purple);}
+  .tgo{background:rgba(243,156,18,.15);color:var(--gold);}
+  .tgr{background:rgba(0,200,83,.15);color:var(--green);}
+  .tr{background:rgba(255,82,82,.15);color:var(--red);}
 
-    /* SECTION DIVIDER */
-    .div-line { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  /* PLAYLIST MANAGER SPECIFIC */
+  .pl-select{background:var(--card2);border:1px solid var(--purple);border-radius:14px;padding:16px;margin-bottom:18px;}
+  .pl-select label{font-size:.78rem;color:var(--purple);font-weight:800;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:8px;}
+  .pl-select select{border-color:rgba(167,139,250,.3);}
 
-    /* TOAST */
-    #toast { position: fixed; bottom: 24px; right: 24px; padding: 14px 22px; border-radius: 14px; color: #fff; display: none; z-index: 999; font-weight: 700; font-size: 0.875rem; animation: slideIn 0.3s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
-    .t-ok  { background: var(--green); }
-    .t-err { background: var(--red); }
-    @keyframes slideIn { from{transform:translateX(120%);}to{transform:translateX(0);} }
+  .pl-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:12px;margin-bottom:20px;}
+  .pl-card{background:var(--card2);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;}
+  .pl-card:hover{border-color:var(--purple);transform:translateY(-3px);}
+  .pl-card.selected{border-color:var(--purple);box-shadow:0 0 0 2px rgba(167,139,250,.25);}
+  .pl-thumb{height:7rem;position:relative;overflow:hidden;background:#1a1b2e;display:flex;align-items:center;justify-content:center;}
+  .pl-thumb img{width:100%;height:100%;object-fit:cover;}
+  .pl-thumb-ico{font-size:2rem;opacity:.3;}
+  .pl-vcnt{position:absolute;bottom:.5rem;right:.5rem;background:rgba(0,0,0,.75);color:#fff;font-size:.65rem;font-weight:800;padding:.2rem .55rem;border-radius:.35rem;display:flex;align-items:center;gap:.3rem;}
+  .pl-body2{padding:12px;}
+  .pl-body2 .pt{font-weight:800;font-size:.875rem;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pl-body2 .pm{font-size:.72rem;color:var(--dim);display:flex;gap:.6rem;flex-wrap:wrap;}
 
-    /* EMPTY */
-    .empty { text-align: center; padding: 2.5rem 1rem; color: var(--dim); font-size: 0.875rem; }
-    .empty i { font-size: 2rem; display: block; margin-bottom: 0.75rem; opacity: 0.5; }
+  .vid-row{background:var(--card2);border:1px solid var(--bdr);border-radius:12px;padding:10px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+  .vid-thumb{width:80px;height:45px;border-radius:7px;object-fit:cover;flex-shrink:0;background:#000;}
+  .vid-info{flex:1;min-width:0;}
+  .vid-info .vt{font-weight:700;font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .vid-info .vm{font-size:.7rem;color:var(--dim);margin-top:3px;}
+  .vid-acts{display:flex;gap:5px;flex-shrink:0;}
+  .drag-handle{cursor:grab;color:var(--dim);font-size:.9rem;padding:0 4px;}
 
-    /* FILTER BAR */
-    .filter-bar { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
-    .filter-btn { background: var(--card2); border: 1px solid var(--border); color: var(--dim); padding: 7px 16px; border-radius: 999px; cursor: pointer; font-size: 0.8rem; font-weight: 700; transition: 0.2s; }
-    .filter-btn.on { border-color: var(--purple); color: var(--purple); background: rgba(167,139,250,0.1); }
+  /* YT PREVIEW */
+  .yt-prev-wrap{margin-top:10px;display:none;}
+  .yt-prev-wrap iframe{width:100%;aspect-ratio:16/9;border-radius:9px;border:none;}
 
-    /* STATS */
-    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 24px; }
-    @media(max-width:600px){ .stats-row { grid-template-columns: 1fr 1fr; } }
-    .stat-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px; text-align: center; }
-    .stat-num { font-size: 1.8rem; font-weight: 900; }
-    .stat-lbl { font-size: 0.72rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; }
+  /* EMPTY */
+  .empty{text-align:center;padding:2.5rem 1rem;color:var(--dim);font-size:.875rem;}
+  .empty i{font-size:2rem;display:block;margin-bottom:.7rem;opacity:.4;}
+
+  /* TOAST */
+  #toast{position:fixed;bottom:22px;right:22px;padding:13px 20px;border-radius:13px;color:#fff;display:none;z-index:999;font-weight:700;font-size:.85rem;animation:si .3s ease;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+  .tok{background:var(--green);} .terr{background:var(--red);}
+  @keyframes si{from{transform:translateX(110%);}to{transform:translateX(0);}}
+
+  /* FILTER */
+  .fbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .fbtn{background:var(--card2);border:1px solid var(--bdr);color:var(--dim);padding:6px 15px;border-radius:999px;cursor:pointer;font-size:.78rem;font-weight:700;transition:.2s;}
+  .fbtn.on{border-color:var(--purple);color:var(--purple);background:rgba(167,139,250,.1);}
+
+  /* BAR CHART */
+  .bar-row{margin-bottom:12px;}
+  .bar-row .bl{display:flex;justify-content:space-between;font-size:.8rem;font-weight:700;margin-bottom:5px;}
+  .bar-bg{background:#1a1b1e;border-radius:999px;height:9px;}
+  .bar-fill{height:100%;border-radius:999px;transition:width .6s;}
   </style>
 </head>
 <body>
 
-<nav class="top-nav">
+<nav class="topnav">
   <div class="brand">
     BSC <span>TOP</span> Control
-    <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> View Site</a>
+    <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Site</a>
     <a href="playlist.html" target="_blank"><i class="fas fa-play-circle"></i> Playlists</a>
   </div>
-  <div class="nav-r">
-    <span id="welcome-txt">Welcome, Admin</span>
-    <button class="btn-logout" onclick="doSignOut()"><i class="fas fa-sign-out-alt"></i> Exit</button>
+  <div class="navr">
+    <span id="wtxt">Admin</span>
+    <button class="btn-out" onclick="location.href='index.html'"><i class="fas fa-sign-out-alt"></i> Exit</button>
   </div>
 </nav>
 
-<div class="container">
+<div class="wrap">
 
-  <!-- STATS -->
-  <div class="stats-row" id="stats-row">
-    <div class="stat-box"><div class="stat-num" id="st-mat" style="color:var(--gold)">—</div><div class="stat-lbl">Materials</div></div>
-    <div class="stat-box"><div class="stat-num" id="st-vid" style="color:var(--purple)">—</div><div class="stat-lbl">Videos</div></div>
-    <div class="stat-box"><div class="stat-num" id="st-blog" style="color:var(--blue)">—</div><div class="stat-lbl">Blog Posts</div></div>
-    <div class="stat-box"><div class="stat-num" id="st-allsem" style="color:var(--green)">—</div><div class="stat-lbl">Sem 2-6 Items</div></div>
+  <div class="stats">
+    <div class="sbox"><div class="snum" id="st-pl" style="color:var(--purple)">—</div><div class="slbl">Playlists</div></div>
+    <div class="sbox"><div class="snum" id="st-vid" style="color:var(--gold)">—</div><div class="slbl">Videos</div></div>
+    <div class="sbox"><div class="snum" id="st-mat" style="color:var(--blue)">—</div><div class="slbl">Materials</div></div>
+    <div class="sbox"><div class="snum" id="st-blog" style="color:var(--green)">—</div><div class="slbl">Blog Posts</div></div>
   </div>
 
-  <!-- TAB BAR -->
-  <div class="tab-bar">
-    <button class="tbtn on"  onclick="sw('t-sem1',this)">  <i class="fas fa-book"></i> Sem 1 Material</button>
+  <div class="tabbar">
+    <button class="tbtn on"  onclick="sw('t-pl',this)">  <i class="fab fa-youtube"></i> Playlist Manager</button>
+    <button class="tbtn"     onclick="sw('t-sem1',this)"><i class="fas fa-book"></i> Sem 1 Material</button>
     <button class="tbtn"     onclick="sw('t-allsem',this)"><i class="fas fa-layer-group"></i> Sem 2–6</button>
-    <button class="tbtn"     onclick="sw('t-playlist',this)"><i class="fab fa-youtube"></i> Playlist Manager</button>
-    <button class="tbtn"     onclick="sw('t-blog',this)">   <i class="fas fa-pen-nib"></i> Blog</button>
-    <button class="tbtn"     onclick="sw('t-stats',this)">  <i class="fas fa-chart-bar"></i> Stats</button>
+    <button class="tbtn"     onclick="sw('t-blog',this)"><i class="fas fa-pen-nib"></i> Blog</button>
+    <button class="tbtn"     onclick="sw('t-stats',this)"><i class="fas fa-chart-bar"></i> Stats</button>
   </div>
 
   <div id="toast"></div>
 
-  <!-- ════════ TAB: SEM 1 ════════ -->
-  <div id="t-sem1" class="tab-pane on">
+  <!-- ══════════ PLAYLIST MANAGER ══════════ -->
+  <div id="t-pl" class="pane on">
+
+    <!-- Step 1: Create Playlist -->
+    <div class="card" style="border-color:rgba(167,139,250,.3)">
+      <h3><i class="fas fa-list-ul" style="color:var(--purple)"></i> Step 1 — Create a Playlist</h3>
+      <form id="form-pl">
+        <input type="hidden" id="pl_edit_id" />
+        <div class="ig"><label>Playlist Title</label><input id="pl_title" placeholder="e.g. Physics – Sem 1 Full Course" required /></div>
+        <div class="fg3">
+          <div class="ig"><label>Subject</label>
+            <select id="pl_subject">
+              <option value="Computer">Computer</option>
+              <option value="Physics">Physics</option>
+              <option value="Math">Math</option>
+              <option value="Chemistry">Chemistry</option>
+            </select>
+          </div>
+          <div class="ig"><label>Semester</label>
+            <select id="pl_semester">
+              <option>Semester 1</option><option>Semester 2</option><option>Semester 3</option>
+              <option>Semester 4</option><option>Semester 5</option><option>Semester 6</option>
+            </select>
+          </div>
+          <div class="ig"><label>Custom Thumbnail URL (optional)</label><input id="pl_thumb" placeholder="https://…" /></div>
+        </div>
+        <div class="ig"><label>Description</label><textarea id="pl_desc" style="height:64px" placeholder="What this playlist covers…"></textarea></div>
+        <div class="fg2" style="margin-top:4px">
+          <button type="submit" class="btn btn-purple" id="pl_btn"><i class="fas fa-plus"></i> Create Playlist</button>
+          <button type="button" class="btn btn-blue" onclick="resetPlForm()"><i class="fas fa-undo"></i> Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Existing Playlists -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <h3 style="font-size:.9rem;color:var(--dim)">Your Playlists <span id="pl-cnt" style="background:var(--card2);padding:2px 10px;border-radius:999px;font-size:.72rem;margin-left:6px"></span></h3>
+      <div class="fbar" style="margin:0">
+        <button class="fbtn on" onclick="filterPl('',this)">All</button>
+        <button class="fbtn" onclick="filterPl('Computer',this)">Computer</button>
+        <button class="fbtn" onclick="filterPl('Physics',this)">Physics</button>
+        <button class="fbtn" onclick="filterPl('Math',this)">Math</button>
+        <button class="fbtn" onclick="filterPl('Chemistry',this)">Chemistry</button>
+      </div>
+    </div>
+    <div id="pl-grid" class="pl-card-grid"></div>
+
+    <!-- Step 2: Add Videos -->
+    <div class="card" style="border-color:rgba(243,156,18,.3);margin-top:8px" id="vid-form-section">
+      <h3><i class="fas fa-video" style="color:var(--gold)"></i> Step 2 — Add Videos to Playlist</h3>
+
+      <div class="pl-select">
+        <label><i class="fas fa-list"></i> Select Target Playlist</label>
+        <select id="vid_pl_id"><option value="">— Choose a playlist —</option></select>
+      </div>
+
+      <form id="form-vid">
+        <input type="hidden" id="vid_edit_id" />
+        <div class="ig"><label>Video Title</label><input id="vid_title" placeholder="e.g. Chapter 2 – Newton's Laws" required /></div>
+        <div class="fg2">
+          <div class="ig"><label>YouTube URL</label><input id="vid_url" type="url" placeholder="https://www.youtube.com/watch?v=…" required oninput="previewYT(this.value)" /></div>
+          <div class="ig"><label>Position / Order No.</label><input id="vid_pos" type="number" min="1" value="1" placeholder="1" /></div>
+        </div>
+        <div class="ig"><label>Description (optional)</label><textarea id="vid_desc" style="height:60px" placeholder="What this video covers…"></textarea></div>
+
+        <div class="yt-prev-wrap" id="yt-wrap">
+          <label style="font-size:11px;color:var(--dim);font-weight:800;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:8px">Preview</label>
+          <iframe id="yt-frame" allowfullscreen></iframe>
+        </div>
+
+        <div class="fg2" style="margin-top:14px">
+          <button type="submit" class="btn btn-gold" id="vid_btn"><i class="fas fa-upload"></i> Add Video</button>
+          <button type="button" class="btn btn-blue" onclick="resetVidForm()"><i class="fas fa-undo"></i> Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Videos in selected playlist -->
+    <div id="vid-list-section" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <h3 style="font-size:.9rem;color:var(--dim)">Videos in: <span id="active-pl-name" style="color:var(--gold)"></span> <span id="vid-cnt" style="background:var(--card2);padding:2px 10px;border-radius:999px;font-size:.72rem;margin-left:6px"></span></h3>
+        <a href="playlist.html" target="_blank" class="btn-edit2" style="padding:7px 14px;border-radius:9px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-size:.78rem"><i class="fas fa-eye"></i> Preview Public Page</a>
+      </div>
+      <div id="vid-list"></div>
+    </div>
+
+  </div>
+
+  <!-- ══════════ SEM 1 ══════════ -->
+  <div id="t-sem1" class="pane">
     <div class="card">
       <h3><i class="fas fa-plus-circle" style="color:var(--gold)"></i> Add Sem 1 Material</h3>
       <form id="form-mat">
         <div class="fg2">
-          <div class="ig"><label>Type</label>
-            <select id="m_type">
-              <option value="Note">Study Note</option>
-              <option value="Practical">Practical File</option>
-            </select>
-          </div>
-          <div class="ig"><label>Subject</label>
-            <select id="m_sub">
-              <option value="Math">Math</option>
-              <option value="Physics">Physics</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Botany">Botany</option>
-              <option value="Zoology">Zoology</option>
-              <option value="Computer">Computer</option>
-            </select>
-          </div>
+          <div class="ig"><label>Type</label><select id="m_type"><option value="Note">Study Note</option><option value="Practical">Practical File</option></select></div>
+          <div class="ig"><label>Subject</label><select id="m_sub"><option>Math</option><option>Physics</option><option>Chemistry</option><option>Botany</option><option>Zoology</option><option>Computer</option></select></div>
         </div>
         <div class="ig"><label>Chapter / Title</label><input id="m_title" placeholder="e.g. Unit 1 – Mechanics" required /></div>
         <div class="fg2">
           <div class="ig"><label>Teacher</label><input id="m_teacher" placeholder="SK Sir" /></div>
           <div class="ig"><label>Sender (Student)</label><input id="m_sender" placeholder="Student Name" /></div>
         </div>
-        <div class="ig"><label>Brief Description (SEO)</label><textarea id="m_desc" style="height:72px" placeholder="2–3 lines about topics covered…"></textarea></div>
-        <div class="ig"><label>Google Drive URL</label><input id="m_link" type="url" placeholder="https://drive.google.com/…" required /></div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
-          <input type="checkbox" id="m_new" style="width:auto" /><label style="margin:0;font-size:13px">Show "NEW" Badge</label>
-        </div>
+        <div class="ig"><label>Description (SEO)</label><textarea id="m_desc" style="height:68px" placeholder="2–3 lines…"></textarea></div>
+        <div class="ig"><label>Google Drive URL</label><input id="m_link" type="url" required /></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><input type="checkbox" id="m_new" style="width:auto" /><label style="margin:0;font-size:13px">Show "NEW" Badge</label></div>
         <button type="submit" class="btn btn-gold"><i class="fas fa-upload"></i> Publish Material</button>
       </form>
     </div>
-    <h3 style="margin-bottom:14px;font-size:0.9rem;color:var(--dim)">Existing Sem 1 Content</h3>
+    <h3 style="font-size:.88rem;color:var(--dim);margin-bottom:12px">Existing Sem 1 Content</h3>
     <div id="list-mat"></div>
   </div>
 
-  <!-- ════════ TAB: SEM 2-6 ════════ -->
-  <div id="t-allsem" class="tab-pane">
+  <!-- ══════════ SEM 2-6 ══════════ -->
+  <div id="t-allsem" class="pane">
     <div class="card">
       <h3><i class="fas fa-layer-group" style="color:var(--blue)"></i> Add Sem 2–6 Material</h3>
       <form id="form-allsem">
-        <input type="hidden" id="as_edit_id" />
+        <input type="hidden" id="as_eid" />
         <div class="fg3">
-          <div class="ig"><label>Semester</label>
-            <select id="as_sem">
-              <option>Semester 2</option><option>Semester 3</option><option>Semester 4</option><option>Semester 5</option><option>Semester 6</option>
-            </select>
-          </div>
-          <div class="ig"><label>Type</label>
-            <select id="as_type">
-              <option value="Note">Study Notes</option><option value="Practical">Laboratory Work</option>
-            </select>
-          </div>
-          <div class="ig"><label>Subject</label>
-            <select id="as_sub">
-              <option value="Math">Math</option><option value="Physics">Physics</option><option value="Chemistry">Chemistry</option>
-            </select>
-          </div>
+          <div class="ig"><label>Semester</label><select id="as_sem"><option>Semester 2</option><option>Semester 3</option><option>Semester 4</option><option>Semester 5</option><option>Semester 6</option></select></div>
+          <div class="ig"><label>Type</label><select id="as_type"><option value="Note">Study Notes</option><option value="Practical">Laboratory Work</option></select></div>
+          <div class="ig"><label>Subject</label><select id="as_sub"><option>Math</option><option>Physics</option><option>Chemistry</option></select></div>
         </div>
-        <div class="ig"><label>Chapter Title</label><input id="as_title" placeholder="Chapter Name" required /></div>
-        <div class="ig"><label>Description (SEO)</label><textarea id="as_desc" style="height:72px" placeholder="2–3 lines about this material…"></textarea></div>
+        <div class="ig"><label>Chapter Title</label><input id="as_title" required /></div>
+        <div class="ig"><label>Description</label><textarea id="as_desc" style="height:68px"></textarea></div>
         <div class="ig"><label>Drive URL</label><input id="as_link" type="url" required /></div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
-          <input type="checkbox" id="as_new" style="width:auto" /><label style="margin:0;font-size:13px">Show "NEW" Badge</label>
-        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><input type="checkbox" id="as_new" style="width:auto" /><label style="margin:0;font-size:13px">Show "NEW" Badge</label></div>
         <button type="submit" class="btn btn-blue" id="as_btn"><i class="fas fa-upload"></i> Publish</button>
       </form>
     </div>
-    <h3 style="margin-bottom:14px;font-size:0.9rem;color:var(--dim)">Existing Sem 2–6 Content</h3>
     <div id="list-allsem"></div>
   </div>
 
-  <!-- ════════ TAB: PLAYLIST MANAGER ════════ -->
-  <div id="t-playlist" class="tab-pane">
-
-    <!-- ADD VIDEO FORM -->
-    <div class="card card-accent">
-      <h3><i class="fas fa-plus-circle" style="color:var(--purple)"></i> Add Video to Playlist</h3>
-      <form id="form-vid">
-        <input type="hidden" id="v_edit_id" />
-        <div class="ig"><label>Video Title</label><input id="v_title" placeholder="e.g. Unit 2 – Newton's Laws Explained" required /></div>
-        <div class="fg3">
-          <div class="ig"><label>Subject</label>
-            <select id="v_subject">
-              <option value="Computer">Computer</option>
-              <option value="Physics">Physics</option>
-              <option value="Math">Math</option>
-              <option value="Chemistry">Chemistry</option>
-            </select>
-          </div>
-          <div class="ig"><label>Semester</label>
-            <select id="v_semester">
-              <option value="Semester 1">Semester 1</option>
-              <option value="Semester 2">Semester 2</option>
-              <option value="Semester 3">Semester 3</option>
-              <option value="Semester 4">Semester 4</option>
-              <option value="Semester 5">Semester 5</option>
-              <option value="Semester 6">Semester 6</option>
-            </select>
-          </div>
-          <div class="ig"><label>Chapter No.</label><input id="v_chapter" type="number" min="1" placeholder="1" required /></div>
-        </div>
-        <div class="ig"><label>YouTube URL</label><input id="v_url" type="url" placeholder="https://www.youtube.com/watch?v=… or youtu.be/…" required /></div>
-        <div class="ig"><label>Description (optional)</label><textarea id="v_desc" style="height:68px" placeholder="What this video covers…"></textarea></div>
-
-        <!-- Live YT preview -->
-        <div id="yt-preview-wrap" style="display:none">
-          <div class="ig" style="margin-top:4px"><label>Preview</label>
-            <iframe id="yt-iframe" class="yt-prev" allowfullscreen></iframe>
-          </div>
-        </div>
-
-        <div class="fg2" style="margin-top:4px">
-          <button type="submit" class="btn btn-purple" id="v_btn"><i class="fas fa-upload"></i> Publish Video</button>
-          <button type="button" class="btn btn-blue" onclick="resetVidForm()"><i class="fas fa-undo"></i> Reset</button>
-        </div>
-      </form>
-    </div>
-
-    <!-- FILTER + LIST -->
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
-      <h3 style="font-size:0.9rem;color:var(--dim)">Uploaded Videos <span id="vid-count" style="background:var(--card2);padding:2px 10px;border-radius:999px;font-size:0.75rem;margin-left:6px"></span></h3>
-      <a href="playlist.html" target="_blank" class="btn-edit" style="padding:8px 16px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-size:0.8rem"><i class="fas fa-external-link-alt"></i> View Public Page</a>
-    </div>
-
-    <div class="filter-bar" id="vid-filter-bar">
-      <button class="filter-btn on" onclick="filterVids('',this)">All</button>
-      <button class="filter-btn" onclick="filterVids('Computer',this)">Computer</button>
-      <button class="filter-btn" onclick="filterVids('Physics',this)">Physics</button>
-      <button class="filter-btn" onclick="filterVids('Math',this)">Math</button>
-      <button class="filter-btn" onclick="filterVids('Chemistry',this)">Chemistry</button>
-    </div>
-
-    <div id="list-vid"></div>
-  </div>
-
-  <!-- ════════ TAB: BLOG ════════ -->
-  <div id="t-blog" class="tab-pane">
+  <!-- ══════════ BLOG ══════════ -->
+  <div id="t-blog" class="pane">
     <div class="card">
       <h3><i class="fas fa-rss" style="color:var(--blue)"></i> Create Blog Post</h3>
-      <div class="ig"><label>Title</label><input id="b_title" placeholder="Physics Exam Pattern 2026" /></div>
-      <div class="ig"><label>Author</label><input id="b_author" placeholder="Sachin Chaudhary" /></div>
-      <div class="ig"><label>Thumbnail Image URL</label><input id="b_img" placeholder="Direct image link" /></div>
-      <div class="ig"><label>Content (HTML supported)</label><textarea id="b_body" style="height:220px" placeholder="Write your post here…"></textarea></div>
-      <button class="btn btn-blue" onclick="postBlog()"><i class="fas fa-paper-plane"></i> Publish Post</button>
+      <div class="ig"><label>Title</label><input id="b_title" /></div>
+      <div class="ig"><label>Author</label><input id="b_author" value="Sachin Chaudhary" /></div>
+      <div class="ig"><label>Thumbnail URL</label><input id="b_img" /></div>
+      <div class="ig"><label>Content (HTML ok)</label><textarea id="b_body" style="height:200px"></textarea></div>
+      <button class="btn btn-blue" onclick="postBlog()"><i class="fas fa-paper-plane"></i> Publish</button>
     </div>
-    <h3 style="margin-bottom:14px;font-size:0.9rem;color:var(--dim)">Existing Blog Posts</h3>
     <div id="list-blog"></div>
   </div>
 
-  <!-- ════════ TAB: STATS ════════ -->
-  <div id="t-stats" class="tab-pane">
-    <div class="card">
-      <h3><i class="fas fa-chart-bar" style="color:var(--gold)"></i> Subject-wise Video Count</h3>
-      <div id="stats-chart"></div>
-    </div>
-    <div class="card">
-      <h3><i class="fas fa-calendar-alt" style="color:var(--blue)"></i> Semester-wise Video Count</h3>
-      <div id="stats-sem-chart"></div>
-    </div>
+  <!-- ══════════ STATS ══════════ -->
+  <div id="t-stats" class="pane">
+    <div class="card"><h3><i class="fas fa-chart-bar" style="color:var(--gold)"></i> Videos per Subject</h3><div id="ch-sub"></div></div>
+    <div class="card"><h3><i class="fas fa-layer-group" style="color:var(--blue)"></i> Videos per Semester (across playlists)</h3><div id="ch-sem"></div></div>
+    <div class="card"><h3><i class="fas fa-list-ul" style="color:var(--purple)"></i> Playlist Overview</h3><div id="ch-pl"></div></div>
   </div>
 
-</div><!-- /container -->
+</div><!-- /wrap -->
 
 <script>
-const SB_URL = 'https://yumjyvrirwszukjvibld.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1bWp5dnJpcndzenVranZpYmxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2MjUwMzIsImV4cCI6MjA3OTIwMTAzMn0.doBlPo74Oh_o-PSQvIKI4ChiOPhIdgvY6SLk47dzXOU';
-const sb = window.supabase.createClient(SB_URL, SB_KEY);
+const SB_URL='https://yumjyvrirwszukjvibld.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1bWp5dnJpcndzenVranZpYmxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2MjUwMzIsImV4cCI6MjA3OTIwMTAzMn0.doBlPo74Oh_o-PSQvIKI4ChiOPhIdgvY6SLk47dzXOU';
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
 
-/* ── helpers ── */
-function toast(msg, ok=true){
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.className=ok?'t-ok':'t-err'; el.style.display='block';
-  setTimeout(()=>el.style.display='none',3500);
-}
-function loader(id){ document.getElementById(id).innerHTML='<div class="empty"><i class="fas fa-circle-notch fa-spin"></i>Loading…</div>'; }
-function empty(id, msg='Nothing here yet.'){ document.getElementById(id).innerHTML='<div class="empty"><i class="fas fa-box-open"></i>'+msg+'</div>'; }
+/* ─── UTILS ─── */
+function toast(msg,ok=true){const e=document.getElementById('toast');e.textContent=msg;e.className=ok?'tok':'terr';e.style.display='block';setTimeout(()=>e.style.display='none',3500);}
+function ld(id){document.getElementById(id).innerHTML='<div class="empty"><i class="fas fa-spinner fa-spin"></i>Loading…</div>';}
+function empty(id,msg='Nothing here yet.'){document.getElementById(id).innerHTML='<div class="empty"><i class="fas fa-box-open"></i>'+msg+'</div>';}
+function ytId(url){try{const u=new URL(url);if(u.hostname.includes('youtu.be'))return u.pathname.slice(1).split('?')[0];return u.searchParams.get('v')||'';}catch{return '';}}
 
-/* ── tab switch ── */
-function sw(id, btn){
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
+/* ─── TABS ─── */
+function sw(id,btn){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
-  btn.classList.add('on');
-  if(id==='t-allsem') loadAllSem();
-  if(id==='t-playlist') loadVideos();
-  if(id==='t-blog') loadBlogs();
-  if(id==='t-stats') loadStats();
+  document.getElementById(id).classList.add('on'); btn.classList.add('on');
+  if(id==='t-sem1')loadMat();
+  if(id==='t-allsem')loadAllSem();
+  if(id==='t-blog')loadBlogs();
+  if(id==='t-stats')loadStats();
 }
 
-/* ── sign out ── */
-function doSignOut(){ window.location.href='index.html'; }
+/* ─── YT PREVIEW ─── */
+function previewYT(url){
+  const id=ytId(url),w=document.getElementById('yt-wrap'),f=document.getElementById('yt-frame');
+  if(id){f.src='https://www.youtube.com/embed/'+id;w.style.display='block';}
+  else{w.style.display='none';f.src='';}
+}
 
-/* ══════════════════════════════════
-   MATERIALS (SEM 1)
-══════════════════════════════════ */
-document.getElementById('form-mat').addEventListener('submit', async e=>{
+/* ════════════════════════════════
+   PLAYLIST CRUD
+════════════════════════════════ */
+let allPlaylists=[], plFilter='', activePlId='';
+
+document.getElementById('form-pl').addEventListener('submit',async e=>{
   e.preventDefault();
-  const btn=e.target.querySelector('button[type=submit]');
-  btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Publishing…';
-  const {error} = await sb.from('materials').insert([{
-    material_type: document.getElementById('m_type').value,
-    subject:       document.getElementById('m_sub').value,
-    chapter_name:  document.getElementById('m_title').value,
-    teacher_name:  document.getElementById('m_teacher').value,
-    sender_student:document.getElementById('m_sender').value,
-    description:   document.getElementById('m_desc').value,
-    google_drive_link: document.getElementById('m_link').value,
-    is_new:        document.getElementById('m_new').checked
-  }]);
-  btn.disabled=false; btn.innerHTML='<i class="fas fa-upload"></i> Publish Material';
-  if(error) toast('Error: '+error.message, false);
-  else { toast('Material published ✅'); e.target.reset(); loadMaterials(); }
-});
-
-async function loadMaterials(){
-  loader('list-mat');
-  const {data,error}=await sb.from('materials').select('*').order('created_at',{ascending:false});
-  const el=document.getElementById('list-mat');
-  if(error||!data?.length){ empty('list-mat','No materials yet.'); return; }
-  document.getElementById('st-mat').textContent=data.length;
-  const notes=data.filter(m=>m.material_type==='Note');
-  const pracs=data.filter(m=>m.material_type==='Practical');
-  el.innerHTML='';
-  if(pracs.length){
-    el.innerHTML+='<p style="font-size:0.78rem;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Practicals ('+pracs.length+')</p>';
-    pracs.forEach(m=>el.innerHTML+=matRow(m));
-  }
-  if(notes.length){
-    el.innerHTML+='<p style="font-size:0.78rem;color:var(--gold);font-weight:800;text-transform:uppercase;letter-spacing:0.06em;margin:16px 0 10px">Study Notes ('+notes.length+')</p>';
-    notes.forEach(m=>el.innerHTML+=matRow(m));
-  }
-}
-
-function matRow(m){
-  return `<div class="row" id="mr-${m.id}">
-    <div class="row-info">
-      <div class="title">${m.chapter_name}</div>
-      <div class="meta">
-        <span class="tag ${m.material_type==='Practical'?'tag-blue':'tag-gold'}">${m.material_type}</span>
-        <span style="color:var(--dim)">${m.subject}</span>
-        ${m.teacher_name?'<span>👨‍🏫 '+m.teacher_name+'</span>':''}
-        ${m.is_new?'<span class="tag tag-red">NEW</span>':''}
-      </div>
-    </div>
-    <div class="row-actions">
-      <a href="${m.google_drive_link}" target="_blank" class="btn-edit" style="padding:7px 12px;border-radius:9px;font-size:0.75rem;border:1px solid rgba(0,200,83,0.3);color:var(--green);background:rgba(0,200,83,0.1)"><i class="fas fa-external-link-alt"></i></a>
-      <button class="btn-red" onclick="delMat('${m.id}')"><i class="fas fa-trash"></i></button>
-    </div>
-  </div>`;
-}
-
-async function delMat(id){
-  if(!confirm('Delete this material?')) return;
-  await sb.from('materials').delete().eq('id',id);
-  document.getElementById('mr-'+id)?.remove();
-  toast('Deleted ✅');
-}
-
-/* ══════════════════════════════════
-   ALL-SEM
-══════════════════════════════════ */
-document.getElementById('form-allsem').addEventListener('submit', async e=>{
-  e.preventDefault();
-  const btn=document.getElementById('as_btn');
-  const editId=document.getElementById('as_edit_id').value;
+  const btn=document.getElementById('pl_btn'), eid=document.getElementById('pl_edit_id').value;
   btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>';
-  const payload={
-    semester: document.getElementById('as_sem').value,
-    material_type: document.getElementById('as_type').value,
-    subject: document.getElementById('as_sub').value,
-    chapter_name: document.getElementById('as_title').value,
-    description: document.getElementById('as_desc').value,
-    google_drive_link: document.getElementById('as_link').value,
-    is_new: document.getElementById('as_new').checked
-  };
-  const {error} = editId
-    ? await sb.from('allsem_materials').update(payload).eq('id',editId)
-    : await sb.from('allsem_materials').insert([payload]);
-  btn.disabled=false; btn.innerHTML='<i class="fas fa-upload"></i> Publish';
-  if(error) toast(error.message,false);
-  else { toast(editId?'Updated ✅':'Published ✅'); e.target.reset(); document.getElementById('as_edit_id').value=''; loadAllSem(); }
+  const payload={title:document.getElementById('pl_title').value,subject:document.getElementById('pl_subject').value,semester:document.getElementById('pl_semester').value,description:document.getElementById('pl_desc').value,thumbnail_url:document.getElementById('pl_thumb').value||null};
+  const {error}=eid?await sb.from('playlists').update(payload).eq('id',eid):await sb.from('playlists').insert([payload]);
+  btn.disabled=false; btn.innerHTML='<i class="fas fa-plus"></i> Create Playlist';
+  if(error){toast(error.message,false);return;}
+  toast(eid?'Playlist updated ✅':'Playlist created ✅'); resetPlForm(); loadPlaylists();
 });
 
-async function loadAllSem(){
-  loader('list-allsem');
-  const {data,error}=await sb.from('allsem_materials').select('*').order('created_at',{ascending:false});
-  const el=document.getElementById('list-allsem');
-  if(error||!data?.length){ empty('list-allsem','No content yet.'); document.getElementById('st-allsem').textContent=0; return; }
-  document.getElementById('st-allsem').textContent=data.length;
-  const bySem={};
-  data.forEach(m=>{ (bySem[m.semester]=bySem[m.semester]||[]).push(m); });
+function resetPlForm(){document.getElementById('form-pl').reset();document.getElementById('pl_edit_id').value='';document.getElementById('pl_btn').innerHTML='<i class="fas fa-plus"></i> Create Playlist';}
+
+function filterPl(sub,btn){plFilter=sub;document.querySelectorAll('#t-pl .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderPlaylists();}
+
+async function loadPlaylists(){
+  const {data}=await sb.from('playlists').select('*, playlist_videos(id)').order('created_at',{ascending:false});
+  allPlaylists=data||[];
+  document.getElementById('st-pl').textContent=allPlaylists.length;
+  // update vid_pl_id select
+  const sel=document.getElementById('vid_pl_id');
+  const prev=sel.value;
+  sel.innerHTML='<option value="">— Choose a playlist —</option>';
+  allPlaylists.forEach(p=>sel.innerHTML+=`<option value="${p.id}">${p.title}</option>`);
+  if(prev) sel.value=prev;
+  renderPlaylists();
+}
+
+const subCol={Computer:'#42a5f5',Physics:'#ab47bc',Math:'#66bb6a',Chemistry:'#ffa726'};
+function renderPlaylists(){
+  const el=document.getElementById('pl-grid');
+  const list=plFilter?allPlaylists.filter(p=>p.subject===plFilter):allPlaylists;
+  document.getElementById('pl-cnt').textContent=list.length+' playlists';
+  if(!list.length){el.innerHTML='<div class="empty" style="grid-column:1/-1"><i class="fas fa-list-ul"></i>No playlists yet. Create one above!</div>';return;}
   el.innerHTML='';
-  Object.keys(bySem).sort().forEach(sem=>{
-    el.innerHTML+=`<p style="font-size:0.78rem;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:0.06em;margin:16px 0 8px">${sem} (${bySem[sem].length})</p>`;
-    bySem[sem].forEach(m=>{
-      el.innerHTML+=`<div class="row" id="asr-${m.id}">
-        <div class="row-info">
-          <div class="title">${m.chapter_name}</div>
-          <div class="meta">
-            <span class="tag tag-gold">${m.material_type}</span>
-            <span>${m.subject}</span>
-            ${m.is_new?'<span class="tag tag-red">NEW</span>':''}
-          </div>
-        </div>
-        <div class="row-actions">
-          <button class="btn-edit" onclick="editAllSem(${JSON.stringify(m).replace(/"/g,'&quot;')})"><i class="fas fa-pen"></i> Edit</button>
-          <button class="btn-red"  onclick="delAllSem('${m.id}')"><i class="fas fa-trash"></i></button>
-        </div>
-      </div>`;
-    });
+  list.forEach(p=>{
+    const cnt=(p.playlist_videos||[]).length;
+    const col=subCol[p.subject]||'#a78bfa';
+    const card=document.createElement('div');
+    card.className='pl-card'+(activePlId===p.id?' selected':'');
+    card.onclick=()=>selectPlaylist(p);
+    card.innerHTML=`<div class="pl-thumb" style="background:linear-gradient(135deg,${col}22,${col}44)">
+      ${p.thumbnail_url?`<img src="${p.thumbnail_url}" alt="${p.title}" />`:`<i class="fas fa-play-circle pl-thumb-ico" style="color:${col}"></i>`}
+      <div class="pl-vcnt"><i class="fas fa-film"></i> ${cnt} video${cnt!==1?'s':''}</div>
+    </div>
+    <div class="pl-body2">
+      <div class="pt">${p.title}</div>
+      <div class="pm">
+        <span class="tag" style="background:${col}22;color:${col}">${p.subject}</span>
+        <span>${p.semester}</span>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <button class="btn-edit2" onclick="event.stopPropagation();editPl(${JSON.stringify(p).replace(/"/g,'&quot;')})" style="font-size:.72rem"><i class="fas fa-pen"></i> Edit</button>
+        <button class="btn-red"   onclick="event.stopPropagation();delPl('${p.id}')" style="font-size:.72rem"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`;
+    el.appendChild(card);
   });
 }
 
-function editAllSem(m){
-  document.getElementById('as_edit_id').value=m.id;
-  document.getElementById('as_sem').value=m.semester;
-  document.getElementById('as_type').value=m.material_type;
-  document.getElementById('as_sub').value=m.subject;
-  document.getElementById('as_title').value=m.chapter_name;
-  document.getElementById('as_desc').value=m.description||'';
-  document.getElementById('as_link').value=m.google_drive_link;
-  document.getElementById('as_new').checked=!!m.is_new;
-  document.getElementById('as_btn').innerHTML='<i class="fas fa-save"></i> Save Changes';
-  document.getElementById('t-allsem').scrollIntoView({behavior:'smooth'});
+function editPl(p){
+  document.getElementById('pl_edit_id').value=p.id;
+  document.getElementById('pl_title').value=p.title;
+  document.getElementById('pl_subject').value=p.subject;
+  document.getElementById('pl_semester').value=p.semester;
+  document.getElementById('pl_desc').value=p.description||'';
+  document.getElementById('pl_thumb').value=p.thumbnail_url||'';
+  document.getElementById('pl_btn').innerHTML='<i class="fas fa-save"></i> Save Changes';
+  document.getElementById('t-pl').scrollIntoView({behavior:'smooth'});
 }
 
-async function delAllSem(id){
-  if(!confirm('Delete?')) return;
-  await sb.from('allsem_materials').delete().eq('id',id);
-  document.getElementById('asr-'+id)?.remove();
-  toast('Deleted ✅');
+async function delPl(id){
+  if(!confirm('Delete this playlist and ALL its videos?')) return;
+  await sb.from('playlists').delete().eq('id',id);
+  toast('Playlist deleted ✅'); loadPlaylists();
+  if(activePlId===id){activePlId='';document.getElementById('vid-list-section').style.display='none';}
 }
 
-/* ══════════════════════════════════
-   PLAYLIST / VIDEOS
-══════════════════════════════════ */
-let allVideos = [];
-let vidFilter = '';
-
-function ytId(url){
-  try {
-    const u=new URL(url);
-    if(u.hostname.includes('youtu.be')) return u.pathname.slice(1).split('?')[0];
-    return u.searchParams.get('v')||'';
-  } catch{ return ''; }
+function selectPlaylist(p){
+  activePlId=p.id;
+  document.getElementById('vid_pl_id').value=p.id;
+  document.getElementById('active-pl-name').textContent=p.title;
+  document.getElementById('vid-list-section').style.display='block';
+  document.getElementById('vid-form-section').scrollIntoView({behavior:'smooth'});
+  renderPlaylists(); loadVids(p.id);
 }
 
-function updateYtPreview(url){
-  const id=ytId(url);
-  const wrap=document.getElementById('yt-preview-wrap');
-  const iframe=document.getElementById('yt-iframe');
-  if(id){ iframe.src='https://www.youtube.com/embed/'+id; wrap.style.display='block'; }
-  else { wrap.style.display='none'; iframe.src=''; }
-}
-
-document.getElementById('v_url').addEventListener('input', e=>updateYtPreview(e.target.value));
-
-document.getElementById('form-vid').addEventListener('submit', async e=>{
+/* ════════════════════════════════
+   VIDEO CRUD
+════════════════════════════════ */
+document.getElementById('form-vid').addEventListener('submit',async e=>{
   e.preventDefault();
-  const btn=document.getElementById('v_btn');
-  const editId=document.getElementById('v_edit_id').value;
-  const url=document.getElementById('v_url').value.trim();
-  const vid_id=ytId(url);
-  if(!vid_id){ toast('Please enter a valid YouTube URL', false); return; }
+  const plId=document.getElementById('vid_pl_id').value;
+  if(!plId){toast('Please select a playlist first!',false);return;}
+  const url=document.getElementById('vid_url').value.trim();
+  const yid=ytId(url);
+  if(!yid){toast('Invalid YouTube URL',false);return;}
+  const eid=document.getElementById('vid_edit_id').value;
+  const btn=document.getElementById('vid_btn');
   btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>';
-  const payload={
-    title:      document.getElementById('v_title').value,
-    subject:    document.getElementById('v_subject').value,
-    semester:   document.getElementById('v_semester').value,
-    chapter_no: parseInt(document.getElementById('v_chapter').value)||1,
-    youtube_url: url,
-    youtube_id:  vid_id,
-    description: document.getElementById('v_desc').value
-  };
-  const {error} = editId
-    ? await sb.from('lectures').update(payload).eq('id',editId)
-    : await sb.from('lectures').insert([payload]);
-  btn.disabled=false; btn.innerHTML='<i class="fas fa-upload"></i> Publish Video';
-  if(error) toast(error.message, false);
-  else { toast(editId?'Video updated ✅':'Video published ✅'); resetVidForm(); loadVideos(); }
+  const payload={playlist_id:plId,title:document.getElementById('vid_title').value,youtube_url:url,youtube_id:yid,description:document.getElementById('vid_desc').value,position:parseInt(document.getElementById('vid_pos').value)||1};
+  const {error}=eid?await sb.from('playlist_videos').update(payload).eq('id',eid):await sb.from('playlist_videos').insert([payload]);
+  btn.disabled=false; btn.innerHTML='<i class="fas fa-upload"></i> Add Video';
+  if(error){toast(error.message,false);return;}
+  toast(eid?'Video updated ✅':'Video added ✅'); resetVidForm(); loadVids(plId); loadPlaylists();
 });
 
-function resetVidForm(){
-  document.getElementById('form-vid').reset();
-  document.getElementById('v_edit_id').value='';
-  document.getElementById('v_btn').innerHTML='<i class="fas fa-upload"></i> Publish Video';
-  document.getElementById('yt-preview-wrap').style.display='none';
-  document.getElementById('yt-iframe').src='';
-}
+function resetVidForm(){document.getElementById('form-vid').reset();document.getElementById('vid_edit_id').value='';document.getElementById('vid_btn').innerHTML='<i class="fas fa-upload"></i> Add Video';document.getElementById('yt-wrap').style.display='none';document.getElementById('yt-frame').src='';}
 
-async function loadVideos(){
-  loader('list-vid');
-  const {data,error}=await sb.from('lectures').select('*').order('subject').order('semester').order('chapter_no');
-  if(error){ empty('list-vid','Could not load videos.'); return; }
-  allVideos=data||[];
-  document.getElementById('vid-count').textContent=allVideos.length+' videos';
-  document.getElementById('st-vid').textContent=allVideos.length;
-  renderVideos();
-}
-
-function filterVids(subject, btn){
-  vidFilter=subject;
-  document.querySelectorAll('#vid-filter-bar .filter-btn').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  renderVideos();
-}
-
-const subColors={Computer:'tag-blue',Physics:'tag-purple',Math:'tag-green',Chemistry:'tag-gold'};
-
-function renderVideos(){
-  const el=document.getElementById('list-vid');
-  const filtered=vidFilter?allVideos.filter(v=>v.subject===vidFilter):allVideos;
-  if(!filtered.length){ empty('list-vid','No videos for this filter yet.'); return; }
-  const bySub={};
-  filtered.forEach(v=>{ (bySub[v.subject]=bySub[v.subject]||[]).push(v); });
+async function loadVids(plId){
+  ld('vid-list');
+  const {data}=await sb.from('playlist_videos').select('*').eq('playlist_id',plId).order('position');
+  const el=document.getElementById('vid-list');
+  document.getElementById('vid-cnt').textContent=(data?.length||0)+' videos';
+  document.getElementById('st-vid').textContent=(data?.length||0);
+  if(!data?.length){empty('vid-list','No videos yet. Add one above!');return;}
   el.innerHTML='';
-  Object.keys(bySub).sort().forEach(sub=>{
-    el.innerHTML+=`<p style="font-size:0.78rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;margin:16px 0 8px;color:var(--purple)">${sub} (${bySub[sub].length})</p>`;
-    const bySem={};
-    bySub[sub].forEach(v=>{ (bySem[v.semester]=bySem[v.semester]||[]).push(v); });
-    Object.keys(bySem).sort().forEach(sem=>{
-      el.innerHTML+=`<p style="font-size:0.72rem;color:var(--dim);margin:10px 0 6px;padding-left:6px"><i class="fas fa-layer-group"></i> ${sem}</p>`;
-      bySem[sem].forEach(v=>{
-        const thumb=v.youtube_id?`<img src="https://img.youtube.com/vi/${v.youtube_id}/mqdefault.jpg" style="width:96px;height:54px;border-radius:8px;object-fit:cover;flex-shrink:0" />`:'';
-        el.innerHTML+=`<div class="row" id="vr-${v.id}">
-          ${thumb}
-          <div class="row-info">
-            <div class="title">Ch.${v.chapter_no} – ${v.title}</div>
-            <div class="meta">
-              <span class="tag ${subColors[v.subject]||'tag-purple'}">${v.subject}</span>
-              <span>${v.semester}</span>
-              ${v.description?'<span style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+v.description+'</span>':''}
-            </div>
-          </div>
-          <div class="row-actions">
-            <a href="${v.youtube_url}" target="_blank" class="btn-red" style="background:rgba(255,0,0,0.1);color:#f87171;border:1px solid rgba(255,0,0,0.3);padding:7px 10px;border-radius:9px;font-size:0.75rem"><i class="fab fa-youtube"></i></a>
-            <button class="btn-edit" onclick="editVid(${JSON.stringify(v).replace(/"/g,'&quot;')})"><i class="fas fa-pen"></i></button>
-            <button class="btn-red"  onclick="delVid('${v.id}')"><i class="fas fa-trash"></i></button>
-          </div>
-        </div>`;
-      });
-    });
+  data.forEach((v,i)=>{
+    const thumb=v.youtube_id?`https://img.youtube.com/vi/${v.youtube_id}/mqdefault.jpg`:'';
+    const d=document.createElement('div');
+    d.className='vid-row'; d.id='vr-'+v.id;
+    d.innerHTML=`<span class="drag-handle"><i class="fas fa-grip-vertical"></i></span>
+      <span style="font-size:.72rem;color:var(--dim);font-weight:800;min-width:1.5rem">${v.position||i+1}</span>
+      ${thumb?`<img class="vid-thumb" src="${thumb}" alt="" />`:'<div class="vid-thumb" style="background:#1a1b2e;border-radius:7px;display:flex;align-items:center;justify-content:center"><i class="fab fa-youtube" style="color:#f87171;font-size:1.2rem"></i></div>'}
+      <div class="vid-info">
+        <div class="vt">${v.title}</div>
+        <div class="vm">${v.description||'&nbsp;'}</div>
+      </div>
+      <div class="vid-acts">
+        <a href="${v.youtube_url}" target="_blank" class="btn-sm" style="background:rgba(255,0,0,.1);color:#f87171;border:1px solid rgba(255,0,0,.25)"><i class="fab fa-youtube"></i></a>
+        <button class="btn-sm btn-edit2" onclick="editVid(${JSON.stringify(v).replace(/"/g,'&quot;')})"><i class="fas fa-pen"></i></button>
+        <button class="btn-sm btn-red" onclick="delVid('${v.id}','${plId}')"><i class="fas fa-trash"></i></button>
+      </div>`;
+    el.appendChild(d);
   });
 }
 
 function editVid(v){
-  document.getElementById('v_edit_id').value=v.id;
-  document.getElementById('v_title').value=v.title;
-  document.getElementById('v_subject').value=v.subject;
-  document.getElementById('v_semester').value=v.semester;
-  document.getElementById('v_chapter').value=v.chapter_no;
-  document.getElementById('v_url').value=v.youtube_url;
-  document.getElementById('v_desc').value=v.description||'';
-  document.getElementById('v_btn').innerHTML='<i class="fas fa-save"></i> Save Changes';
-  updateYtPreview(v.youtube_url);
-  document.getElementById('t-playlist').scrollIntoView({behavior:'smooth'});
+  document.getElementById('vid_pl_id').value=v.playlist_id;
+  document.getElementById('vid_edit_id').value=v.id;
+  document.getElementById('vid_title').value=v.title;
+  document.getElementById('vid_url').value=v.youtube_url;
+  document.getElementById('vid_pos').value=v.position;
+  document.getElementById('vid_desc').value=v.description||'';
+  document.getElementById('vid_btn').innerHTML='<i class="fas fa-save"></i> Save Changes';
+  previewYT(v.youtube_url);
+  document.getElementById('vid-form-section').scrollIntoView({behavior:'smooth'});
 }
 
-async function delVid(id){
-  if(!confirm('Delete this video?')) return;
-  await sb.from('lectures').delete().eq('id',id);
+async function delVid(id,plId){
+  if(!confirm('Remove this video?')) return;
+  await sb.from('playlist_videos').delete().eq('id',id);
   document.getElementById('vr-'+id)?.remove();
-  allVideos=allVideos.filter(v=>v.id!==id);
-  document.getElementById('vid-count').textContent=allVideos.length+' videos';
-  document.getElementById('st-vid').textContent=allVideos.length;
-  toast('Deleted ✅');
+  toast('Removed ✅'); loadPlaylists();
 }
 
-/* ══════════════════════════════════
+/* ════════════════════════════════
+   SEM 1 MATERIAL
+════════════════════════════════ */
+document.getElementById('form-mat').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=e.target.querySelector('button[type=submit]');
+  btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>';
+  const {error}=await sb.from('materials').insert([{material_type:document.getElementById('m_type').value,subject:document.getElementById('m_sub').value,chapter_name:document.getElementById('m_title').value,teacher_name:document.getElementById('m_teacher').value,sender_student:document.getElementById('m_sender').value,description:document.getElementById('m_desc').value,google_drive_link:document.getElementById('m_link').value,is_new:document.getElementById('m_new').checked}]);
+  btn.disabled=false; btn.innerHTML='<i class="fas fa-upload"></i> Publish Material';
+  if(error)toast(error.message,false);else{toast('Published ✅');e.target.reset();loadMat();}
+});
+
+async function loadMat(){
+  ld('list-mat');
+  const {data}=await sb.from('materials').select('*').order('created_at',{ascending:false});
+  document.getElementById('st-mat').textContent=(data||[]).length;
+  if(!data?.length){empty('list-mat');return;}
+  const el=document.getElementById('list-mat'); el.innerHTML='';
+  data.forEach(m=>{
+    el.innerHTML+=`<div class="row" id="mr-${m.id}"><div class="row-info"><div class="rtitle">${m.chapter_name}</div><div class="rmeta"><span class="tag ${m.material_type==='Practical'?'tg':'tgo'}">${m.material_type}</span><span>${m.subject}</span>${m.is_new?'<span class="tag tr">NEW</span>':''}</div></div><div class="row-acts"><a href="${m.google_drive_link}" target="_blank" class="btn-sm" style="background:rgba(0,200,83,.1);color:var(--green);border:1px solid rgba(0,200,83,.3)"><i class="fas fa-external-link-alt"></i></a><button class="btn-red" onclick="delMat('${m.id}')"><i class="fas fa-trash"></i></button></div></div>`;
+  });
+}
+async function delMat(id){if(!confirm('Delete?'))return;await sb.from('materials').delete().eq('id',id);document.getElementById('mr-'+id)?.remove();toast('Deleted ✅');}
+
+/* ════════════════════════════════
+   ALLSEM
+════════════════════════════════ */
+document.getElementById('form-allsem').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const eid=document.getElementById('as_eid').value, btn=document.getElementById('as_btn');
+  btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>';
+  const pay={semester:document.getElementById('as_sem').value,material_type:document.getElementById('as_type').value,subject:document.getElementById('as_sub').value,chapter_name:document.getElementById('as_title').value,description:document.getElementById('as_desc').value,google_drive_link:document.getElementById('as_link').value,is_new:document.getElementById('as_new').checked};
+  const {error}=eid?await sb.from('allsem_materials').update(pay).eq('id',eid):await sb.from('allsem_materials').insert([pay]);
+  btn.disabled=false; btn.innerHTML='<i class="fas fa-upload"></i> Publish';
+  if(error)toast(error.message,false);else{toast(eid?'Updated ✅':'Published ✅');document.getElementById('form-allsem').reset();document.getElementById('as_eid').value='';loadAllSem();}
+});
+async function loadAllSem(){
+  ld('list-allsem');
+  const {data}=await sb.from('allsem_materials').select('*').order('created_at',{ascending:false});
+  if(!data?.length){empty('list-allsem');return;}
+  const el=document.getElementById('list-allsem'); el.innerHTML='';
+  const bySem={};data.forEach(m=>(bySem[m.semester]=bySem[m.semester]||[]).push(m));
+  Object.keys(bySem).sort().forEach(sem=>{
+    el.innerHTML+=`<p style="font-size:.76rem;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin:14px 0 8px">${sem} (${bySem[sem].length})</p>`;
+    bySem[sem].forEach(m=>el.innerHTML+=`<div class="row" id="asr-${m.id}"><div class="row-info"><div class="rtitle">${m.chapter_name}</div><div class="rmeta"><span class="tag tgo">${m.material_type}</span><span>${m.subject}</span></div></div><div class="row-acts"><button class="btn-edit2" onclick="editAS(${JSON.stringify(m).replace(/"/g,'&quot;')})"><i class="fas fa-pen"></i></button><button class="btn-red" onclick="delAS('${m.id}')"><i class="fas fa-trash"></i></button></div></div>`);
+  });
+}
+function editAS(m){document.getElementById('as_eid').value=m.id;document.getElementById('as_sem').value=m.semester;document.getElementById('as_type').value=m.material_type;document.getElementById('as_sub').value=m.subject;document.getElementById('as_title').value=m.chapter_name;document.getElementById('as_desc').value=m.description||'';document.getElementById('as_link').value=m.google_drive_link;document.getElementById('as_new').checked=!!m.is_new;document.getElementById('as_btn').innerHTML='<i class="fas fa-save"></i> Save';}
+async function delAS(id){if(!confirm('Delete?'))return;await sb.from('allsem_materials').delete().eq('id',id);document.getElementById('asr-'+id)?.remove();toast('Deleted ✅');}
+
+/* ════════════════════════════════
    BLOG
-══════════════════════════════════ */
+════════════════════════════════ */
 async function postBlog(){
-  const title=document.getElementById('b_title').value.trim();
-  const author=document.getElementById('b_author').value.trim()||'Admin';
-  const image_url=document.getElementById('b_img').value.trim();
-  const body=document.getElementById('b_body').value.trim();
-  if(!title||!body){ toast('Title and content are required', false); return; }
-  const {error}=await sb.from('blogs').insert([{title,author,image_url,body}]);
-  if(error) toast(error.message,false);
-  else {
-    toast('Blog published ✅');
-    document.getElementById('b_title').value='';
-    document.getElementById('b_author').value='';
-    document.getElementById('b_img').value='';
-    document.getElementById('b_body').value='';
-    loadBlogs();
-  }
+  const t=document.getElementById('b_title').value.trim(),body=document.getElementById('b_body').value.trim();
+  if(!t||!body){toast('Title and content required',false);return;}
+  const {error}=await sb.from('blogs').insert([{title:t,author:document.getElementById('b_author').value,image_url:document.getElementById('b_img').value,body}]);
+  if(error)toast(error.message,false);else{toast('Published ✅');document.getElementById('b_title').value='';document.getElementById('b_body').value='';loadBlogs();}
 }
-
 async function loadBlogs(){
-  loader('list-blog');
-  const {data,error}=await sb.from('blogs').select('*').order('created_at',{ascending:false});
-  const el=document.getElementById('list-blog');
-  if(error||!data?.length){ empty('list-blog','No blog posts yet.'); document.getElementById('st-blog').textContent=0; return; }
-  document.getElementById('st-blog').textContent=data.length;
-  el.innerHTML='';
-  data.forEach(b=>{
-    const dt=new Date(b.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
-    el.innerHTML+=`<div class="row" id="br-${b.id}">
-      <div class="row-info">
-        <div class="title">${b.title}</div>
-        <div class="meta"><span>${dt}</span><span>✍️ ${b.author||'Admin'}</span></div>
-      </div>
-      <div class="row-actions">
-        <button class="btn-red" onclick="delBlog('${b.id}')"><i class="fas fa-trash"></i></button>
-      </div>
-    </div>`;
-  });
+  ld('list-blog');
+  const {data}=await sb.from('blogs').select('*').order('created_at',{ascending:false});
+  document.getElementById('st-blog').textContent=(data||[]).length;
+  if(!data?.length){empty('list-blog');return;}
+  const el=document.getElementById('list-blog');el.innerHTML='';
+  data.forEach(b=>{const dt=new Date(b.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});el.innerHTML+=`<div class="row" id="br-${b.id}"><div class="row-info"><div class="rtitle">${b.title}</div><div class="rmeta"><span>${dt}</span><span>${b.author||'Admin'}</span></div></div><div class="row-acts"><button class="btn-red" onclick="delBlog('${b.id}')"><i class="fas fa-trash"></i></button></div></div>`;});
 }
+async function delBlog(id){if(!confirm('Delete?'))return;await sb.from('blogs').delete().eq('id',id);document.getElementById('br-'+id)?.remove();toast('Deleted ✅');}
 
-async function delBlog(id){
-  if(!confirm('Delete blog post?')) return;
-  await sb.from('blogs').delete().eq('id',id);
-  document.getElementById('br-'+id)?.remove();
-  toast('Deleted ✅');
-}
-
-/* ══════════════════════════════════
+/* ════════════════════════════════
    STATS
-══════════════════════════════════ */
+════════════════════════════════ */
 async function loadStats(){
-  const {data}=await sb.from('lectures').select('subject, semester');
-  if(!data) return;
-  const bySub={}, bySem={};
-  data.forEach(v=>{ bySub[v.subject]=(bySub[v.subject]||0)+1; bySem[v.semester]=(bySem[v.semester]||0)+1; });
-  const max=Math.max(...Object.values(bySub),1);
-  const max2=Math.max(...Object.values(bySem),1);
-  const barColors={Computer:'#42a5f5',Physics:'#ab47bc',Math:'#66bb6a',Chemistry:'#ffa726'};
-  let html='';
-  Object.entries(bySub).sort((a,b)=>b[1]-a[1]).forEach(([sub,cnt])=>{
-    const w=Math.round(cnt/max*100);
-    html+=`<div style="margin-bottom:14px">
-      <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:700;margin-bottom:6px"><span>${sub}</span><span>${cnt} videos</span></div>
-      <div style="background:#1a1b1e;border-radius:999px;height:10px"><div style="width:${w}%;background:${barColors[sub]||'#a78bfa'};height:100%;border-radius:999px;transition:width 0.6s"></div></div>
-    </div>`;
-  });
-  document.getElementById('stats-chart').innerHTML=html||'<div class="empty"><i class="fas fa-video"></i>No videos yet.</div>';
-
-  let html2='';
-  Object.entries(bySem).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([sem,cnt])=>{
-    const w=Math.round(cnt/max2*100);
-    html2+=`<div style="margin-bottom:14px">
-      <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:700;margin-bottom:6px"><span>${sem}</span><span>${cnt} videos</span></div>
-      <div style="background:#1a1b1e;border-radius:999px;height:10px"><div style="width:${w}%;background:var(--blue);height:100%;border-radius:999px;transition:width 0.6s"></div></div>
-    </div>`;
-  });
-  document.getElementById('stats-sem-chart').innerHTML=html2||'<div class="empty">No data yet.</div>';
+  const [{data:vd},{data:pld}]=await Promise.all([sb.from('playlist_videos').select('id,playlist_id'),sb.from('playlists').select('id,title,subject,semester,playlist_videos(id)')]);
+  const bySub={},bySem={};
+  (pld||[]).forEach(p=>{const cnt=(p.playlist_videos||[]).length;bySub[p.subject]=(bySub[p.subject]||0)+cnt;bySem[p.semester]=(bySem[p.semester]||0)+cnt;});
+  const mx=Math.max(...Object.values(bySub),1),mx2=Math.max(...Object.values(bySem),1);
+  const cols={Computer:'#42a5f5',Physics:'#ab47bc',Math:'#66bb6a',Chemistry:'#ffa726'};
+  let h='';
+  Object.entries(bySub).sort((a,b)=>b[1]-a[1]).forEach(([s,n])=>{h+=`<div class="bar-row"><div class="bl"><span>${s}</span><span>${n}</span></div><div class="bar-bg"><div class="bar-fill" style="width:${Math.round(n/mx*100)}%;background:${cols[s]||'#a78bfa'}"></div></div></div>`;});
+  document.getElementById('ch-sub').innerHTML=h||'<div class="empty"><i class="fas fa-video"></i>No videos yet.</div>';
+  let h2='';
+  Object.entries(bySem).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([s,n])=>{h2+=`<div class="bar-row"><div class="bl"><span>${s}</span><span>${n}</span></div><div class="bar-bg"><div class="bar-fill" style="width:${Math.round(n/mx2*100)}%;background:var(--blue)"></div></div></div>`;});
+  document.getElementById('ch-sem').innerHTML=h2||'<div class="empty">No data.</div>';
+  let h3='';
+  (pld||[]).sort((a,b)=>(b.playlist_videos||[]).length-(a.playlist_videos||[]).length).forEach(p=>{const n=(p.playlist_videos||[]).length;h3+=`<div class="bar-row"><div class="bl"><span>${p.title}</span><span>${n} videos</span></div><div class="bar-bg"><div class="bar-fill" style="width:${Math.max(n*10,2)}%;background:${cols[p.subject]||'#a78bfa'}"></div></div></div>`;});
+  document.getElementById('ch-pl').innerHTML=h3||'<div class="empty">No playlists yet.</div>';
 }
 
-/* ══════════════════════════════════
-   INIT
-══════════════════════════════════ */
-(async function init(){
-  loadMaterials();
-  const [{data:vd},{data:bd}]=await Promise.all([
-    sb.from('lectures').select('id',{count:'exact'}),
-    sb.from('blogs').select('id',{count:'exact'})
-  ]);
-  document.getElementById('st-vid').textContent=(vd||[]).length;
-  document.getElementById('st-blog').textContent=(bd||[]).length;
-})();
+/* ─── INIT ─── */
+loadPlaylists();
 </script>
 </body>
 </html>
