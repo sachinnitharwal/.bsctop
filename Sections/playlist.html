@@ -8,6 +8,13 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-L5T047QX77');
+  </script>
   <style>
   /* ══ THEME ══ */
   :root,html[data-theme="dark"]{
@@ -177,12 +184,12 @@
 
 <!-- NAVBAR -->
 <nav class="nb" id="nb">
-  <a href="index.html" class="nb-brand">
+  <a href="/index.html" class="nb-brand">
     <img src="/logo.png" alt="BSC TOP" class="nb-logo" />
     BSC <span class="grad" style="margin-left:3px">TOP</span>
   </a>
   <div class="nb-links">
-    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="/index.html"><i class="fas fa-home"></i> Home</a>
     <a href="/Sections/allsem.html"><i class="fas fa-book-open"></i> Notes</a>
     <a href="/Sections/pyp.html"><i class="fas fa-file-invoice"></i> PYQ</a>
     <a href="playlist.html" class="on"><i class="fas fa-play-circle"></i> Playlists</a>
@@ -197,13 +204,13 @@
 <!-- MOBILE MENU -->
 <div class="mob" id="mob">
   <div class="mob-head">
-    <div class="nb-brand"><img src="logo.png" alt="" class="nb-logo" />BSC <span class="grad" style="margin-left:3px">TOP</span></div>
+    <div class="nb-brand"><img src="/logo.png" alt="" class="nb-logo" />BSC <span class="grad" style="margin-left:3px">TOP</span></div>
     <div style="display:flex;gap:.5rem;align-items:center">
       <button class="tgl" onclick="toggleTheme()"><i class="fas fa-sun i-sun"></i><i class="fas fa-moon i-moon"></i></button>
       <button class="mob-x" onclick="closeMob()"><i class="fas fa-times"></i></button>
     </div>
   </div>
-  <a href="index.html" onclick="closeMob()"><i class="fas fa-home"></i> Home</a>
+  <a href="/index.html" onclick="closeMob()"><i class="fas fa-home"></i> Home</a>
   <a href="/Sections/allsem.html" onclick="closeMob()"><i class="fas fa-book-open"></i> Notes</a>
   <a href="/Sections/pyp.html" onclick="closeMob()"><i class="fas fa-file-invoice"></i> PYQ</a>
   <a href="playlist.html" class="on" onclick="closeMob()"><i class="fas fa-play-circle"></i> Playlists</a>
@@ -291,7 +298,7 @@
 
 <footer>
   <p>© 2025 <strong>BSC TOP</strong> by Sachin Chaudhary &nbsp;|&nbsp;
-    <a href="index.html">Home</a><a href="about.html">About</a><a href="privacy.html">Privacy</a>
+    <a href="/index.html">Home</a><a href="about.html">About</a><a href="privacy.html">Privacy</a>
   </p>
 </footer>
 
