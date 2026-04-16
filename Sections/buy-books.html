@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Books | BSC TOP</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-L5T047QX77');
+  </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        :root { --bg: #050505; --card: #111; --accent: #EAB308; --text: #fff; --dim: #94A3B8; --whatsapp: #25D366; }
+        
+        body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        /* Search Bar */
+        .search-box {
+            position: sticky; top: 10px; z-index: 100;
+            background: #111; border: 1px solid #222; padding: 12px 15px;
+            border-radius: 15px; display: flex; align-items: center; gap: 10px; margin-bottom: 25px;
+        }
+        .search-box input { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 14px; }
+
+        /* Book Grid */
+        .book-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        
+        .book-card {
+            background: var(--card); border: 1px solid #1A1A1A; border-radius: 20px;
+            overflow: hidden; transition: 0.3s; position: relative;
+        }
+        .book-img { width: 100%; height: 160px; object-fit: cover; background: #000; }
+        
+        .book-info { padding: 12px; }
+        .price-tag { color: var(--accent); font-weight: 800; font-size: 18px; margin-bottom: 5px; display: block; }
+        .book-name { font-size: 14px; font-weight: 700; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 38px; line-height: 1.4; }
+        
+        .meta-info { font-size: 10px; color: var(--dim); margin-top: 8px; text-transform: uppercase; font-weight: 700; }
+        
+        .wa-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: var(--whatsapp); color: white; text-decoration: none;
+            padding: 10px; border-radius: 10px; margin-top: 10px; font-size: 12px; font-weight: 800;
+        }
+
+        .badge {
+            position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7);
+            padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 800; color: var(--accent);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Loading Skeleton */
+        #loader { text-align: center; padding: 50px; color: var(--dim); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <a href="/Sections/bookcorner.html" style="color:var(--dim); text-decoration:none;"><i class="fas fa-chevron-left"></i></a>
+            <h2 style="margin:0; font-size:20px;">All Books</h2>
+            <div></div>
+        </header>
+
+        <div class="search-box">
+            <i class="fas fa-search" style="color:var(--dim)"></i>
+            <input type="text" id="searchInput" placeholder="Search by name, class or MSc..." onkeyup="filterBooks()">
+        </div>
+
+        <div id="loader"><i class="fas fa-spinner fa-spin"></i> Loading books...</div>
+        <div class="book-grid" id="bookGrid"></div>
+    </div>
+
+<script type="module">
+    // Supabase Config
+    const supabaseUrl = "https://yumjyvrirwszukjvibld.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1bWp5dnJpcndzenVranZpYmxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2MjUwMzIsImV4cCI6MjA3OTIwMTAzMn0.doBlPo74Oh_o-PSQvIKI4ChiOPhIdgvY6SLk47dzXOU";
+    const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    let allBooks = [];
+
+    async function fetchBooks() {
+        const { data, error } = await _supabase
+            .from('books')
+            .select('*')
+            .eq('is_sold', false) // Sirf wo jo sold nahi hain
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error(error);
+            return;
+        }
+
+        allBooks = data;
+        displayBooks(allBooks);
+        document.getElementById('loader').style.display = 'none';
+    }
+
+    function displayBooks(books) {
+        const grid = document.getElementById('bookGrid');
+        grid.innerHTML = '';
+
+        books.forEach(book => {
+            const eduTag = book.book_type === 'Educational' ? `<div class="badge">${book.class_level}</div>` : '';
+            
+            // WhatsApp Link generator
+            const waMsg = encodeURIComponent(`Hi, I saw your book "${book.book_title}" on BSC TOP. Is it still available?`);
+            const waLink = `https://wa.me/${book.whatsapp_no}?text=${waMsg}`;
+
+            grid.innerHTML += `
+                <div class="book-card">
+                    ${eduTag}
+                    <img src="${book.image_url}" class="book-img" loading="lazy">
+                    <div class="book-info">
+                        <span class="price-tag">₹${book.price}</span>
+                        <div class="book-name">${book.book_title}</div>
+                        <div class="meta-info">
+                            ${book.book_type} ${book.semester ? '• Sem ' + book.semester : ''}
+                        </div>
+                        <a href="${waLink}" target="_blank" class="wa-btn">
+                            <i class="fab fa-whatsapp"></i> CONTACT
+                        </a>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // Search Logic
+    window.filterBooks = () => {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = allBooks.filter(b => 
+            b.book_title.toLowerCase().includes(query) || 
+            (b.class_level && b.class_level.toLowerCase().includes(query))
+        );
+        displayBooks(filtered);
+    };
+
+    fetchBooks();
+</script>
+
+</body>
+</html>

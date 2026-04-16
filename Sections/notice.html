@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice Board | BSC TOP</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-L5T047QX77');
+  </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+        :root {
+            --bg-pure: #050505;
+            --card-bg: #111111;
+            --accent: #f39c12; /* Notices के लिए Electric Blue थीम */
+            --accent-glow: rgba(0, 242, 255, 0.3);
+            --text-main: #FFFFFF;
+            --text-dim: #94A3B8;
+        }
+
+        body {
+            background-color: var(--bg-pure);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; padding: 0;
+        }
+
+        /* --- STICKY HEADER --- */
+        .main-header {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1A1A1A;
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand-logo { margin: 0; font-size: 20px; font-weight: 800; }
+        .brand-logo span { color: var(--accent); text-shadow: 0 0 10px var(--accent-glow); }
+
+        .content-wrapper { padding: 25px 20px; max-width: 600px; margin: 0 auto; }
+
+        .view-label { 
+            font-size: 11px; color: var(--accent); font-weight: 800; 
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; display: block;
+        }
+
+        /* --- NOTICE CARD --- */
+        .notice-card {
+            background: linear-gradient(145deg, #161616, #0F0F0F);
+            border: 1px solid #222;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .notice-card:hover {
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+
+        .notice-badge {
+            position: absolute; top: -10px; right: 20px;
+            background: var(--accent); color: #000;
+            font-size: 9px; font-weight: 800; padding: 4px 10px;
+            border-radius: 50px; text-transform: uppercase;
+        }
+
+        .notice-date {
+            font-size: 10px; color: var(--accent);
+            font-weight: 700; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        .notice-content {
+            font-size: 14px; line-height: 1.6; color: #E0E0E0; margin-bottom: 15px;
+        }
+
+        .notice-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(0, 242, 255, 0.1); color: var(--accent);
+            padding: 8px 16px; border-radius: 12px;
+            text-decoration: none; font-size: 12px; font-weight: 700;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+        }
+
+        .notice-link:hover { background: var(--accent); color: #000; }
+
+        .loading-state { text-align: center; padding: 50px; color: var(--text-dim); }
+
+        /* Empty State */
+        .empty-icon { font-size: 40px; color: #222; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <h1 class="brand-logo">BSC <span>TOP</span></h1>
+        <i class="fas fa-bullhorn" style="color: var(--accent); font-size: 20px;"></i>
+    </header>
+
+    <main class="content-wrapper">
+        <span class="view-label">Official Announcements</span>
+        
+        <div id="noticeContainer">
+            <div class="loading-state">
+                <i class="fas fa-circle-notch fa-spin"></i> Checking for updates...
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { supabase } from './app.js'; 
+
+        async function loadNotices() {
+            const container = document.getElementById('noticeContainer');
+            
+            try {
+                // Fetching from Supabase Table 'notices'
+                // Table columns: created_at, notice_text, link (optional), is_new (boolean)
+                const { data: notices, error } = await supabase
+                    .from('notices')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!notices || notices.length === 0) {
+                    container.innerHTML = `
+                        <div class="loading-state">
+                            <i class="fas fa-comment-slash empty-icon"></i>
+                            <p>No active notices at the moment.</p>
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = ''; // Clear loading
+
+                notices.forEach(notice => {
+                    const date = new Date(notice.created_at).toLocaleDateString('en-GB', {
+                        day: '2-digit', month: 'short', year: 'numeric'
+                    });
+
+                    const card = document.createElement('div');
+                    card.className = 'notice-card';
+                    
+                    card.innerHTML = `
+                        ${notice.is_new ? '<div class="notice-badge">New Update</div>' : ''}
+                        <div class="notice-date"><i class="far fa-calendar-check"></i> Updated: ${date}</div>
+                        <div class="notice-content">${notice.notice_text}</div>
+                        ${notice.link ? `
+                            <a href="${notice.link}" target="_blank" class="notice-link">
+                                <i class="fas fa-external-link-alt"></i> View Attachment
+                            </a>` : ''}
+                    `;
+                    container.appendChild(card);
+                });
+
+            } catch (err) {
+                console.error(err);
+                // Fallback to static if server fails or table doesn't exist yet
+                renderStaticNotices();
+            }
+        }
+
+        function renderStaticNotices() {
+            const container = document.getElementById('noticeContainer');
+            const staticData = [
+                { date: "18 Nov 2025", text: "Semester 1 exam pattern has been officially released. Check the marking scheme.", link: "https://drive.google.com/file/d/1JmTwG3foMEQX6BG8bDpR0cRYRzn9iDDl/view", new: true },
+                { date: "15 Nov 2025", text: "New study materials for BSc 1st year uploaded in Notes section.", link: "", new: false },
+                { date: "12 Nov 2025", text: "Website maintenance scheduled on 20 Nov from 1 AM to 3 AM.", link: "", new: false }
+            ];
+
+            container.innerHTML = staticData.map(n => `
+                <div class="notice-card">
+                    ${n.new ? '<div class="notice-badge">New Update</div>' : ''}
+                    <div class="notice-date"><i class="far fa-calendar-check"></i> Updated: ${n.date}</div>
+                    <div class="notice-content">${n.text}</div>
+                    ${n.link ? `<a href="${n.link}" target="_blank" class="notice-link"><i class="fas fa-file-pdf"></i> View Pattern</a>` : ''}
+                </div>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadNotices);
+    </script>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Year Papers | BSC TOP</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-L5T047QX77');
+  </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
+        :root {
+            --bg-pure: #050505;
+            --card-bg: #111111;
+            --accent: #f39c12;
+            /* PYP के लिए Gold/Yellow थीम ज्यादा प्रोफेशनल लगती है */
+            --accent-glow: rgba(250, 204, 21, 0.3);
+            --text-main: #FFFFFF;
+            --text-dim: #94A3B8;
+        }
+        
+        body {
+            background-color: var(--bg-pure);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* --- HEADER --- */
+        .main-header {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1A1A1A;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .brand-logo {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 800;
+        }
+        
+        .brand-logo span {
+            color: var(--accent);
+        }
+        
+        .content-wrapper {
+            padding: 25px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* --- SUBJECT GRID --- */
+        .view-label {
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .subject-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        
+        .subject-box {
+            background: var(--card-bg);
+            border: 1px solid #1F1F1F;
+            padding: 30px 15px;
+            border-radius: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .subject-box:hover {
+            border-color: var(--accent);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .subject-box i {
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        /* --- DETAIL VIEW --- */
+        #detailView {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .back-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+            background: #1A1A1A;
+            padding: 10px 18px;
+            border-radius: 14px;
+        }
+        
+        /* --- PAPER CARD --- */
+        .paper-card {
+            background: linear-gradient(145deg, #161616, #0F0F0F);
+            border: 1px solid #222;
+            border-radius: 22px;
+            padding: 20px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .paper-info h3 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+        }
+        
+        .paper-info p {
+            margin: 5px 0 0;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+        
+        .download-btn {
+            background: var(--accent);
+            color: #000;
+            width: 45px;
+            height: 45px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .download-btn:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        .thanks-box {
+            margin-top: 40px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(250, 204, 21, 0.05);
+            border-radius: 20px;
+            border: 1px dashed rgba(250, 204, 21, 0.2);
+        }
+        
+        .thanks-box p {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin: 0;
+        }
+        
+        .thanks-box b {
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    
+    <header class="main-header">
+        <h1 class="brand-logo">BSC <span>TOP</span></h1>
+        <i class="fas fa-history" style="color: var(--text-dim);"></i>
+    </header>
+    
+    <main class="content-wrapper">
+        
+        <div id="mainView">
+            <span class="view-label">📂 Select Subject</span>
+            <div class="subject-grid">
+                <div class="subject-box" onclick="showPapers('Math')">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Math</h3>
+                </div>
+                <div class="subject-box" onclick="showPapers('Physics')">
+                    <i class="fas fa-atom"></i>
+                    <h3>Physics</h3>
+                </div>
+                <div class="subject-box" onclick="showPapers('Chemistry')">
+                    <i class="fas fa-flask"></i>
+                    <h3>Chemistry</h3>
+                </div>
+                <div class="subject-box" onclick="showPapers('English')">
+                    <i class="fas fa-language"></i>
+                    <h3>English</h3>
+                </div>
+                <div class="subject-box" onclick="showPapers('General')">
+                    <i class="fas fa-globe"></i>
+                    <h3>Env & Comp</h3>
+                </div>
+            </div>
+            
+            <div class="thanks-box">
+                <p>Special thanks to <br><b>Ram Naresh Meena 🙏</b></p>
+            </div>
+        </div>
+        
+        <div id="detailView">
+            <div class="back-nav" onclick="goBack()"><i class="fas fa-chevron-left"></i> Home</div>
+            <h2 id="activeSubjectName" style="font-size: 26px; font-weight: 800; margin-bottom: 25px;">Papers</h2>
+            <div id="papersContainer"></div>
+        </div>
+        
+    </main>
+    
+    <script>
+        const paperData = {
+            'Math': [
+                { name: "Mathematics Semester 1", year: "2024", link: "https://drive.google.com/file/d/1pn9Rh5QsTNtCH9iinVEg9Knyl5z9f6oa/view" },
+                { name: "Mathematics Semester 2", year: "2024-25", link: "https://drive.google.com/file/d/1LgS_RH9zUiZwpu1kBWAtg4u9KV3lEJmE/view?usp=drivesdk" }
+            ],
+            'Physics': [
+                { name: "Physics Semester 1", year: "2024", link: "https://drive.google.com/file/d/1q60l-0XIU3UERon5ZlnnmXqKvtzMZGXm/view" }, { name: "Physics Semester 2", year: "2024-25", link: "https://drive.google.com/file/d/1LmaVEfPQN0jevvj38bhOY9niy7EeaHmH/view?usp=drivesdk" }
+            ],
+            'Chemistry': [
+                { name: "Chemistry Semester 1", year: "2024", link: "https://drive.google.com/file/d/1pXTjJBdddefp-g_mxnMQr3Mejmz0PFAq/view" }, { name: "Chemistry Semester 2", year: "2024-25", link: "https://drive.google.com/file/d/1M07hMe3B_mfViHv3yBNVXfQFPm2_sVAM/view?usp=drivesdk" }
+            ],
+            'English': [
+                { name: "English Semester 1", year: "2024", link: "https://drive.google.com/file/d/1ptDns-1AaUKPLiCNhK4Fr_wioTkoydrE/view" }, { name: "English Semester 2", year: "2024-25", link: "https://drive.google.com/file/d/1LukGdkXxm3HQ9vEpZpmGjr5ogP7SAheE/view?usp=drivesdk" }
+            ],
+            'General': [
+                { name: "Environmental Studies Sem 1", year: "2024", link: "https://drive.google.com/file/d/1pzUUKycCsYtjU7WSqV0q4mvvBwdluIxx/view" },
+                { name: "Computer Semester 1", year: "2024", link: "https://drive.google.com/file/d/1pp8QWwo0eexLw7MLc7rmmz91bepDds8h/view" }, { name: "Environmental Studies Sem 2", year: "2024-25", link: "https://drive.google.com/file/d/1M0KJQZh0prA498BBgaLMxfNVnTRIugBC/view?usp=drivesdk" }
+            ]
+        };
+        
+        function showPapers(sub) {
+            document.getElementById('mainView').style.display = 'none';
+            document.getElementById('detailView').style.display = 'block';
+            document.getElementById('activeSubjectName').innerText = sub + " Papers";
+            
+            const container = document.getElementById('papersContainer');
+            const papers = paperData[sub] || [];
+            
+            container.innerHTML = papers.map(p => `
+                <div class="paper-card">
+                    <div class="paper-info">
+                        <h3>${p.name}</h3>
+                        <p><i class="far fa-calendar-alt"></i> Exam Year: ${p.year}</p>
+                    </div>
+                    <a href="${p.link}" target="_blank" class="download-btn">
+                        <i class="fas fa-arrow-down"></i>
+                    </a>
+                </div>
+            `).join('');
+        }
+        
+        function goBack() {
+            document.getElementById('mainView').style.display = 'block';
+            document.getElementById('detailView').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Lectures | BSC TOP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../index.css"> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-L5T047QX77');
+  </script>
+    <style>
+        /* Video Page Specific Styling */
+        .video-layout { display: flex; height: calc(100vh - 70px); overflow: hidden; background: var(--webbgcolor); }
+        
+        .video-display { flex: 3; padding: 30px; display: flex; flex-direction: column; align-items: center; overflow-y: auto; }
+        
+        .thumb-wrap { 
+            width: 100%; max-width: 850px; border-radius: 20px; overflow: hidden; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
+            background: #000;
+        }
+        .thumb-wrap img { width: 100%; display: block; transition: 0.3s; }
+
+        .watch-btn-large {
+            margin-top: 30px; background: var(--btn-bg); color: white !important;
+            padding: 15px 60px; border-radius: 50px; font-weight: 800; font-size: 20px;
+            text-decoration: none; box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3);
+            transition: 0.3s; display: inline-flex; align-items: center; gap: 10px;
+        }
+        .watch-btn-large:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(243, 156, 18, 0.5); }
+
+        .video-sidebar { flex: 1; background: var(--nav-bg); border-left: 1px solid var(--glass-border); min-width: 320px; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 20px; background: rgba(243, 156, 18, 0.1); font-weight: 800; border-bottom: 1px solid var(--glass-border); color: var(--accent-color); }
+        
+        .lecture-item { 
+            padding: 15px 20px; border-bottom: 1px solid var(--glass-border); cursor: pointer; transition: 0.2s; 
+            color: var(--text-color); position: relative;
+        }
+        .lecture-item:hover { background: rgba(255,255,255,0.05); }
+        .lecture-item.active { background: var(--btn-bg); color: white !important; }
+        
+        .loading-overlay { position: fixed; inset: 0; background: var(--webbgcolor); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+
+        @media (max-width: 850px) {
+            .video-layout { flex-direction: column; height: auto; overflow: visible; }
+            .video-sidebar { min-width: 100%; height: 400px; }
+        }
+    </style>
+</head>
+<body class="darkmode"> <header class="top-bar">
+    <button class="menu-btn" onclick="openMenu()"><i class="fas fa-bars"></i></button>
+    <div class="brand">
+        <h1>BSC<span> TOP</span></h1>
+        <p>Developer Sachin Chaudhary</p>
+    </div>
+    <a id="theme-toggle-btn" onclick="toggleTheme()"><i class="fas fa-moon"></i></a>
+</header>
+
+<div class="video-layout">
+    <main class="video-display">
+        <div id="loader" class="loading-overlay"><i class="fas fa-spinner fa-spin fa-3x" style="color: var(--accent-color);"></i></div>
+        
+        <div class="thumb-wrap">
+            <img id="mainThumb" src="" alt="Thumbnail">
+        </div>
+
+        <a href="#" id="ytLink" target="_blank" class="watch-btn-large">
+            <i class="fab fa-youtube"></i> WATCH NOW
+        </a>
+
+        <div style="margin-top: 25px; text-align: center; max-width: 800px;">
+            <h2 id="videoTitle" style="color: var(--text-color); font-size: 28px; margin-bottom: 10px;">Loading Lecture...</h2>
+            <p id="videoDesc" style="color: #94A3B8; line-height: 1.6;"></p>
+        </div>
+    </main>
+
+    <aside class="video-sidebar">
+        <div class="sidebar-header"><i class="fas fa-play-circle"></i> COURSE CONTENT</div>
+        <div id="lectureList" class="lecture-list">
+            </div>
+    </aside>
+</div>
+
+<script type="module">
+    import { supabase } from '/Sections/app.js'; // Aapka original Supabase config
+
+    let allLectures = [];
+
+    async function fetchLectures() {
+        try {
+            const { data, error } = await supabase
+                .from('lectures')
+                .select('*')
+                .order('created_at', { ascending: true });
+
+            if (error) throw error;
+            
+            allLectures = data;
+            renderPlaylist();
+            if(data.length > 0) selectLecture(0);
+            
+            document.getElementById('loader').style.display = 'none';
+        } catch (err) {
+            console.error("Error:", err);
+            alert("Lectures load nahi ho paaye!");
+        }
+    }
+
+    function renderPlaylist() {
+        const listContainer = document.getElementById('lectureList');
+        listContainer.innerHTML = allLectures.map((lec, index) => `
+            <div class="lecture-item" onclick="window.selectLecture(${index})" id="item-${index}">
+                <div style="font-weight: 700; font-size: 15px;">${lec.title}</div>
+                <div style="font-size: 11px; opacity: 0.6; margin-top: 4px;"><i class="far fa-clock"></i> Video Lecture</div>
+            </div>
+        `).join('');
+    }
+
+    window.selectLecture = (index) => {
+        const lec = allLectures[index];
+        
+        // Update Main View
+        document.getElementById('mainThumb').src = `https://i.ytimg.com/vi/${lec.youtube_id}/maxresdefault.jpg`;
+        document.getElementById('ytLink').href = `https://www.youtube.com/watch?v=${lec.youtube_id}`;
+        document.getElementById('videoTitle').innerText = lec.title;
+        document.getElementById('videoDesc').innerText = lec.description;
+
+        // Update Active Class
+        document.querySelectorAll('.lecture-item').forEach(el => el.classList.remove('active'));
+        document.getElementById(`item-${index}`).classList.add('active');
+    };
+
+    document.addEventListener('DOMContentLoaded', fetchLectures);
+</script>
+
+<script>
+    // Theme Toggle Functionality (Aapki original script)
+    function toggleTheme() {
+        document.body.classList.toggle("lightmode");
+        const icon = document.querySelector("#theme-toggle-btn i");
+        if(document.body.classList.contains("lightmode")) {
+            icon.classList.replace("fa-moon", "fa-sun");
+        } else {
+            icon.classList.replace("fa-sun", "fa-moon");
+        }
+    }
+</script>
+
+</body>
+</html>

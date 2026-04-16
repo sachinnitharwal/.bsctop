@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Assignments | BSC TOP</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-L5T047QX77');
+  </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+        :root {
+            --bg-pure: #050505;
+            --card-bg: #111111;
+            --accent: #f39c12; /* Assignments के लिए Hot Pink/Neon थीम */
+            --accent-glow: rgba(255, 0, 122, 0.3);
+            --text-main: #FFFFFF;
+            --text-dim: #94A3B8;
+        }
+
+        body {
+            background-color: var(--bg-pure);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- STICKY HEADER --- */
+        .main-header {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 4px 20px var(--accent-glow);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand-logo { margin: 0; font-size: 20px; font-weight: 800; }
+        .brand-logo span { color: var(--accent); }
+
+        .content-wrapper { padding: 25px 20px; max-width: 600px; margin: 0 auto; }
+
+        .view-label { 
+            font-size: 11px; color: var(--accent); font-weight: 800; 
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; display: block;
+            text-align: center;
+        }
+
+        /* --- ASSIGNMENT CARD --- */
+        .assignment-card {
+            background: linear-gradient(145deg, #161616, #0F0F0F);
+            border: 1px solid #222;
+            border-radius: 22px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .assignment-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .assignment-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--accent);
+        }
+
+        .icon-box { 
+            width: 50px; height: 50px; background: rgba(255, 0, 122, 0.1); 
+            border-radius: 15px; display: flex; align-items: center; justify-content: center;
+            color: var(--accent); font-size: 20px; flex-shrink: 0;
+        }
+
+        .info { flex-grow: 1; }
+        .info h3 { margin: 0; font-size: 15px; font-weight: 700; color: #fff; }
+        .info p { margin: 4px 0 0; font-size: 12px; color: var(--text-dim); }
+
+        .action-btn {
+            background: #1A1A1A; color: var(--accent);
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; border: 1px solid #333;
+            transition: 0.3s;
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .language-pill {
+            background: #D06A10; color: white;
+            padding: 5px 15px; border-radius: 50px;
+            font-size: 12px; font-weight: 800;
+            display: inline-block; margin-bottom: 20px;
+        }
+
+        footer { text-align: center; padding: 30px; color: var(--text-dim); font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <h1 class="brand-logo">BSC <span>TOP</span></h1>
+        <i class="fas fa-tasks" style="color: var(--accent);"></i>
+    </header>
+
+    <main class="content-wrapper">
+        <span class="view-label">Semester Ⅰ Assignments 2025-26</span>
+        
+        <div style="text-align: center;">
+            <span class="language-pill"><i class="fas fa-language"></i> Hindi Medium</span>
+        </div>
+
+        <div id="assignmentList">
+            <div class="assignment-card">
+                <div class="icon-box"><i class="fas fa-rocket"></i></div>
+                <div class="info">
+                    <h3>Physics Assignment</h3>
+                    <p>Internal Assessment Files</p>
+                </div>
+                <a href="https://drive.google.com/file/d/16LpLmninfqeyckpua3iOTrPruSCo52op/view" target="_blank" class="action-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+
+            <div class="assignment-card">
+                <div class="icon-box"><i class="fas fa-square-root-variable"></i></div>
+                <div class="info">
+                    <h3>Mathematics Assignment</h3>
+                    <p>Calculus & Algebra Focus</p>
+                </div>
+                <a href="https://drive.google.com/file/d/16HnaNzC2vLNHPMtuPMXjI37KzOUHmI_-/view" target="_blank" class="action-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+
+            <div class="assignment-card">
+                <div class="icon-box"><i class="fas fa-vial"></i></div>
+                <div class="info">
+                    <h3>Chemistry Assignment</h3>
+                    <p>Organic & Inorganic</p>
+                </div>
+                <a href="https://drive.google.com/file/d/1FocASBW9pobZOD2PhDU_TGCgYbgBS2mW/view" target="_blank" class="action-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+
+            <div class="assignment-card">
+                <div class="icon-box"><i class="fas fa-pen-nib"></i></div>
+                <div class="info">
+                    <h3>Hindi Assignment</h3>
+                    <p>Language & Grammar</p>
+                </div>
+                <a href="https://drive.google.com/file/d/16JLunlqIMEfKNUCjoKrBpuy5EmZ0jeRg/view" target="_blank" class="action-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+
+            <div class="assignment-card">
+                <div class="icon-box"><i class="fas fa-leaf"></i></div>
+                <div class="info">
+                    <h3>Environment (VAC)</h3>
+                    <p>Ecology & Conservation</p>
+                </div>
+                <a href="https://drive.google.com/file/d/171LgfKgaT-GVvwcmmoEw3oudSr8TEkIU/view" target="_blank" class="action-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+
+            <div class="assignment-card">
+                <div class="icon-box"><i class="fas fa-font"></i></div>
+                <div class="info">
+                    <h3>English Compulsory</h3>
+                    <p>Communication Skills</p>
+                </div>
+                <a href="https://drive.google.com/file/d/19cyWkLZoAjj_fDdYp4wtCL8EjIb9raKj/view" target="_blank" class="action-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+
+            <div class="assignment-card">
+                <div class="icon-box"><i class="fas fa-code"></i></div>
+                <div class="info">
+                    <h3>Computer Fundamentals</h3>
+                    <p>IT & Basic Hardware</p>
+                </div>
+                <a href="https://drive.google.com/file/d/19bfQwo_6QPTsg5JCgzFRWJ27sfiiHw-r/view" target="_blank" class="action-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Keep Studying, Keep Growing! 🚀</p>
+    </footer>
+
+    
+
+</body>
+</html>

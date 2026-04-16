@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://bsc-top.netlify.app/</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://bsc-top.netlify.app/sections/login</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://bsc-top.netlify.app/sections/material</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://bsc-top.netlify.app/sections/pyp</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://bsc-top.netlify.app/sections/notice</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://bsc-top.netlify.app/sections/bookcorner</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://bsc-top.netlify.app/about</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://bsc-top.netlify.app/sections/assignment</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://bsc-top.netlify.app/all-blogs</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://bsc-top.netlify.app/terms</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://bsc-top.netlify.app/disclaimer</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://bsc-top.netlify.app/privacy</loc>
+  <lastmod>2026-01-09T03:22:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
+</urlset>

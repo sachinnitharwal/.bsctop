@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookHouse | BSC TOP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-L5T047QX77');
+  </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
+        :root {
+            --bg: #FFF7F2; /* Soft Cream like image */
+            --accent: #F47D50; /* Orange-Coral */
+            --teal: #19CEC2; /* Teal background shape */
+            --text-dark: #3E2416;
+            --text-dim: #7C6A61;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Style */
+        .navbar {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { 
+            font-family: 'DM Serif Display', serif; 
+            font-size: 24px; 
+            font-weight: 800; 
+            color: var(--text-dark);
+        }
+        .logo span { color: var(--accent); }
+
+        /* Hero Container */
+        .hero {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Abstract Book Section (Like Image) */
+        .book-visual {
+            position: relative;
+            width: 200px;
+            height: 280px;
+            margin: 40px 0;
+        }
+        .shape-teal {
+            position: absolute;
+            width: 180px; height: 180px;
+            background: var(--teal);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 40%;
+            top: 20px; left: -40px; z-index: 1;
+            opacity: 0.8;
+        }
+        .shape-orange {
+            position: absolute;
+            width: 150px; height: 150px;
+            background: var(--accent);
+            border-radius: 60% 40% 30% 70% / 50% 30% 70% 50%;
+            bottom: 10px; right: -30px; z-index: 1;
+            opacity: 0.7;
+        }
+        .main-book {
+            position: relative;
+            width: 100%; height: 100%;
+            background: #000;
+            border-radius: 5px;
+            z-index: 2;
+            box-shadow: 20px 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            color: white;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .main-book:hover { transform: rotateY(-10deg) scale(1.05); }
+
+        /* Typography */
+        .subtitle { font-size: 14px; font-weight: 800; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
+        .main-title { font-family: 'DM Serif Display', serif; font-size: 42px; margin: 10px 0; line-height: 1; }
+        .price-row { font-size: 24px; font-weight: 800; margin: 20px 0; display: flex; align-items: center; gap: 10px; justify-content: center; }
+        
+        /* Buttons */
+        .btn-add {
+            background: var(--accent);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(244, 125, 80, 0.3);
+        }
+
+        /* Stats Grid (Simplified How it Works) */
+        .stats-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 40px 40px 0 0;
+            margin-top: 40px;
+        }
+        .stat-card {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 25px;
+            text-align: left;
+        }
+        .stat-card i { color: var(--accent); font-size: 20px; margin-bottom: 10px; }
+        .stat-card h4 { margin: 5px 0; font-size: 15px; }
+        .stat-card p { margin: 0; font-size: 11px; color: var(--text-dim); line-height: 1.4; }
+
+        /* Floating Disclaimer */
+        .alert-box {
+            margin: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            border: 1px solid #eee;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Book<span>House</span></div>
+        <a href="buy-books.html" style="color:var(--text-dark)"><i class="fas fa-search"></i></a>
+    </nav>
+
+    <section class="hero">
+        <span class="subtitle">Premium Collection</span>
+        
+        <div class="book-visual">
+            <div class="shape-teal"></div>
+            <div class="shape-orange"></div>
+            <div class="main-book">
+                <p style="font-size:10px; margin:0; opacity:0.6;">THE BUSINESS OF</p>
+                <h2 style="font-family:'DM Serif Display'; font-size:32px; margin:5px 0;">Design</h2>
+                <hr style="width:30px; margin:10px 0; border:1px solid var(--accent);">
+                <p style="font-size:11px; opacity:0.8;">Balancing creativity and profitability.</p>
+            </div>
+        </div>
+
+        <h1 class="main-title">The Business of Design</h1>
+        <p style="color:var(--text-dim); font-size:14px; margin:0 20px;">Ready to sell or buy your academic books with a touch of class?</p>
+
+        <div class="price-row">
+            <span style="opacity:0.4; font-size:18px; text-decoration: line-through;">₹499</span>
+            <span>₹299</span>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <a href="buy-books.html" class="btn-add">Explore Books</a>
+            <a href="sell-books.html" style="padding:15px; border-radius:50%; border:1px solid #ddd; color:var(--text-dark)"><i class="fas fa-plus"></i></a>
+        </div>
+    </section>
+
+    <div class="alert-box">
+        <div style="background:rgba(244, 125, 80, 0.1); padding:10px; border-radius:12px;">
+            <i class="fas fa-shield-alt" style="color:var(--accent)"></i>
+        </div>
+        <div style="font-size:11px;">
+            <b style="display:block">Smart Safety</b>
+            Books ko check karke hi payment karein. Meet in public!
+        </div>
+    </div>
+
+    <div class="stats-section">
+        <div class="stat-card">
+            <i class="fas fa-bolt"></i>
+            <h4>Quick Sell</h4>
+            <p>Photo upload karein aur turant live ho jayein.</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-leaf"></i>
+            <h4>Eco Friendly</h4>
+            <p>Purani books ko naya jeevan dein.</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <h4>Local Trade</h4>
+            <p>Apne hi college ya city mein deal karein.</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-check-circle"></i>
+            <h4>No Middleman</h4>
+            <p>Direct chat on WhatsApp. Zero commission.</p>
+        </div>
+    </div>
+
+    <footer style="text-align:center; padding:40px; font-size:10px; opacity:0.3; font-weight:800; letter-spacing:2px;">
+        BOOKHOUSE MARKETPLACE
+    </footer>
+
+</body>
+</html>

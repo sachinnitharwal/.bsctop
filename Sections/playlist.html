@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSC TOP | Video Playlists</title>
+  <meta name="description" content="Subject-wise and semester-wise video lecture playlists for B.Sc students." />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-L5T047QX77');
+  </script>
+  <style>
+  /* ══ THEME ══ */
+  :root,html[data-theme="dark"]{
+    --bg:#04011a;--text:#f1f5f9;--muted:rgba(255,255,255,0.45);--sub:rgba(255,255,255,0.65);
+    --glass:rgba(255,255,255,0.04);--gb:rgba(255,255,255,0.09);--gh:rgba(255,255,255,0.08);
+    --nav:rgba(4,1,26,0.78);--div:rgba(255,255,255,0.07);--mob:rgba(4,1,26,0.98);
+    --card:#0d0a2e;--card2:#0f0c35;--sk:rgba(255,255,255,0.06);--star:1;
+    --blue:hsl(192,100%,50%);--purple:hsl(270,90%,60%);--pink:hsl(320,100%,60%);
+    --sidebar:#0b0828;--player:#060418;
+    --g1:rgba(120,0,255,0.08);--g2:rgba(0,200,255,0.07);
+  }
+  html[data-theme="light"]{
+    --bg:#f0f4ff;--text:#0f172a;--muted:rgba(15,23,42,0.5);--sub:rgba(15,23,42,0.7);
+    --glass:rgba(255,255,255,0.78);--gb:rgba(15,23,42,0.1);--gh:rgba(255,255,255,0.95);
+    --nav:rgba(255,255,255,0.9);--div:rgba(15,23,42,0.08);--mob:rgba(240,244,255,0.99);
+    --card:#fff;--card2:#f8f9ff;--sk:rgba(15,23,42,0.06);--star:0.18;
+    --blue:hsl(221,85%,50%);--purple:hsl(265,75%,50%);--pink:hsl(330,75%,50%);
+    --sidebar:#f4f6ff;--player:#eef0ff;
+    --g1:rgba(99,102,241,0.08);--g2:rgba(59,130,246,0.07);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;overflow-x:hidden;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .35s,color .35s;background-image:radial-gradient(ellipse at 10% 30%,var(--g1),transparent 45%),radial-gradient(ellipse at 90% 10%,var(--g2),transparent 45%);}
+  h1,h2,h3,h4{font-family:'Outfit',sans-serif;font-weight:800;}
+  a{text-decoration:none;color:inherit;}
+  #sc{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:var(--star);transition:opacity .4s;}
+  .grad{background:linear-gradient(135deg,var(--blue),var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+  /* ══ NAVBAR ══ */
+  .nb{position:fixed;top:0;inset-x:0;z-index:200;padding:1rem 1.75rem;display:flex;align-items:center;justify-content:space-between;transition:all .3s;}
+  .nb.up{background:var(--nav);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--gb);padding:.7rem 1.75rem;box-shadow:0 4px 24px rgba(0,0,0,.18);}
+  .nb-brand{display:flex;align-items:center;gap:.65rem;font-family:'Outfit',sans-serif;font-weight:900;font-size:1.3rem;}
+  .nb-logo{width:2.5rem;height:2.5rem;border-radius:.6rem;object-fit:contain;flex-shrink:0;}
+  .nb-links{display:flex;align-items:center;gap:.2rem;}
+  .nb-links a{padding:.5rem 1rem;border-radius:.6rem;font-size:.875rem;font-weight:600;color:var(--sub);display:flex;align-items:center;gap:.4rem;transition:all .2s;}
+  .nb-links a:hover,.nb-links a.on{color:var(--text);background:var(--glass);border:1px solid var(--gb);}
+  .nb-r{display:flex;align-items:center;gap:.6rem;}
+  .tgl{width:2.4rem;height:2.4rem;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--gb);background:var(--glass);color:var(--text);font-size:.95rem;cursor:pointer;transition:all .3s;}
+  .tgl:hover{transform:rotate(22deg) scale(1.1);}
+  html[data-theme="dark"] .i-sun{display:inline;} html[data-theme="dark"] .i-moon{display:none;}
+  html[data-theme="light"] .i-sun{display:none;} html[data-theme="light"] .i-moon{display:inline;}
+  .ham{display:none;background:var(--glass);border:1px solid var(--gb);color:var(--text);border-radius:.6rem;padding:.5rem .7rem;font-size:1.1rem;cursor:pointer;}
+
+  /* MOBILE MENU */
+  .mob{display:none;position:fixed;inset:0;z-index:300;background:var(--mob);backdrop-filter:blur(24px);flex-direction:column;padding:1.75rem;}
+  .mob.on{display:flex;}
+  .mob-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;}
+  .mob-x{background:var(--glass);border:1px solid var(--gb);color:var(--text);border-radius:.6rem;padding:.5rem .8rem;font-size:1.2rem;cursor:pointer;}
+  .mob a{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;border-radius:.85rem;font-size:1rem;font-weight:600;color:var(--sub);transition:all .2s;margin-bottom:.4rem;}
+  .mob a:hover,.mob a.on{background:var(--glass);color:var(--text);border:1px solid var(--gb);}
+
+  /* ══ VIEW: BROWSE ══ */
+  #view-browse{position:relative;z-index:1;}
+  .hero{padding:9rem 1.5rem 3rem;text-align:center;}
+  .hero h1{font-size:clamp(1.9rem,6vw,3.75rem);letter-spacing:-.03em;margin-bottom:.65rem;}
+  .hero p{color:var(--muted);font-size:.975rem;max-width:500px;margin:0 auto 2rem;line-height:1.7;}
+  .pw{max-width:1200px;margin:0 auto;padding:0 1.5rem;}
+
+  /* FILTERS */
+  .frow{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem;align-items:center;}
+  .fb{display:flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:999px;border:1px solid var(--gb);background:var(--glass);color:var(--sub);font-size:.8rem;font-weight:700;cursor:pointer;transition:all .22s;white-space:nowrap;backdrop-filter:blur(10px);}
+  .fb:hover{border-color:var(--purple);color:var(--text);}
+  .fb.on{color:var(--text);background:rgba(167,139,250,.15);border-color:var(--purple);}
+  .sem-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.75rem;}
+  .sb{padding:.4rem .95rem;border-radius:.6rem;border:1px solid var(--gb);background:var(--glass);color:var(--muted);font-size:.76rem;font-weight:700;cursor:pointer;transition:all .2s;backdrop-filter:blur(10px);}
+  .sb.on{background:rgba(167,139,250,.15);border-color:var(--purple);color:var(--purple);}
+
+  /* PLAYLIST GRID */
+  .pl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:1.25rem;margin-bottom:4rem;}
+  .pl-card{border-radius:1.35rem;overflow:hidden;cursor:pointer;transition:all .32s;background:var(--glass);border:1px solid var(--gb);backdrop-filter:blur(16px);display:flex;flex-direction:column;}
+  .pl-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(100,0,255,.2);border-color:rgba(167,139,250,.35);}
+  .pl-thumb{position:relative;height:10.5rem;overflow:hidden;flex-shrink:0;}
+  .pl-thumb-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .5s;}
+  .pl-card:hover .pl-thumb-bg{transform:scale(1.04);}
+  .pl-thumb-bg img{width:100%;height:100%;object-fit:cover;}
+  .pl-thumb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(4,1,26,.7),transparent);}
+  html[data-theme="light"] .pl-thumb-overlay{background:linear-gradient(to top,rgba(240,244,255,.55),transparent);}
+  .pl-play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;}
+  .pl-card:hover .pl-play-btn{opacity:1;}
+  .pl-play-btn span{width:3.5rem;height:3.5rem;border-radius:50%;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.35);}
+  .pl-play-btn i{font-size:1.15rem;margin-left:3px;color:#7c3aed;}
+  .pl-cnt-badge{position:absolute;bottom:.6rem;right:.65rem;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);color:#fff;font-size:.62rem;font-weight:800;padding:.22rem .6rem;border-radius:.35rem;display:flex;align-items:center;gap:.3rem;}
+  .pl-subj-badge{position:absolute;top:.6rem;left:.65rem;font-size:.62rem;font-weight:800;padding:.22rem .65rem;border-radius:999px;text-transform:uppercase;letter-spacing:.05em;}
+  .pl-body{padding:1.15rem;flex:1;display:flex;flex-direction:column;}
+  .pl-sem{font-size:.68rem;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem;}
+  .pl-title{font-size:1rem;font-weight:800;line-height:1.35;margin-bottom:.4rem;color:var(--text);}
+  .pl-desc{font-size:.78rem;color:var(--muted);line-height:1.5;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .pl-foot{margin-top:.85rem;display:flex;align-items:center;justify-content:space-between;}
+  .pl-cta{font-size:.78rem;font-weight:700;color:var(--purple);display:flex;align-items:center;gap:.3rem;transition:gap .2s;}
+  .pl-card:hover .pl-cta{gap:.55rem;}
+
+  /* ══ VIEW: PLAYER ══ */
+  #view-player{display:none;position:relative;z-index:1;min-height:100vh;padding-top:5rem;}
+  #view-player.on{display:block;}
+  .player-wrap{max-width:1300px;margin:0 auto;padding:1.5rem;display:grid;grid-template-columns:1fr 360px;gap:1.5rem;align-items:start;}
+  @media(max-width:900px){.player-wrap{grid-template-columns:1fr;}}
+
+  /* LEFT: VIDEO PLAYER */
+  .video-col{}
+  .back-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.2rem;border-radius:.75rem;border:1px solid var(--gb);background:var(--glass);color:var(--sub);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:1rem;backdrop-filter:blur(10px);}
+  .back-btn:hover{background:var(--gh);color:var(--text);}
+  .video-frame{width:100%;aspect-ratio:16/9;border-radius:1.2rem;overflow:hidden;background:#000;box-shadow:0 24px 60px rgba(0,0,0,.5);}
+  .video-frame iframe{width:100%;height:100%;border:none;}
+  .video-info{margin-top:1.25rem;}
+  .video-info .vtitle{font-size:1.35rem;font-weight:800;letter-spacing:-.02em;line-height:1.3;margin-bottom:.5rem;}
+  .video-meta{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem;}
+  .vmtag{padding:.25rem .85rem;border-radius:999px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;}
+  .video-desc{font-size:.875rem;color:var(--muted);line-height:1.65;margin-bottom:1.25rem;}
+  .video-actions{display:flex;gap:.75rem;flex-wrap:wrap;}
+  .vact-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.6rem 1.25rem;border-radius:.75rem;font-size:.83rem;font-weight:700;cursor:pointer;transition:all .2s;border:1px solid var(--gb);background:var(--glass);color:var(--text);backdrop-filter:blur(10px);}
+  .vact-btn:hover{background:var(--gh);}
+  .vact-yt{background:#ff0000;color:#fff;border-color:#ff0000;}
+  .vact-yt:hover{background:#cc0000;}
+
+  /* RIGHT: PLAYLIST SIDEBAR */
+  .sidebar{position:sticky;top:5.5rem;max-height:calc(100vh - 7rem);display:flex;flex-direction:column;border-radius:1.2rem;overflow:hidden;background:var(--sidebar);border:1px solid var(--gb);}
+  @media(max-width:900px){.sidebar{position:static;max-height:none;}}
+  .sidebar-head{padding:1rem 1.15rem;border-bottom:1px solid var(--div);flex-shrink:0;}
+  .sidebar-head h3{font-size:.95rem;font-weight:800;margin-bottom:.25rem;line-height:1.3;}
+  .sidebar-meta{font-size:.72rem;color:var(--muted);display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.3rem;}
+  .sidebar-progress{margin-top:.75rem;display:flex;align-items:center;gap:.65rem;font-size:.72rem;color:var(--muted);}
+  .prog-bar{flex:1;height:4px;border-radius:999px;background:var(--div);}
+  .prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .4s;}
+  .sidebar-list{flex:1;overflow-y:auto;padding:.5rem;}
+  .sidebar-list::-webkit-scrollbar{width:4px;} .sidebar-list::-webkit-scrollbar-thumb{background:var(--div);border-radius:2px;}
+  .sv-item{display:flex;gap:.75rem;padding:.75rem;border-radius:.85rem;cursor:pointer;transition:all .2s;align-items:flex-start;margin-bottom:3px;}
+  .sv-item:hover{background:var(--gh);}
+  .sv-item.active{background:rgba(167,139,250,.18);border:1px solid rgba(167,139,250,.25);}
+  .sv-num{font-size:.7rem;font-weight:800;color:var(--muted);min-width:1.5rem;padding-top:2px;flex-shrink:0;}
+  .sv-item.active .sv-num{color:var(--purple);}
+  .sv-thumb{width:74px;height:42px;border-radius:.5rem;overflow:hidden;flex-shrink:0;background:#000;position:relative;}
+  .sv-thumb img{width:100%;height:100%;object-fit:cover;}
+  .sv-thumb .sv-dur{position:absolute;bottom:2px;right:3px;background:rgba(0,0,0,.8);color:#fff;font-size:.55rem;font-weight:700;padding:1px 4px;border-radius:3px;}
+  .sv-playing{position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;}
+  .sv-playing i{font-size:.8rem;color:var(--purple);}
+  .sv-info{flex:1;min-width:0;}
+  .sv-title{font-size:.78rem;font-weight:700;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--text);}
+  .sv-item.active .sv-title{color:var(--purple);}
+  .sv-sub{font-size:.68rem;color:var(--muted);margin-top:3px;}
+  .sidebar-nav{padding:.85rem;border-top:1px solid var(--div);display:flex;gap:.6rem;flex-shrink:0;}
+  .snav-btn{flex:1;padding:.65rem;border-radius:.75rem;border:1px solid var(--gb);background:var(--glass);color:var(--text);font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+  .snav-btn:hover:not(:disabled){background:var(--gh);}
+  .snav-btn:disabled{opacity:.35;cursor:not-allowed;}
+  .snav-btn.primary{background:linear-gradient(135deg,var(--blue),var(--purple));border:none;color:#fff;}
+  .snav-btn.primary:hover:not(:disabled){opacity:.9;}
+
+  /* EMPTY / LOADING */
+  .empty-box{text-align:center;padding:4rem 1rem;color:var(--muted);}
+  .empty-box i{font-size:2.5rem;display:block;margin-bottom:.85rem;opacity:.4;}
+  .sk{border-radius:1.35rem;overflow:hidden;animation:skp 1.6s ease-in-out infinite;background:var(--glass);border:1px solid var(--gb);}
+  .sk-img{height:10.5rem;background:var(--sk);}
+  .sk-bd{padding:1.1rem;}
+  .sk-l{height:.7rem;border-radius:.4rem;background:var(--sk);margin-bottom:.7rem;}
+  @keyframes skp{0%,100%{opacity:.5;}50%{opacity:1;}}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--div);background:var(--nav);backdrop-filter:blur(20px);padding:1.75rem 1.5rem;text-align:center;color:var(--muted);font-size:.83rem;position:relative;z-index:1;}
+  footer a{color:var(--purple);margin:0 .5rem;}
+
+  @media(max-width:768px){.nb-links{display:none;}.ham{display:block;}.pw{padding:0 1rem;}.player-wrap{padding:1rem;}}
+  @media(max-width:480px){.hero{padding:7.5rem 1rem 2rem;}.video-info .vtitle{font-size:1.1rem;}.sidebar-head h3{font-size:.88rem;}}
+  </style>
+</head>
+<body>
+<canvas id="sc"></canvas>
+
+<!-- NAVBAR -->
+<nav class="nb" id="nb">
+  <a href="/index.html" class="nb-brand">
+    <img src="/logo.png" alt="BSC TOP" class="nb-logo" />
+    BSC <span class="grad" style="margin-left:3px">TOP</span>
+  </a>
+  <div class="nb-links">
+    <a href="/index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="/Sections/allsem.html"><i class="fas fa-book-open"></i> Notes</a>
+    <a href="/Sections/pyp.html"><i class="fas fa-file-invoice"></i> PYQ</a>
+    <a href="playlist.html" class="on"><i class="fas fa-play-circle"></i> Playlists</a>
+    <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+  </div>
+  <div class="nb-r">
+    <button class="tgl" onclick="toggleTheme()"><i class="fas fa-sun i-sun"></i><i class="fas fa-moon i-moon"></i></button>
+    <button class="ham" onclick="openMob()"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob" id="mob">
+  <div class="mob-head">
+    <div class="nb-brand"><img src="/logo.png" alt="" class="nb-logo" />BSC <span class="grad" style="margin-left:3px">TOP</span></div>
+    <div style="display:flex;gap:.5rem;align-items:center">
+      <button class="tgl" onclick="toggleTheme()"><i class="fas fa-sun i-sun"></i><i class="fas fa-moon i-moon"></i></button>
+      <button class="mob-x" onclick="closeMob()"><i class="fas fa-times"></i></button>
+    </div>
+  </div>
+  <a href="/index.html" onclick="closeMob()"><i class="fas fa-home"></i> Home</a>
+  <a href="/Sections/allsem.html" onclick="closeMob()"><i class="fas fa-book-open"></i> Notes</a>
+  <a href="/Sections/pyp.html" onclick="closeMob()"><i class="fas fa-file-invoice"></i> PYQ</a>
+  <a href="playlist.html" class="on" onclick="closeMob()"><i class="fas fa-play-circle"></i> Playlists</a>
+  <a href="about.html" onclick="closeMob()"><i class="fas fa-info-circle"></i> About</a>
+</div>
+
+<!-- ══ BROWSE VIEW ══ -->
+<div id="view-browse">
+  <section class="hero">
+    <div class="grad" style="font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.65rem"><i class="fab fa-youtube"></i> Video Lectures</div>
+    <h1>B.Sc <span class="grad">Playlist Library</span></h1>
+    <p>Choose a playlist and watch chapter by chapter — just like YouTube, but built for your syllabus.</p>
+  </section>
+
+  <div class="pw">
+    <!-- Subject filters -->
+    <div class="frow">
+      <button class="fb on" onclick="setSubj('',this)"><i class="fas fa-th"></i> All Subjects</button>
+      <button class="fb" onclick="setSubj('Computer',this)" style="color:#42a5f5;border-color:rgba(66,165,245,.3)"><i class="fas fa-desktop"></i> Computer</button>
+      <button class="fb" onclick="setSubj('Physics',this)"  style="color:#ab47bc;border-color:rgba(171,71,188,.3)"><i class="fas fa-atom"></i> Physics</button>
+      <button class="fb" onclick="setSubj('Math',this)"     style="color:#66bb6a;border-color:rgba(102,187,106,.3)"><i class="fas fa-square-root-alt"></i> Math</button>
+      <button class="fb" onclick="setSubj('Chemistry',this)"style="color:#ffa726;border-color:rgba(255,167,38,.3)"><i class="fas fa-flask"></i> Chemistry</button>
+    </div>
+    <!-- Semester filters -->
+    <div class="sem-row">
+      <button class="sb on" onclick="setSem('',this)">All Semesters</button>
+      <button class="sb" onclick="setSem('Semester 1',this)">Sem 1</button>
+      <button class="sb" onclick="setSem('Semester 2',this)">Sem 2</button>
+      <button class="sb" onclick="setSem('Semester 3',this)">Sem 3</button>
+      <button class="sb" onclick="setSem('Semester 4',this)">Sem 4</button>
+      <button class="sb" onclick="setSem('Semester 5',this)">Sem 5</button>
+      <button class="sb" onclick="setSem('Semester 6',this)">Sem 6</button>
+    </div>
+    <div id="pl-grid" class="pl-grid">
+      <div class="sk"><div class="sk-img"></div><div class="sk-bd"><div class="sk-l"></div><div class="sk-l" style="width:65%"></div></div></div>
+      <div class="sk"><div class="sk-img"></div><div class="sk-bd"><div class="sk-l"></div><div class="sk-l" style="width:75%"></div></div></div>
+      <div class="sk"><div class="sk-img"></div><div class="sk-bd"><div class="sk-l"></div><div class="sk-l" style="width:55%"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PLAYER VIEW ══ -->
+<div id="view-player">
+  <div class="player-wrap">
+
+    <!-- LEFT: Video player -->
+    <div class="video-col">
+      <button class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> All Playlists</button>
+
+      <div class="video-frame">
+        <iframe id="player-iframe" allowfullscreen></iframe>
+      </div>
+
+      <div class="video-info">
+        <h2 class="vtitle" id="player-title">—</h2>
+        <div class="video-meta" id="player-meta"></div>
+        <p class="video-desc" id="player-desc"></p>
+        <div class="video-actions">
+          <a id="player-yt-link" href="#" target="_blank" class="vact-btn vact-yt"><i class="fab fa-youtube"></i> Open in YouTube</a>
+          <button class="vact-btn" onclick="nextVid()"><i class="fas fa-forward"></i> Next Video</button>
+          <button class="vact-btn" onclick="goBack()"><i class="fas fa-list"></i> All Playlists</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-head">
+        <h3 id="sb-pl-title">Playlist</h3>
+        <div class="sidebar-meta" id="sb-pl-meta"></div>
+        <div class="sidebar-progress">
+          <span id="sb-progress-txt">0 / 0</span>
+          <div class="prog-bar"><div class="prog-fill" id="sb-prog-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="sidebar-list" id="sidebar-list"></div>
+      <div class="sidebar-nav">
+        <button class="snav-btn" id="btn-prev" onclick="prevVid()"><i class="fas fa-step-backward"></i> Prev</button>
+        <button class="snav-btn primary" id="btn-next" onclick="nextVid()">Next <i class="fas fa-step-forward"></i></button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 <strong>BSC TOP</strong> by Sachin Chaudhary &nbsp;|&nbsp;
+    <a href="/index.html">Home</a><a href="about.html">About</a><a href="privacy.html">Privacy</a>
+  </p>
+</footer>
+
+<script>
+/* ── Theme ── */
+(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('bsc-theme')||'dark');})();
+function toggleTheme(){var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('bsc-theme',n);}
+
+/* ── Stars ── */
+(function(){
+  var c=document.getElementById('sc'),ctx=c.getContext('2d'),s=[];
+  function r(){c.width=innerWidth;c.height=innerHeight;}
+  function init(){s=[];var n=Math.floor(c.width*c.height/9000);for(var i=0;i<n;i++)s.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.4+.2,o:Math.random(),sp:Math.random()*.25+.04});}
+  function draw(){ctx.clearRect(0,0,c.width,c.height);s.forEach(function(st){st.o+=st.sp*.01;if(st.o>1)st.o=0;ctx.beginPath();ctx.arc(st.x,st.y,st.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+Math.abs(Math.sin(st.o))+')';ctx.fill();});requestAnimationFrame(draw);}
+  r();init();draw();window.addEventListener('resize',function(){r();init();});
+})();
+
+window.addEventListener('scroll',function(){document.getElementById('nb').classList.toggle('up',scrollY>20);});
+function openMob(){document.getElementById('mob').classList.add('on');}
+function closeMob(){document.getElementById('mob').classList.remove('on');}
+
+/* ── Supabase ── */
+const SB_URL='https://yumjyvrirwszukjvibld.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1bWp5dnJpcndzenVranZpYmxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2MjUwMzIsImV4cCI6MjA3OTIwMTAzMn0.doBlPo74Oh_o-PSQvIKI4ChiOPhIdgvY6SLk47dzXOU';
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
+
+let allPlaylists=[], curSubj='', curSem='';
+let curPlaylist=null, curVideos=[], curIdx=0;
+
+const subCol={Computer:{c:'#42a5f5',bg:'rgba(66,165,245,.15)'},Physics:{c:'#ab47bc',bg:'rgba(171,71,188,.15)'},Math:{c:'#66bb6a',bg:'rgba(102,187,106,.15)'},Chemistry:{c:'#ffa726',bg:'rgba(255,167,38,.15)'}};
+const defCol={c:'#a78bfa',bg:'rgba(167,139,250,.15)'};
+
+/* ── Load playlists ── */
+(async function load(){
+  const {data,error}=await sb.from('playlists').select('*, playlist_videos(id)').order('created_at',{ascending:false});
+  if(error||!data?.length){
+    document.getElementById('pl-grid').innerHTML='<div class="empty-box" style="grid-column:1/-1"><i class="fab fa-youtube"></i>No playlists yet — check back soon!</div>';
+    return;
+  }
+  allPlaylists=data; renderGrid();
+  const pid=new URLSearchParams(location.search).get('id');
+  if(pid){const pl=allPlaylists.find(p=>p.id===pid);if(pl)openPlaylist(pl);}
+})();
+
+function setSubj(s,btn){curSubj=s;document.querySelectorAll('#view-browse .fb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderGrid();}
+function setSem(s,btn){curSem=s;document.querySelectorAll('.sb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderGrid();}
+
+function renderGrid(){
+  let list=allPlaylists;
+  if(curSubj)list=list.filter(p=>p.subject===curSubj);
+  if(curSem) list=list.filter(p=>p.semester===curSem);
+  const el=document.getElementById('pl-grid');
+  if(!list.length){el.innerHTML='<div class="empty-box" style="grid-column:1/-1"><i class="fas fa-filter"></i>No playlists for this filter.</div>';return;}
+  el.innerHTML='';
+  list.forEach(p=>{
+    const cnt=(p.playlist_videos||[]).length;
+    const col=subCol[p.subject]||defCol;
+    const thumb=p.thumbnail_url||`https://placehold.co/480x270/${col.c.replace('#','')}/ffffff?text=${encodeURIComponent(p.subject)}`;
+    const card=document.createElement('div');
+    card.className='pl-card';
+    card.onclick=()=>openPlaylist(p);
+    card.innerHTML=`<div class="pl-thumb">
+      <div class="pl-thumb-bg"><img src="${thumb}" alt="${p.title}" loading="lazy" /></div>
+      <div class="pl-thumb-overlay"></div>
+      <div class="pl-play-btn"><span><i class="fas fa-play"></i></span></div>
+      <div class="pl-subj-badge" style="background:${col.bg};color:${col.c}">${p.subject}</div>
+      <div class="pl-cnt-badge"><i class="fas fa-film"></i> ${cnt} video${cnt!==1?'s':''}</div>
+    </div>
+    <div class="pl-body">
+      <div class="pl-sem">${p.semester}</div>
+      <div class="pl-title">${p.title}</div>
+      ${p.description?`<div class="pl-desc">${p.description}</div>`:''}
+      <div class="pl-foot">
+        <span class="pl-cta" style="color:${col.c}"><i class="fas fa-play-circle"></i> Watch Playlist <i class="fas fa-arrow-right"></i></span>
+        <span style="font-size:.7rem;color:var(--muted)">${cnt} videos</span>
+      </div>
+    </div>`;
+    el.appendChild(card);
+  });
+}
+
+/* ── Open playlist ── */
+async function openPlaylist(pl){
+  curPlaylist=pl;
+  const {data}=await sb.from('playlist_videos').select('*').eq('playlist_id',pl.id).order('position');
+  curVideos=data||[];
+  curIdx=0;
+  document.getElementById('view-browse').style.display='none';
+  document.getElementById('view-player').classList.add('on');
+  history.pushState({},'','?id='+pl.id);
+  window.scrollTo({top:0,behavior:'smooth'});
+  buildSidebar(pl);
+  playVid(0);
+}
+
+function goBack(){
+  document.getElementById('view-browse').style.display='block';
+  document.getElementById('view-player').classList.remove('on');
+  document.getElementById('player-iframe').src='';
+  history.pushState({},'','playlist.html');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildSidebar(pl){
+  const col=subCol[pl.subject]||defCol;
+  document.getElementById('sb-pl-title').textContent=pl.title;
+  document.getElementById('sb-pl-meta').innerHTML=
+    `<span style="color:${col.c};font-weight:800">${pl.subject}</span><span>${pl.semester}</span><span>${curVideos.length} videos</span>`;
+  renderSidebar();
+}
+
+function renderSidebar(){
+  const list=document.getElementById('sidebar-list');
+  list.innerHTML='';
+  curVideos.forEach((v,i)=>{
+    const isActive=i===curIdx;
+    const thumb=v.youtube_id?`https://img.youtube.com/vi/${v.youtube_id}/mqdefault.jpg`:'';
+    const item=document.createElement('div');
+    item.className='sv-item'+(isActive?' active':'');
+    item.id='sv-'+i;
+    item.onclick=()=>playVid(i);
+    item.innerHTML=`<div class="sv-num">${v.position||i+1}</div>
+      <div class="sv-thumb">
+        ${thumb?`<img src="${thumb}" alt="" loading="lazy" />`:'<div style="width:100%;height:100%;background:#1a1b2e;display:flex;align-items:center;justify-content:center"><i class="fab fa-youtube" style="color:#f87171;font-size:1rem"></i></div>'}
+        ${isActive?'<div class="sv-playing"><i class="fas fa-volume-up"></i></div>':''}
+      </div>
+      <div class="sv-info">
+        <div class="sv-title">${v.title}</div>
+        <div class="sv-sub">Chapter ${v.position||i+1}</div>
+      </div>`;
+    list.appendChild(item);
+  });
+  updateProgress();
+  scrollSidebarToActive();
+}
+
+function updateProgress(){
+  const total=curVideos.length, done=curIdx+1;
+  document.getElementById('sb-progress-txt').textContent=done+' / '+total;
+  document.getElementById('sb-prog-fill').style.width=Math.round((done/Math.max(total,1))*100)+'%';
+  document.getElementById('btn-prev').disabled=curIdx===0;
+  document.getElementById('btn-next').disabled=curIdx===total-1;
+}
+
+function scrollSidebarToActive(){
+  const el=document.getElementById('sv-'+curIdx);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function playVid(idx){
+  if(idx<0||idx>=curVideos.length)return;
+  curIdx=idx;
+  const v=curVideos[idx];
+  const pl=curPlaylist;
+  const col=subCol[pl.subject]||defCol;
+  document.getElementById('player-iframe').src=v.youtube_id?'https://www.youtube.com/embed/'+v.youtube_id+'?autoplay=1':'';
+  document.getElementById('player-title').textContent='Ch.'+(v.position||idx+1)+' — '+v.title;
+  document.getElementById('player-desc').textContent=v.description||'';
+  document.getElementById('player-yt-link').href=v.youtube_url||'#';
+  document.getElementById('player-meta').innerHTML=
+    `<span class="vmtag" style="background:${col.bg};color:${col.c}">${pl.subject}</span>`+
+    `<span class="vmtag" style="background:rgba(167,139,250,.15);color:var(--purple)">${pl.semester}</span>`+
+    `<span class="vmtag" style="background:var(--glass);color:var(--muted);border:1px solid var(--gb)">Chapter ${v.position||idx+1}</span>`;
+  renderSidebar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function nextVid(){if(curIdx<curVideos.length-1)playVid(curIdx+1);}
+function prevVid(){if(curIdx>0)playVid(curIdx-1);}
+
+/* keyboard nav */
+document.addEventListener('keydown',function(e){
+  if(document.getElementById('view-player').classList.contains('on')){
+    if(e.key==='ArrowRight'||e.key==='n')nextVid();
+    if(e.key==='ArrowLeft'||e.key==='p')prevVid();
+    if(e.key==='Escape')goBack();
+  }
+});
+</script>
+</body>
+</html>

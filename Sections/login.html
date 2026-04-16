@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Access | BSC TOP</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+        :root {
+            --bg-pure: #050505;
+            --card-bg: rgba(22, 22, 22, 0.7);
+            --accent: #f39c12;
+            --accent-glow: #f39c12;
+            --text-main: #FFFFFF;
+            --text-dim: #94A3B8;
+        }
+
+        body {
+            background-color: var(--bg-pure);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 40%);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow: hidden;
+        }
+
+        /* --- LOGIN CARD --- */
+        .login-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 30px;
+            border-radius: 28px;
+            width: 100%;
+            max-width: 350px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-card h2 {
+            font-size: 24px; font-weight: 800; margin-bottom: 8px;
+        }
+
+        .login-card p {
+            color: var(--text-dim); font-size: 13px; margin-bottom: 30px;
+        }
+
+        /* --- INPUT STYLING --- */
+        .input-group {
+            position: relative; margin-bottom: 20px; text-align: left;
+        }
+
+        .input-group i {
+            position: absolute; left: 15px; top: 15px;
+            color: var(--text-dim); font-size: 16px;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 15px 14px 45px;
+            border-radius: 14px;
+            color: white;
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(99, 102, 241, 0.05);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .toggle-password {
+            position: absolute; right: 15px; top: 15px;
+            cursor: pointer; color: var(--text-dim);
+        }
+
+        /* --- BUTTON --- */
+        button {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 10px 20px -5px var(--accent-glow);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -5px var(--accent-glow);
+            filter: brightness(1.1);
+        }
+
+        button:active { transform: translateY(0); }
+
+        .error-message {
+            min-height: 20px;
+            font-size: 12px;
+            margin-top: 15px;
+            color: #FF4B4B;
+            font-weight: 600;
+        }
+
+        /* Brand Footer */
+        .footer-text {
+            margin-top: 25px; font-size: 11px;
+            color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div style="font-size: 40px; color: var(--accent); margin-bottom: 15px;">
+            <i class="fas fa-shield-halved"></i>
+        </div>
+        <h2>Admin Portal</h2>
+        <p>Enter your credentials to manage BSC TOP</p>
+
+        <form id="login-form">
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="Admin Email" required>
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password" required>
+                <i class="fas fa-eye toggle-password" id="togglePass"></i>
+            </div>
+
+            <button type="submit" id="loginBtn">Authorize Access</button>
+            <div id="error-message" class="error-message"></div>
+        </form>
+
+        <div class="footer-text">Powered by WEDEVGROUP</div>
+    </div>
+
+    
+
+    <script type="module">
+        import { signIn, checkAuthAndRedirect } from './app.js'; 
+
+        // Password Visibility Toggle
+        const togglePass = document.getElementById('togglePass');
+        const passwordInput = document.getElementById('password');
+
+        togglePass.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePass.classList.toggle('fa-eye');
+            togglePass.classList.toggle('fa-eye-slash');
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthAndRedirect(false, 'login.html'); 
+        });
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error-message');
+            const btn = document.getElementById('loginBtn');
+            
+            errorDiv.textContent = '';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+            btn.style.opacity = '0.7';
+            btn.disabled = true;
+
+            const result = await signIn(email, password);
+
+            if (!result.success) {
+                errorDiv.textContent = 'Access Denied: ' + result.error;
+                btn.innerHTML = 'Authorize Access';
+                btn.style.opacity = '1';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

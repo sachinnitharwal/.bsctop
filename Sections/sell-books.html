@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Books | BSC TOP</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-L5T047QX77');
+  </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        :root { --bg: #050505; --card: #111; --accent: #EAB308; --text: #fff; --dim: #94A3B8; --danger: #EF4444; --success: #22C55E; }
+        body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding-bottom: 50px; }
+        .wrapper { max-width: 500px; margin: 0 auto; padding: 20px; }
+        
+        .disclaimer { 
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(234, 179, 8, 0.1));
+            border-left: 5px solid var(--danger);
+            padding: 15px; border-radius: 12px; font-size: 13px; margin-bottom: 25px; color: #ffdada; line-height: 1.6;
+        }
+        .disclaimer b { color: var(--danger); font-size: 15px; display: block; margin-bottom: 5px; }
+
+        .form-group { margin-bottom: 18px; }
+        label { display: block; font-size: 11px; margin-bottom: 8px; color: var(--dim); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        input, select { width: 100%; padding: 14px; background: var(--card); border: 1px solid #222; border-radius: 12px; color: #fff; box-sizing: border-box; font-size: 14px; outline: none; }
+        
+        .price-hint { font-size: 11px; color: var(--accent); margin-top: 6px; display: block; font-weight: 600; line-height: 1.4; }
+
+        #uploadStatus { display: none; margin-top: 10px; }
+        .progress-container { width: 100%; background: #222; height: 10px; border-radius: 20px; overflow: hidden; margin-top: 5px; border: 1px solid #333; }
+        .progress-bar { width: 0%; height: 100%; background: var(--accent); transition: 0.3s; }
+        #imagePreview { width: 100%; max-height: 250px; object-fit: contain; border-radius: 15px; margin-top: 10px; display: none; border: 1px solid #222; background: #000; }
+
+        .btn-submit { width: 100%; padding: 18px; background: var(--accent); border: none; border-radius: 15px; font-weight: 800; color: #000; cursor: pointer; margin-top: 25px; font-size: 16px; transition: 0.3s; }
+        .btn-submit:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div style="display:flex; align-items:center; gap:15px; margin-bottom: 25px;">
+        <a href="/Sections/bookcorner.html" style="color:var(--dim); text-decoration:none;"><i class="fas fa-arrow-left"></i></a>
+        <h2 style="margin:0; font-size: 22px; font-weight: 800;">Sell Your Book</h2>
+    </div>
+
+    <div class="disclaimer">
+        <i class="fas fa-shield-alt" style="font-size: 20px; float: left; margin-right: 12px; color: var(--danger);"></i>
+        <span>
+            <b>⚠️ ज़रूरी सूचना (Safety First):</b>
+BSC TOP सिर्फ बुक बेचने और खरीदने वालों को आपस में मिलाता है। हम किसी भी तरह के पैसों के लेन-देन या फ्रॉड के लिए ज़िम्मेदार नहीं हैं। अपनी निजी जानकारी (नंबर/ईमेल) सोच-समझकर साझा करें। हमारी सलाह है कि पेमेंट तभी करें जब आप सामने वाले से मिल लें या बुक आपके हाथ में हो।
+        </span>
+    </div>
+
+    <form id="sellForm">
+        <div class="form-group">
+            <label>Book Photo (Front Cover)</label>
+            <input type="file" id="bookImage" accept="image/*" required onchange="processAndUpload()">
+            <img id="imagePreview">
+            
+            <div id="uploadStatus">
+                <div style="display:flex; justify-content:space-between; font-size: 11px; margin-bottom: 5px;">
+                    <span id="statusText" style="color: var(--accent); font-weight:700;">Processing...</span>
+                    <span id="percentText" style="color: var(--dim);">0%</span>
+                </div>
+                <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            </div>
+            <input type="hidden" id="imageUrl">
+        </div>
+
+        <div class="form-group">
+            <label>Book Title</label>
+            <input type="text" id="title" placeholder="e.g. Concept of Physics" required>
+        </div>
+
+        <div class="form-group">
+            <label>Book Type</label>
+            <select id="bookType" onchange="toggleEdu()">
+                <option value="Other">Other / General</option>
+                <option value="Educational">Educational (School/College)</option>
+            </select>
+        </div>
+
+        <div id="eduFields" style="display:none;">
+            <div class="form-group">
+                <label>Class / Degree</label>
+                <select id="classLevel" onchange="toggleSem()">
+                    <option value="">-- Choose --</option>
+                    <option value="9th">9th</option><option value="10th">10th</option>
+                    <option value="11th">11th</option><option value="12th">12th</option>
+                    <option value="BSc">B.Sc</option><option value="MSc">M.Sc</option>
+                </select>
+            </div>
+            <div class="form-group" id="semBox" style="display:none;">
+                <label>Semester</label>
+                <input type="number" id="semester" placeholder="e.g. 2">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Price (₹)</label>
+            <input type="number" id="price" placeholder="Enter Price" required>
+            <span class="price-hint">💡निर्देश: कीमत हमेशा मार्केट से कम रखें ताकि आपकी बुक जल्दी बिके।
+</span>
+        </div>
+
+        <div class="form-group">
+            <label>WhatsApp Number</label>
+            <input type="tel" id="whatsapp" placeholder="91XXXXXXXXXX" required>
+        </div>
+
+        <div class="form-group">
+            <label>Your Email</label>
+            <input type="email" id="email" placeholder="For verification" required>
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn-submit" disabled>List Book for Sale</button>
+    </form>
+</div>
+
+<script type="module">
+    // --- Config ---
+    const supabaseUrl = "https://yumjyvrirwszukjvibld.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1bWp5dnJpcndzenVranZpYmxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2MjUwMzIsImV4cCI6MjA3OTIwMTAzMn0.doBlPo74Oh_o-PSQvIKI4ChiOPhIdgvY6SLk47dzXOU";
+    const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    const publicKey = "public_J1ejFO2ictFSkq7AAfgVB3lcI1U=";
+    const privateKey = "private_nLcQ8mFLy4qBHLjo8iU3UB0M+k4=";
+
+    // --- Helpers ---
+    window.toggleEdu = () => { document.getElementById('eduFields').style.display = document.getElementById('bookType').value === 'Educational' ? 'block' : 'none'; };
+    window.toggleSem = () => { document.getElementById('semBox').style.display = ['BSc', 'MSc'].includes(document.getElementById('classLevel').value) ? 'block' : 'none'; };
+
+    // --- Image Compression ---
+    async function compressImage(file) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const scale = 800 / img.width;
+                    canvas.width = 800;
+                    canvas.height = img.height * scale;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    canvas.toBlob((blob) => {
+                        resolve(new File([blob], file.name, { type: "image/jpeg" }));
+                    }, 'image/jpeg', 0.7);
+                };
+            };
+        });
+    }
+
+    // --- Process & Upload ---
+    window.processAndUpload = async () => {
+        const file = document.getElementById('bookImage').files[0];
+        if(!file) return;
+
+        const sText = document.getElementById('statusText');
+        const pBar = document.getElementById('progressBar');
+        const pText = document.getElementById('percentText');
+        const btn = document.getElementById('submitBtn');
+
+        document.getElementById('imagePreview').src = URL.createObjectURL(file);
+        document.getElementById('imagePreview').style.display = 'block';
+        document.getElementById('uploadStatus').style.display = 'block';
+        btn.disabled = true;
+
+        sText.innerText = "Compressing...";
+        const compressedFile = await compressImage(file);
+
+        sText.innerText = "Uploading...";
+        const token = Math.random().toString(36).substring(2);
+        const expire = Math.floor(Date.now() / 1000) + 2400;
+        const signature = CryptoJS.HmacSHA1(token + expire, privateKey).toString();
+
+        const formData = new FormData();
+        formData.append("file", compressedFile);
+        formData.append("fileName", `book_${Date.now()}.jpg`);
+        formData.append("publicKey", publicKey);
+        formData.append("signature", signature);
+        formData.append("token", token);
+        formData.append("expire", expire);
+        formData.append("folder", "/sell_books");
+
+        try {
+            const response = await fetch("https://upload.imagekit.io/api/v1/files/upload", { method: "POST", body: formData });
+            const result = await response.json();
+            if (response.ok) {
+                pBar.style.width = '100%'; pText.innerText = '100%';
+                sText.innerText = "✅ Ready!"; sText.style.color = "var(--success)";
+                document.getElementById('imageUrl').value = result.url;
+                btn.disabled = false;
+            } else { throw new Error(result.message); }
+        } catch (e) { alert("Upload Error: " + e.message); sText.innerText = "❌ Failed"; }
+    };
+
+    // --- Final Post ---
+    document.getElementById('sellForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.innerText = "Publishing..."; btn.disabled = true;
+
+        const data = {
+            book_title: document.getElementById('title').value,
+            book_type: document.getElementById('bookType').value,
+            class_level: document.getElementById('classLevel').value || null,
+            semester: document.getElementById('semester').value || null,
+            price: parseFloat(document.getElementById('price').value),
+            whatsapp_no: document.getElementById('whatsapp').value,
+            seller_email: document.getElementById('email').value,
+            image_url: document.getElementById('imageUrl').value,
+            is_sold: false
+        };
+
+        const { error } = await _supabase.from('books').insert([data]);
+        if(error) { alert(error.message); btn.innerText = "List Book"; btn.disabled = false; }
+        else { alert("🎉 Success! Your book is live."); location.href = '/Sections/buy-books.html'; }
+    };
+</script>
+
+</body>
+</html>

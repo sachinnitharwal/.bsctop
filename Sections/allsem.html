@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B.Sc. Materials Hub | BSC TOP</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-L5T047QX77');
+  </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        :root { --bg: #050505; --card-bg: #111111; --accent: #f39c12; --text: #FFFFFF; --text-dim: #94A3B8; --lab-color: #64B5F6; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
+        .content-wrapper { padding: 20px; max-width: 600px; margin: 0 auto; }
+        
+        /* Views */
+        #subjectsView, #chaptersView, #fullView { display: none; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Grid & Cards */
+        .grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 15px; }
+        .card { background: var(--card-bg); border: 1px solid #1F1F1F; padding: 18px; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; text-decoration: none; color: white; }
+        .icon-box { width: 45px; height: 45px; background: #1A1A1A; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 800; border: 1px solid #222; }
+
+        .sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 15px 0 30px; }
+        .sub-box { background: var(--card-bg); border: 1px solid #1F1F1F; padding: 22px 10px; border-radius: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .sub-box:hover { border-color: var(--accent); }
+        .sub-box i { font-size: 22px; color: var(--accent); margin-bottom: 8px; display: block; }
+        
+        /* Navigation & Labels */
+        .back-nav { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-size: 13px; font-weight: 700; cursor: pointer; margin-bottom: 20px; background: #161616; padding: 8px 15px; border-radius: 50px; }
+        .view-label { font-size: 11px; color: var(--text-dim); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 10px;}
+
+        .note-card { background: #111; border: 1px solid #222; border-radius: 18px; padding: 18px; margin-bottom: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .btn-main { background: var(--accent); color: white; display: block; text-align: center; padding: 16px; border-radius: 14px; text-decoration: none; font-weight: 800; margin-top: 20px; }
+        
+        .ad-space { width: 100%; min-height: 90px; background: #0a0a0a; border: 1px dashed #333; margin: 15px 0; display: flex; align-items: center; justify-content: center; color: #444; font-size: 10px; border-radius: 12px; }
+    </style>
+</head>
+<body>
+
+    <div class="content-wrapper">
+        <h1 style="text-align:center;">BSC <span>TOP</span></h1>
+
+        <div id="semView">
+            <span class="view-label">Select Semester</span>
+            <div class="grid">
+                <a href="material.html" class="card">
+                    <div style="display:flex;gap:15px;align-items:center;">
+                        <div class="icon-box">1</div>
+                        <div><h3>Semester 1</h3><p style="font-size:11px;color:#555;margin:0;"></p></div>
+                    </div>
+                    <i class="fas fa-external-link-alt" style="color:#333;"></i>
+                </a>
+                <div class="card" onclick="loadSubjects(2)"><div style="display:flex;gap:15px;align-items:center;"><div class="icon-box">2</div><h3>Semester 2</h3></div><i class="fas fa-chevron-right"></i></div>
+                <div class="card" onclick="loadSubjects(3)"><div style="display:flex;gap:15px;align-items:center;"><div class="icon-box">3</div><h3>Semester 3</h3></div><i class="fas fa-chevron-right"></i></div>
+                <div class="card" onclick="loadSubjects(4)"><div style="display:flex;gap:15px;align-items:center;"><div class="icon-box">4</div><h3>Semester 4</h3></div><i class="fas fa-chevron-right"></i></div>
+                <div class="card" onclick="loadSubjects(5)"><div style="display:flex;gap:15px;align-items:center;"><div class="icon-box">5</div><h3>Semester 5</h3></div><i class="fas fa-chevron-right"></i></div>
+                <div class="card" onclick="loadSubjects(6)"><div style="display:flex;gap:15px;align-items:center;"><div class="icon-box">6</div><h3>Semester 6</h3></div><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </div>
+
+        <div id="subjectsView">
+            <div class="back-nav" onclick="showView('sem')"><i class="fas fa-arrow-left"></i> Back to Semesters</div>
+            <h2 id="semTitle" style="margin-bottom:20px;">Semester</h2>
+            
+            <span class="view-label">📚 Semester Study Notes</span>
+            <div class="sub-grid" id="noteSubContainer"></div>
+
+            <span class="view-label">🧪 Laboratory Work (Practicals)</span>
+            <div class="sub-grid" id="pracSubContainer"></div>
+        </div>
+
+        <div id="chaptersView">
+            <div class="back-nav" onclick="showView('sub')"><i class="fas fa-arrow-left"></i> Back to Subjects</div>
+            <h2 id="subTitle">Subject</h2>
+            <div class="grid" id="chaptersContainer"></div>
+        </div>
+
+        <div id="fullView">
+            <div class="back-nav" onclick="showView('chap')"><i class="fas fa-arrow-left"></i> Back to List</div>
+            <div style="background: var(--card-bg); padding: 25px; border-radius: 24px; border: 1px solid #222;">
+                <h1 id="fTitle" style="font-size: 24px; margin-bottom: 5px;">Title</h1>
+                <p id="fMeta" style="font-size: 12px; color: yellow; font-weight: 700; margin-bottom: 20px;">️ डाउनलोड निर्देश: कृपया नीचे स्क्रॉल करें। विज्ञापन (Ads) के बाद आपको "Access Full PDF Material" का बटन दिखाई देगा। वहां से आप फाइल डाउनलोड कर सकते हैं।</p>
+                
+                <div class="ad-space">Google AdSense - Horizontal Ad</div>
+                
+                <div id="fDesc" style="color:#ccc; font-size: 15px; line-height: 1.7; margin: 20px 0;"></div>
+                
+                <div class="ad-space" style="height: 150px;">Google AdSense - Square Ad</div>
+
+                <a id="fLink" href="#" target="_blank" class="btn-main">
+                    <i class="fas fa-file-pdf"></i> Access Full PDF Material
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { supabase } from './app.js'; 
+        let allData = [];
+        let currentSem = "";
+
+        async function init() {
+            // Semester 1 ko filter karke saara data load karein
+            const { data } = await supabase.from('materials').select('*').neq('semester', 'Semester 1').order('created_at', {ascending:false});
+            allData = data || [];
+        }
+
+        window.loadSubjects = (n) => {
+            currentSem = "Semester " + n;
+            document.getElementById('semTitle').innerText = currentSem;
+            showView('sub');
+            
+            const semData = allData.filter(m => m.semester === currentSem);
+
+            // Auto-detect Study Notes
+            const notes = [...new Set(semData.filter(m => m.material_type === 'Note').map(m => m.subject))];
+            document.getElementById('noteSubContainer').innerHTML = notes.map(s => `
+                <div class="sub-box" onclick="loadChapters('${s}', 'Note')"><i class="fas fa-book-open"></i><h3>${s}</h3></div>
+            `).join('') || "<p style='color:#444; font-size:12px; padding:10px;'>No notes found.</p>";
+
+            // Auto-detect Practicals
+            const practicals = [...new Set(semData.filter(m => m.material_type === 'Practical').map(m => m.subject))];
+            document.getElementById('pracSubContainer').innerHTML = practicals.map(s => `
+                <div class="sub-box" onclick="loadChapters('${s}', 'Practical')" style="border-color:#1E293B;"><i class="fas fa-vial" style="color:var(--lab-color);"></i><h3>${s}</h3></div>
+            `).join('') || "<p style='color:#444; font-size:12px; padding:10px;'>No practicals found.</p>";
+        };
+
+        window.loadChapters = (sub, type) => {
+            showView('chap');
+            document.getElementById('subTitle').innerText = sub + " (" + type + ")";
+            const filtered = allData.filter(m => m.semester === currentSem && m.subject === sub && m.material_type === type);
+            document.getElementById('chaptersContainer').innerHTML = filtered.map(m => `
+                <div class="note-card" onclick="loadFull('${m.id}')">
+                    <h3 style="font-size:16px; margin:0;">${m.chapter_name}</h3>
+                    <i class="fas fa-chevron-right" style="color:var(--accent);"></i>
+                </div>
+            `).join('') || "Empty";
+        };
+
+        window.loadFull = (id) => {
+            const m = allData.find(i => i.id == id);
+            showView('full');
+            document.getElementById('fTitle').innerText = m.chapter_name;
+            document.getElementById('fDesc').innerText = m.description || "Detailed handwritten notes for B.Sc exams. Covers all major topics according to the university syllabus.";
+            document.getElementById('fLink').href = m.google_drive_link;
+        };
+
+        function showView(v) {
+            document.getElementById('semView').style.display = v === 'sem' ? 'block' : 'none';
+            document.getElementById('subjectsView').style.display = v === 'sub' ? 'block' : 'none';
+            document.getElementById('chaptersView').style.display = v === 'chap' ? 'block' : 'none';
+            document.getElementById('fullView').style.display = v === 'full' ? 'block' : 'none';
+            window.scrollTo(0,0);
+        }
+
+        // Functions ko global banana zaroori hai navigation ke liye
+        window.showView = showView;
+        window.loadFull = loadFull;
+        window.loadChapters = loadChapters;
+        window.loadSubjects = loadSubjects;
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

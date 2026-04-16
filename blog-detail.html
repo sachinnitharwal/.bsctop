@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post | BSC TOP</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5T047QX77"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9282641508923214"
+        crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #post-image {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: none; /* शुरू में छुपा रहेगा */
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin: 25px 0 10px 0;
+        }
+
+        .meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        #post-body {
+            font-size: 1.1rem;
+            white-space: pre-wrap; /* ताकि पैराग्राफ्स सही दिखें */
+        }
+
+        /* HTML टैग्स के लिए स्टाइल (जो आप एडमिन पैनल से डालेंगे) */
+        #post-body p { margin-bottom: 15px; }
+        #post-body b, #post-body strong { color: #fff; }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Home</a>
+
+        <div id="loading" class="loading-spinner">Loading Blog Post...</div>
+
+        <article id="blog-content" style="display: none;">
+            <img id="post-image" src="" alt="Blog Cover">
+            <h1 id="post-title"></h1>
+            <div class="meta" id="post-meta"></div>
+            <div id="post-body"></div>
+        </article>
+    </div>
+
+    <script type="module">
+        // अपनी app.js से supabase इम्पोर्ट करें
+        // ध्यान दें: पाथ सही रखें (अगर यह फाइल बाहर है तो './admin/app.js')
+        import { supabase } from '/Sections/app.js'; 
+
+        async function fetchBlog() {
+            // 1. URL से Blog ID प्राप्त करना
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+
+            if (!id) {
+                document.getElementById('loading').innerHTML = "❌ Blog ID missing!";
+                return;
+            }
+
+            try {
+                // 2. Supabase से उस खास ब्लॉग का डेटा मंगाना
+                const { data: blog, error } = await supabase
+                    .from('blogs')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error || !blog) throw error;
+
+                // 3. डेटा को पेज पर सेट करना
+                document.title = `${blog.title} | BSC TOP`;
+                document.getElementById('post-title').textContent = blog.title;
+                document.getElementById('post-meta').textContent = `Published by ${blog.author || 'Admin'} on ${new Date(blog.created_at).toLocaleDateString()}`;
+                
+                if (blog.image_url) {
+                    const img = document.getElementById('post-image');
+                    img.src = blog.image_url;
+                    img.style.display = 'block';
+                }
+
+                // innerHTML का इस्तेमाल करें ताकि आपके <p> या <b> टैग्स काम करें
+                document.getElementById('post-body').innerHTML = blog.body;
+
+                // UI दिखाएँ
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('blog-content').style.display = 'block';
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('loading').innerHTML = "❌ Blog not found or Error loading data.";
+            }
+            // fetchBlog फंक्शन के अंदर, डेटा मिलने के बाद इसे जोड़ें:
+
+
+    // Views को +1 करने का लॉजिक
+    async function fetchBlog() {
+    const params = new URLSearchParams(window.location.search);
+    const blogId = params.get('id');
+
+    if (!blogId) return;
+
+    try {
+        // 1. सबसे पहले ब्लॉग का डेटा मंगाएं
+        const { data: blog, error } = await supabase
+            .from('blogs')
+            .select('*')
+            .eq('id', blogId)
+            .single();
+
+        if (error || !blog) throw error;
+
+        // 2. डेटा को पेज पर दिखाएँ (Title, Content etc.)
+        document.getElementById('post-title').textContent = blog.title;
+        document.getElementById('post-body').innerHTML = blog.body;
+        // ... बाकी का डिस्प्ले कोड ...
+
+        // 🚨 3. VIEWS को +1 बढ़ाएं (Main Logic)
+        const currentViews = blog.views || 0;
+        const { error: updateError } = await supabase
+            .from('blogs')
+            .update({ views: currentViews + 1 })
+            .eq('id', blogId);
+
+        if (updateError) console.error("Views Update Error:", updateError);
+
+    } catch (err) {
+        console.error("Error:", err);
+    }
+}
+
+        }
+
+        fetchBlog();
+    </script>
+</body>
+</html>
